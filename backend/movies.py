@@ -82,7 +82,7 @@ def get_movie(movie_id):
         - JSON response with the movie details.
         - Error message in case of API errors or if the movie is not found.
     """
-    url = f'{TMDB_URL}/movie/{movie_id}?api_key={TMDB_API_KEY}'
+    url = f'{TMDB_URL}/movie/{movie_id}?api_key={TMDB_API_KEY}&append_to_response=videos'
     response = requests.get(url)
     
     if response.status_code == 200:
