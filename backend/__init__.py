@@ -35,4 +35,4 @@ def method_not_allowed(e):
     return jsonify(error="This method is not allowed for the requested URL."), 405
 
 # Import views
-from backend import movies
+from backend import movies, tv_shows
