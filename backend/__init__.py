@@ -17,4 +17,9 @@ mongo = PyMongo(app)
 app.config['REDIS_URL'] = os.getenv('REDIS_URL')
 redis_client = FlaskRedis(app)
 
-from backend import views
+# TMDB URL and API Key to be used for fetching data
+TMDB_URL = os.getenv('TMDB_URL')
+TMDB_API_KEY = os.getenv('TMDB_API_KEY')
+
+# Import views
+from backend import movies
