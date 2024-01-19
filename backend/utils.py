@@ -23,11 +23,11 @@ def add_favorite():
     """
     data = request.get_json()
     
-    user_id = request.json.get('user_id')
-    fav_type = request.json.get('fav_type')
-    fav_id = request.json.get('fav_id')
-    fav_title = request.json.get('fav_title')
-    fav_backdrop = request.json.get('fav_backdrop')
+    user_id = data.get('user_id')
+    fav_type = data.get('fav_type')
+    fav_id = data.get('fav_id')
+    fav_title = data.get('fav_title')
+    fav_backdrop = data.get('fav_backdrop')
 
     # Validate required fields
     error_message = validate_required_fields(
@@ -43,12 +43,12 @@ def add_favorite():
 
     # Validate if user_id is a valid ObjectId
     if not ObjectId.is_valid(user_id):
-        return jsonify({'error': 'Invalid user ID format'}), 400
+        return jsonify({'error': 'Invalid user_id format'}), 400
 
     # Check if user exists
     user = users.find_one({'_id': ObjectId(user_id)})
     if not user:
-        return jsonify({'error': 'User not found'}), 404
+        return jsonify({'error': 'You are not authorized to perform this action.'}), 405
 
     favorite_data = models.Favorite(
         user_id = user_id,
@@ -77,12 +77,12 @@ def get_favorites(user_id):
 
     # Validate if user_id is a valid ObjectId
     if not ObjectId.is_valid(user_id):
-        return jsonify({'error': 'Invalid user ID format'}), 400
+        return jsonify({'error': 'Invalid user_id format'}), 400
 
     # Check if user exists
     user = users.find_one({'_id': ObjectId(user_id)})
     if not user:
-        return jsonify({'error': 'User not found'}), 404
+        return jsonify({'error': 'You are not authorized to perform this action.'}), 405
 
     user_favorites = favorites.find({'user_id': user_id})
 
@@ -93,8 +93,8 @@ def get_favorites(user_id):
     else:
         return jsonify({'error': 'No favorites found for user'}), 404
 
-@app.route('/favorite/<favorite_id>', methods=['DELETE'])
-def delete_favorite(favorite_id):
+@app.route('/favorite', methods=['DELETE'])
+def delete_favorite():
     """
     Endpoint to delete a favorite movie or TV show for a user.
 
@@ -104,10 +104,22 @@ def delete_favorite(favorite_id):
         - JSON with a success message on successful deletion.
         - JSON with error message if the favorite item is not found.
     """
-    # Validate if user_id is a valid ObjectId
-    if not ObjectId.is_valid(favorite_id):
-        return jsonify({'error': 'Invalid user ID format'}), 400
+    # Validate if user_id and favorite_id are valid ObjectIds
+    data = request.get_json()
 
+    favorite_id = data.get('favorite_id')
+    if not ObjectId.is_valid(favorite_id):
+        return jsonify({'error': 'favorite_id not provided or it is invalid'}), 400
+
+    user_id = data.get('user_id')
+    if not user_id or not ObjectId.is_valid(user_id):
+        return jsonify({'error': 'user_id not provided or it is invalid'}), 400
+
+    # Validate that the favorite belongs to the user
+    check_favorite = favorites.find_one({'_id': ObjectId(favorite_id), 'user_id': ObjectId(user_id)})
+    if not check_favorite:
+        return jsonify({'error': 'You are not authorized to delete this resource'}), 401
+    
     favorite = favorites.delete_one({'_id': ObjectId(favorite_id)})
 
     if favorite.deleted_count:
