@@ -1,4 +1,4 @@
-from backend import TMDB_API_KEY, TMDB_URL, app, mongo
+from backend import TMDB_API_KEY, TMDB_URL, app, models, mongo
 from bson import ObjectId
 from datetime import datetime
 from flask import jsonify, request
@@ -41,13 +41,14 @@ def add_favorite():
     if error_message:
         return jsonify({'error': error_message}), 400
 
-    favorite_data = {
-        k: v for k, v in data.items() if k in [
-            'user_id', 'fav_type', 'fav_id', 'fav_title', 'fav_backdrop'
-            ]
-    }
-    favorite_data['createdAt'] = datetime.now()
-    favorite_id = favorites.insert_one(favorite_data).inserted_id
+    favorite_data = models.Favorite(
+        user_id = user_id,
+        fav_type = fav_type,
+        fav_id = fav_id,
+        fav_title = fav_title,
+        fav_backdrop = fav_backdrop
+    )
+    favorite_id = favorites.insert_one(favorite_data.to_dict()).inserted_id
 
     return jsonify({'favorite_id': str(favorite_id)}), 201
 
@@ -112,8 +113,7 @@ def validate_required_fields(**fields):
 
     if missing_fields:
         # Constructing the error message based on missing fields
-        error_message = f"{' and '.join(missing_fields)} \
-                {'is' if len(missing_fields) == 1 else 'are'} required"
+        error_message = f"{' and '.join(missing_fields)} {'is' if len(missing_fields) == 1 else 'are'} required"
         return error_message
     return None
 

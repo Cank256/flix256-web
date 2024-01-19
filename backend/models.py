@@ -52,14 +52,17 @@ class Favorite:
 
     Attributes:
         user_id (ObjectId): The ID of the user who marked the movie as favorite.
-        movie_id (ObjectId): The ID of the movie marked as favorite.
+        fav_type (str): The type of the favorite item (movie or tv_show).
+        fav_id (str): The ID of the movie or tv show marked as favorite.
+        fav_title (str): The title of the movie or tv show marked as favorite.
+        fav_backdrop (str): The backdrop link of the movie or tv show marked as favorite.
         createdAt (datetime): The timestamp when the movie was marked as favorite.
 
     Methods:
         to_dict(): Converts the Favorite object to a dictionary suitable for database operations.
     """
 
-    def __init__(self, user_id, movie_id):
+    def __init__(self, user_id, fav_type, fav_id, fav_title, fav_backdrop):
         """
         Constructs all the necessary attributes for the Favorite object.
 
@@ -68,7 +71,10 @@ class Favorite:
             movie_id (ObjectId): The ID of the movie being marked as favorite.
         """
         self.user_id = user_id
-        self.movie_id = movie_id
+        self.fav_type = fav_type
+        self.fav_id = fav_id
+        self.fav_title = fav_title
+        self.fav_backdrop = fav_backdrop
         self.createdAt = datetime.now()
 
     def to_dict(self):
@@ -80,6 +86,9 @@ class Favorite:
         """
         return {
             "user_id": self.user_id,
-            "movie_id": self.movie_id,
+            "fav_type": self.fav_type,
+            "fav_id": self.fav_id,
+            "fav_title": self.fav_title,
+            "fav_backdrop": self.fav_backdrop,
             "createdAt": self.createdAt
         }

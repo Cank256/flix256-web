@@ -1,4 +1,4 @@
-from backend import app, mongo
+from backend import app, mongo, models, utils
 from bson import ObjectId
 from datetime import datetime
 from flask import jsonify, request
@@ -22,25 +22,30 @@ def signup():
     """
     data = request.get_json()
 
-    # Check if both username and email are provided
-    if not data.get('username') or not data.get('email'):
-        return jsonify({'error': 'Both username and email are required'}), 400
+    # Validate required fields
+    validate_data = utils.validate_required_fields(
+        username=data.get('username'),
+        email=data.get('email'),
+        lang=data.get('lang')
+    )
 
-    signup_data = {k: v for k, v in data.items() if k in ['username', 'email', 'lang']}
-    if not signup_data:
-        return jsonify({"error": "No valid fields to signup"}), 400
+    if validate_data:
+        return jsonify({'error': validate_data}), 400
 
-    # Extract username and email for duplicate check
+    # Extract username, email, and lang for user creation
     username = data.get('username')
     email = data.get('email')
+    lang = data.get('lang')
 
     # Check if the user already exists with given username or email
     if users.find_one({'$or': [{'username': username}, {'email': email}]}):
         return jsonify({'error': 'User already exists'}), 400
-    
-    signup_data['createdAt'] = datetime.now()
 
-    user_id = users.insert_one(signup_data).inserted_id
+    # Correctly instantiate the User object
+    new_user = models.User(username=username, email=email, lang=lang)
+
+    # Insert the new user into the database
+    user_id = users.insert_one(new_user.to_dict()).inserted_id
 
     return jsonify({'user_id': str(user_id)}), 201
 
