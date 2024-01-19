@@ -127,6 +127,15 @@ def update_user(user_id):
     if not update_data:
         return jsonify({"error": "No valid fields to update"}), 400
 
+    # Check for existing username or email in other users
+    if 'username' in update_data:
+        if users.find_one({'username': update_data['username'], '_id': {'$ne': ObjectId(user_id)}}):
+            return jsonify({'error': 'Username already exists'}), 400
+
+    if 'email' in update_data:
+        if users.find_one({'email': update_data['email'], '_id': {'$ne': ObjectId(user_id)}}):
+            return jsonify({'error': 'Email already exists'}), 400
+
     update_data['updatedAt'] = datetime.now()
 
     update = users.update_one(
