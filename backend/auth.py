@@ -39,7 +39,6 @@ def signup():
         return jsonify({'error': 'User already exists'}), 400
     
     signup_data['createdAt'] = datetime.now()
-    signup_data['updatedAt'] = datetime.now()
 
     user_id = users.insert_one(signup_data).inserted_id
 
