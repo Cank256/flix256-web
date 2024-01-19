@@ -41,6 +41,15 @@ def add_favorite():
     if error_message:
         return jsonify({'error': error_message}), 400
 
+    # Validate if user_id is a valid ObjectId
+    if not ObjectId.is_valid(user_id):
+        return jsonify({'error': 'Invalid user ID format'}), 400
+
+    # Check if user exists
+    user = users.find_one({'_id': ObjectId(user_id)})
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+
     favorite_data = models.Favorite(
         user_id = user_id,
         fav_type = fav_type,
@@ -65,6 +74,15 @@ def get_favorites(user_id):
         - JSON list of favorite items for the user.
         - JSON with error message if no favorites are found.
     """
+
+    # Validate if user_id is a valid ObjectId
+    if not ObjectId.is_valid(user_id):
+        return jsonify({'error': 'Invalid user ID format'}), 400
+
+    # Check if user exists
+    user = users.find_one({'_id': ObjectId(user_id)})
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
 
     user_favorites = favorites.find({'user_id': user_id})
 
