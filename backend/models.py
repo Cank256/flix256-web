@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 class User:
     """
     Represents a User in the application.
@@ -9,10 +10,12 @@ class User:
         email (str): The email address of the user.
         lang (str): The preferred language of the user.
         createdAt (datetime): The timestamp when the user was created.
-        updatedAt (datetime): The timestamp of the last update to the user's information.
+        updatedAt (datetime): The timestamp of the last update to the user's
+        information.
 
     Methods:
-        to_dict(): Converts the User object to a dictionary suitable for database operations.
+        to_dict(): Converts the User object to a dictionary suitable for
+        database operations.
     """
 
     def __init__(self, username, email, lang):
@@ -51,15 +54,18 @@ class Favorite:
     Represents a Favorite record linking a user to a movie.
 
     Attributes:
-        user_id (ObjectId): The ID of the user who marked the movie as favorite.
+        user_id (ObjectId): The ID of the user who marked the movie as favorite
         fav_type (str): The type of the favorite item (movie or tv_show).
         fav_id (str): The ID of the movie or tv show marked as favorite.
         fav_title (str): The title of the movie or tv show marked as favorite.
-        fav_backdrop (str): The backdrop link of the movie or tv show marked as favorite.
-        createdAt (datetime): The timestamp when the movie was marked as favorite.
+        fav_backdrop (str): The backdrop link of the movie or tv show marked as
+        favorite.
+        createdAt (datetime): The timestamp when the movie was marked as
+        favorite.
 
     Methods:
-        to_dict(): Converts the Favorite object to a dictionary suitable for database operations.
+        to_dict(): Converts the Favorite object to a dictionary suitable for
+        database operations.
     """
 
     def __init__(self, user_id, fav_type, fav_id, fav_title, fav_backdrop):
@@ -67,7 +73,8 @@ class Favorite:
         Constructs all the necessary attributes for the Favorite object.
 
         Args:
-            user_id (ObjectId): The ID of the user who marks the movie as favorite.
+            user_id (ObjectId): The ID of the user who marks the movie as
+            favorite.
             movie_id (ObjectId): The ID of the movie being marked as favorite.
         """
         self.user_id = user_id

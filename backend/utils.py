@@ -9,6 +9,7 @@ import requests
 favorites = mongo.db.favorites
 users = mongo.db.users
 
+
 @app.route('/favorite', methods=['POST'])
 def add_favorite():
     """
@@ -22,7 +23,7 @@ def add_favorite():
         - JSON with error message if any required fields are missing.
     """
     data = request.get_json()
-    
+
     user_id = data.get('user_id')
     fav_type = data.get('fav_type')
     fav_id = data.get('fav_id')
@@ -31,11 +32,11 @@ def add_favorite():
 
     # Validate required fields
     error_message = validate_required_fields(
-        user_id = user_id,
-        fav_type = fav_type,
-        movie_id = fav_id,
-        movie_title = fav_title,
-        movie_backdrop = fav_backdrop
+        user_id=user_id,
+        fav_type=fav_type,
+        movie_id=fav_id,
+        movie_title=fav_title,
+        movie_backdrop=fav_backdrop
     )
 
     if error_message:
@@ -48,25 +49,28 @@ def add_favorite():
     # Check if user exists
     user = users.find_one({'_id': ObjectId(user_id)})
     if not user:
-        return jsonify({'error': 'You are not authorized to perform this action.'}), 405
+        return jsonify({
+            'error': 'You are not authorized to perform this action.'
+        }), 405
 
     favorite_data = models.Favorite(
-        user_id = user_id,
-        fav_type = fav_type,
-        fav_id = fav_id,
-        fav_title = fav_title,
-        fav_backdrop = fav_backdrop
+        user_id=user_id,
+        fav_type=fav_type,
+        fav_id=fav_id,
+        fav_title=fav_title,
+        fav_backdrop=fav_backdrop
     )
     favorite_id = favorites.insert_one(favorite_data.to_dict()).inserted_id
 
     return jsonify({'favorite_id': str(favorite_id)}), 201
+
 
 @app.route('/favorite/<user_id>', methods=['GET'])
 def get_favorites(user_id):
     """
     Endpoint to retrieve all favorite movies or TV shows for a specific user.
 
-    Requires 'user_id' as part of the URL. 
+    Requires 'user_id' as part of the URL.
     Fetches all favorites for the user and returns them.
     Converts MongoDB documents to JSON serializable format before returning.
 
@@ -82,16 +86,21 @@ def get_favorites(user_id):
     # Check if user exists
     user = users.find_one({'_id': ObjectId(user_id)})
     if not user:
-        return jsonify({'error': 'You are not authorized to perform this action.'}), 405
+        return jsonify({
+            'error': 'You are not authorized to perform this action.'
+        }), 405
 
     user_favorites = favorites.find({'user_id': user_id})
 
     if user_favorites.count() > 0:
         # Convert the generator to a list
         favorites_result = [favorite for favorite in user_favorites]
-        return jsonify([serialize_document(doc) for doc in favorites_result]), 200
+        return jsonify([
+            serialize_document(doc) for doc in favorites_result
+        ]), 200
     else:
         return jsonify({'error': 'No favorites found for user'}), 404
+
 
 @app.route('/favorite', methods=['DELETE'])
 def delete_favorite():
@@ -99,7 +108,7 @@ def delete_favorite():
     Endpoint to delete a favorite movie or TV show for a user.
 
     Requires 'favorite_id' as part of the URL.
-    
+
     Returns:
         - JSON with a success message on successful deletion.
         - JSON with error message if the favorite item is not found.
@@ -109,17 +118,26 @@ def delete_favorite():
 
     favorite_id = data.get('favorite_id')
     if not ObjectId.is_valid(favorite_id):
-        return jsonify({'error': 'favorite_id not provided or it is invalid'}), 400
+        return jsonify({
+            'error': 'favorite_id not provided or it is invalid'
+        }), 400
 
     user_id = data.get('user_id')
     if not user_id or not ObjectId.is_valid(user_id):
-        return jsonify({'error': 'user_id not provided or it is invalid'}), 400
+        return jsonify({
+            'error': 'user_id not provided or it is invalid'
+        }), 400
 
     # Validate that the favorite belongs to the user
-    check_favorite = favorites.find_one({'_id': ObjectId(favorite_id), 'user_id': user_id})
+    check_favorite = favorites.find_one({
+            '_id': ObjectId(favorite_id),
+            'user_id': user_id
+        })
     if not check_favorite:
-        return jsonify({'error': 'You are not authorized to delete this resource'}), 401
-    
+        return jsonify({
+            'error': 'You are not authorized to delete this resource'
+        }), 401
+
     favorite = favorites.delete_one({'_id': ObjectId(favorite_id)})
 
     if favorite.deleted_count:
@@ -128,24 +146,31 @@ def delete_favorite():
     else:
         return jsonify({'error': 'Favorite not found'}), 404
 
+
 def validate_required_fields(**fields):
     """
     Validates the presence of required fields.
 
     Args:
-        **fields: Arbitrary number of keyword arguments representing fields to validate.
+        **fields: Arbitrary number of keyword arguments representing fields to
+        validate.
 
     Returns:
         - Error message string if any fields are missing.
         - None if all required fields are present.
     """
-    missing_fields = [field_name for field_name, value in fields.items() if not value]
+    missing_fields = [
+        field_name for field_name, value in fields.items() if not value
+    ]
 
     if missing_fields:
         # Constructing the error message based on missing fields
-        error_message = f"{' and '.join(missing_fields)} {'is' if len(missing_fields) == 1 else 'are'} required"
+        error_message = f"\
+            {' and '.join(missing_fields)} \
+                {'is' if len(missing_fields) == 1 else 'are'} required"
         return error_message
     return None
+
 
 def serialize_document(doc):
     """
@@ -167,22 +192,25 @@ def serialize_document(doc):
         doc['updatedAt'] = doc['createdAt'].strftime('%Y-%m-%d %H:%M:%S')
     return doc
 
+
 @app.route('/search', methods=['GET'])
 def search():
     """
     Endpoint to search for movies and TV shows on TMDB.
 
-    This endpoint expects a 'query' parameter in the URL. It uses this query to search
-    both the movies and TV shows on TMDB. The search is performed separately for movies
-    and TV shows, and the results are combined in the response.
+    This endpoint expects a 'query' parameter in the URL. It uses this query to
+    search both the movies and TV shows on TMDB. The search is performed
+    separately for movies and TV shows, and the results are combined in the
+    response.
 
     Args:
         query (str): The search keyword provided as a URL parameter.
 
     Returns:
-        - On success: JSON object containing separate lists of movies and TV shows found.
-        - On failure: JSON object with an error message. This could be due to a failure
-        in one or both of the TMDB API requests.
+        - On success: JSON object containing separate lists of movies and TV
+        shows found.
+        - On failure: JSON object with an error message. This could be due to
+        a failure in one or both of the TMDB API requests.
     """
     query = request.args.get('query')
     movie_url = f'{TMDB_URL}/search/movie?api_key={TMDB_API_KEY}&query={query}'
@@ -198,16 +226,19 @@ def search():
     else:
         return jsonify({'error': 'Search failed'}), 500
 
+
 @app.route('/recommended/<user_id>', methods=['GET'])
 def get_movie_tv_recommendations(user_id):
     """
-    Fetches a combined list of movie and TV show recommendations for a specific user.
+    Fetches a combined list of movie and TV show recommendations for a specific
+    user.
 
     Args:
         user_id (str): The user's unique identifier.
 
     Returns:
-        list: A merged and alternating list of movie and TV show recommendations from TMDB.
+        list: A merged and alternating list of movie and TV show
+        recommendations from TMDB.
     """
     user_favorites = favorites.find({'user_id': user_id})
     favorites_list = list(user_favorites)
@@ -219,14 +250,16 @@ def get_movie_tv_recommendations(user_id):
 
     if user_favorites.count() < 1:
         return jsonify({
-            'error': 'First add favorite Movies and Tv shows to get recommendations'
+            'error': 'First add favorite Movies and Tv shows to get \
+                recommendations'
         }), 422
 
     for favorite in favorites_list:
         tmdb_id = favorite['fav_id']
         fav_type = favorite['fav_type']  # 'movie' or 'tv'
-        tmdb_url = f"{TMDB_URL}/{fav_type}/{tmdb_id}/recommendations?api_key={TMDB_API_KEY}&page=1"
-        
+        tmdb_url = f"{TMDB_URL}/{fav_type}/{tmdb_id}/recommendations\
+                ?api_key={TMDB_API_KEY}&page=1"
+
         response = requests.get(tmdb_url)
         if response.status_code == 200:
             tmdb_recommendations = response.json().get('results', [])
