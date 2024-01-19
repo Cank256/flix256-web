@@ -116,7 +116,7 @@ def delete_favorite():
         return jsonify({'error': 'user_id not provided or it is invalid'}), 400
 
     # Validate that the favorite belongs to the user
-    check_favorite = favorites.find_one({'_id': ObjectId(favorite_id), 'user_id': ObjectId(user_id)})
+    check_favorite = favorites.find_one({'_id': ObjectId(favorite_id), 'user_id': user_id})
     if not check_favorite:
         return jsonify({'error': 'You are not authorized to delete this resource'}), 401
     
@@ -197,3 +197,108 @@ def search():
         return jsonify({'movies': movies, 'tv_shows': tv_shows}), 200
     else:
         return jsonify({'error': 'Search failed'}), 500
+
+@app.route('/movies/recommended/<user_id>', methods=['GET'])
+def get_movie_recommendations(user_id):
+    """
+    Fetches movie recommendations for a specific user based on their favorite movies.
+
+    Args:
+        user_id (str): The user's unique identifier.
+
+    Returns:
+        list: A list of recommended movies from TMDB, filtered to avoid duplicates.
+    """
+    movie_favorites = favorites.find({'user_id': user_id, 'fav_type': 'movie'})
+    movie_recommendations = []
+    seen_movie_ids = set()
+
+    for favorite in movie_favorites:
+        tmdb_id = favorite['fav_id']
+        tmdb_url = f"{TMDB_URL}/movie/{tmdb_id}/recommendations?api_key={TMDB_API_KEY}&page=1"
+        response = requests.get(tmdb_url)
+        
+        if response.status_code == 200:
+            recommendations = response.json().get('results', [])
+            for rec in recommendations:
+                if rec['id'] not in seen_movie_ids:
+                    movie_recommendations.append(rec)
+                    seen_movie_ids.add(rec['id'])
+
+    return movie_recommendations
+
+@app.route('/tv/recommended/<user_id>', methods=['GET'])
+def get_tv_recommendations(user_id):
+    """
+    Fetches TV show recommendations for a specific user based on their favorite TV shows.
+
+    Args:
+        user_id (str): The user's unique identifier.
+
+    Returns:
+        list: A list of recommended TV shows from TMDB, filtered to avoid duplicates.
+    """
+    movie_favorites = favorites.find({'user_id': user_id, 'fav_type': 'tv'})
+    movie_recommendations = []
+    seen_movie_ids = set()
+
+    for favorite in movie_favorites:
+        tmdb_id = favorite['fav_id']
+        tmdb_url = f"{TMDB_URL}/tv/{tmdb_id}/recommendations?api_key={TMDB_API_KEY}&page=1"
+        response = requests.get(tmdb_url)
+        
+        if response.status_code == 200:
+            recommendations = response.json().get('results', [])
+            for rec in recommendations:
+                if rec['id'] not in seen_movie_ids:
+                    movie_recommendations.append(rec)
+                    seen_movie_ids.add(rec['id'])
+
+    return movie_recommendations
+
+@app.route('/recommended/<user_id>', methods=['GET'])
+def get_recommendations(user_id):
+    """
+    Fetches a combined list of movie and TV show recommendations for a specific user.
+
+    Args:
+        user_id (str): The user's unique identifier.
+
+    Returns:
+        list: A merged and alternating list of movie and TV show recommendations from TMDB.
+    """
+    user_favorites = favorites.find({'user_id': user_id})
+    favorites_list = list(user_favorites)
+
+    movie_recommendations = []
+    tv_recommendations = []
+    seen_movie_recommendations = set()
+    seen_tv_recommendations = set()
+
+    for favorite in favorites_list:
+        tmdb_id = favorite['fav_id']
+        fav_type = favorite['fav_type']  # 'movie' or 'tv'
+        tmdb_url = f"{TMDB_URL}/{fav_type}/{tmdb_id}/recommendations?api_key={TMDB_API_KEY}&page=1"
+        
+        response = requests.get(tmdb_url)
+        if response.status_code == 200:
+            tmdb_recommendations = response.json().get('results', [])
+            for rec in tmdb_recommendations:
+                rec_id = rec.get('id')
+                if fav_type == 'movie' and rec_id not in seen_movie_recommendations:
+                    movie_recommendations.append(rec)
+                    seen_movie_recommendations.add(rec_id)
+                elif fav_type == 'tv' and rec_id not in seen_tv_recommendations:
+                    tv_recommendations.append(rec)
+                    seen_tv_recommendations.add(rec_id)
+
+    # Merge recommendations, alternating between movie and tv
+    combined_recommendations = []
+    for movie, tv in zip(movie_recommendations, tv_recommendations):
+        combined_recommendations.extend([movie, tv])
+
+    # Add remaining recommendations if one list is longer than the other
+    longest_list = movie_recommendations if len(movie_recommendations) > len(tv_recommendations) else tv_recommendations
+    combined_recommendations.extend(longest_list[len(combined_recommendations) // 2:])
+
+    return jsonify(combined_recommendations)
