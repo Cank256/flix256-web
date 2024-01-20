@@ -1,4 +1,4 @@
-from backend import TMDB_API_KEY, TMDB_URL, app, mongo
+from backend import api_only_limit, app, limiter, models, mongo,TMDB_API_KEY, TMDB_URL
 from flask import jsonify
 import requests
 
@@ -7,7 +7,8 @@ import requests
 favorites = mongo.db.favorites
 
 
-@app.route('/api/tv/airing_today', methods=['GET'])
+@app.route('/api/tv/airing_today', methods=['GET'], endpoint='api_airing_today')
+@limiter.limit(api_only_limit)
 @app.route('/tv/airing_today', methods=['GET'])
 def airing_today():
     """
@@ -32,7 +33,8 @@ def airing_today():
         }), response.status_code
 
 
-@app.route('/api/tv/on_air', methods=['GET'])
+@app.route('/api/tv/on_air', methods=['GET'], endpoint='api_on_air')
+@limiter.limit(api_only_limit)
 @app.route('/tv/on_air', methods=['GET'])
 def on_air():
     """
@@ -57,7 +59,8 @@ def on_air():
         }), response.status_code
 
 
-@app.route('/api/tv/popular', methods=['GET'])
+@app.route('/api/tv/popular', methods=['GET'], endpoint='api_popular_tv_shows')
+@limiter.limit(api_only_limit)
 @app.route('/tv/popular', methods=['GET'])
 def popular_tv():
     """
@@ -82,7 +85,8 @@ def popular_tv():
         }), response.status_code
 
 
-@app.route('/api/tv/<int:tv_show_id>', methods=['GET'])
+@app.route('/api/tv/<int:tv_show_id>', methods=['GET'], endpoint='api_tv_show_details')
+@limiter.limit(api_only_limit)
 @app.route('/tv/<int:tv_show_id>', methods=['GET'])
 def tv_show(tv_show_id):
     """
@@ -111,7 +115,8 @@ def tv_show(tv_show_id):
         }), response.status_code
 
 
-@app.route('/api/tv/recommended/<user_id>', methods=['GET'])
+@app.route('/api/tv/recommended/<user_id>', methods=['GET'], endpoint='api_recommended_tv_shows')
+@limiter.limit(api_only_limit)
 @app.route('/tv/recommended/<user_id>', methods=['GET'])
 def get_tv_recommendations(user_id):
     """

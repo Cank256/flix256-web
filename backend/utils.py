@@ -1,6 +1,5 @@
-from backend import TMDB_API_KEY, TMDB_URL, app, models, mongo
+from backend import api_only_limit, app, limiter, models, mongo,TMDB_API_KEY, TMDB_URL
 from bson import ObjectId
-from datetime import datetime
 from flask import jsonify, request
 import requests
 
@@ -10,7 +9,8 @@ favorites = mongo.db.favorites
 users = mongo.db.users
 
 
-@app.route('/api/favorite', methods=['POST'])
+@app.route('/api/favorite', methods=['POST'], endpoint='api_add_favorites')
+@limiter.limit(api_only_limit)
 @app.route('/favorite', methods=['POST'])
 def add_favorite():
     """
@@ -66,7 +66,8 @@ def add_favorite():
     return jsonify({'favorite_id': str(favorite_id)}), 201
 
 
-@app.route('/api/favorite/<user_id>', methods=['GET'])
+@app.route('/api/favorite/<user_id>', methods=['GET'], endpoint='api_get_favorites')
+@limiter.limit(api_only_limit)
 @app.route('/favorite/<user_id>', methods=['GET'])
 def get_favorites(user_id):
     """
@@ -104,7 +105,8 @@ def get_favorites(user_id):
         return jsonify({'error': 'No favorites found for user'}), 404
 
 
-@app.route('/api/favorite', methods=['DELETE'])
+@app.route('/api/favorite', methods=['DELETE'], endpoint='api_delete_favorite')
+@limiter.limit(api_only_limit)
 @app.route('/favorite', methods=['DELETE'])
 def delete_favorite():
     """
@@ -194,7 +196,8 @@ def serialize_document(doc):
     return doc
 
 
-@app.route('/api/search', methods=['GET'])
+@app.route('/api/search', methods=['GET'], endpoint='api_search')
+@limiter.limit(api_only_limit)
 @app.route('/search', methods=['GET'])
 def search():
     """
@@ -229,7 +232,8 @@ def search():
         return jsonify({'error': 'Search failed'}), 500
 
 
-@app.route('/api/recommended/<user_id>', methods=['GET'])
+@app.route('/api/recommended/<user_id>', methods=['GET'], endpoint='api_recommendations')
+@limiter.limit(api_only_limit)
 @app.route('/recommended/<user_id>', methods=['GET'])
 def get_movie_tv_recommendations(user_id):
     """

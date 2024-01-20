@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
+from flask_limiter import Limiter, util
 from flask_pymongo import PyMongo
 from flask_redis import FlaskRedis
 import os
@@ -8,6 +9,15 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
+
+limiter = Limiter(util.get_remote_address, app=app, default_limits=["200 per day", "50 per hour"])
+
+
+def api_only_limit():
+    if request.path.startswith("/api/"):
+        return "5/minute"  # Limit for API routes
+    return "unlimited"  # No limit for non-API routes
+
 
 # Configure MongoDB Client
 app.config['MONGO_URI'] = os.getenv('MONGO_URI')
@@ -65,6 +75,17 @@ def unsupported_media_type_error(e):
         error="Unsupported Media Type - The Content-Type must \
             be 'application/json'."
     ), 415
+
+
+@limiter.request_filter
+def limiter_filter():
+    # Return True if the route should not be limited
+    return request.endpoint in ("static", "another_route")
+
+
+@app.errorhandler(429)
+def ratelimit_handler(e):
+    return "You have exceeded your request rate. Try again later.", 429
 
 
 # Import views

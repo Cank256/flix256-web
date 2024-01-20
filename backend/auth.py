@@ -1,4 +1,4 @@
-from backend import app, mongo, models, utils
+from backend import api_only_limit, app, mongo, models, limiter, utils
 from bson import ObjectId
 from datetime import datetime
 from flask import jsonify, request
@@ -8,8 +8,9 @@ from flask import jsonify, request
 users = mongo.db.users
 
 
-@app.route('/api/auth/signup', methods=['POST'])
-@app.route('/auth/signup', methods=['POST'])
+@app.route('/api/auth/signup', methods=['POST'], endpoint='api_signup')
+@limiter.limit(api_only_limit)
+@app.route('/auth/signup', methods=['POST'], endpoint='signup')
 def signup():
     """
     Endpoint for user registration.
@@ -54,7 +55,8 @@ def signup():
     return jsonify({'user_id': str(user_id)}), 201
 
 
-@app.route('/api/auth/login', methods=['POST'])
+@app.route('/api/auth/login', methods=['POST'], endpoint='api_login')
+@limiter.limit(api_only_limit)
 @app.route('/auth/login', methods=['POST'])
 def login():
     """

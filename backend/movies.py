@@ -1,4 +1,4 @@
-from backend import TMDB_API_KEY, TMDB_URL, app, mongo
+from backend import api_only_limit, app, limiter, models, mongo,TMDB_API_KEY, TMDB_URL
 from flask import jsonify
 import requests
 
@@ -7,7 +7,8 @@ import requests
 favorites = mongo.db.favorites
 
 
-@app.route('/api/movies/now_playing', methods=['GET'])
+@app.route('/api/movies/now_playing', methods=['GET'], endpoint='api_movies_now_playing')
+@limiter.limit(api_only_limit)
 @app.route('/movies/now_playing', methods=['GET'])
 def now_playing():
     """
@@ -32,7 +33,8 @@ def now_playing():
         }), response.status_code
 
 
-@app.route('/api/movies/upcoming', methods=['GET'])
+@app.route('/api/movies/upcoming', methods=['GET'], endpoint='api_upcoming_movies')
+@limiter.limit(api_only_limit)
 @app.route('/movies/upcoming', methods=['GET'])
 def coming_soon():
     """
@@ -57,7 +59,8 @@ def coming_soon():
         }), response.status_code
 
 
-@app.route('/api/movies/popular', methods=['GET'])
+@app.route('/api/movies/popular', methods=['GET'], endpoint='api_popular_movies')
+@limiter.limit(api_only_limit)
 @app.route('/movies/popular', methods=['GET'])
 def popular():
     """
@@ -82,8 +85,9 @@ def popular():
         }), response.status_code
 
 
-@app.route('/api/movies/<int:movie_id>', methods=['GET'])
-@app.route('/movies/<int:movie_id>', methods=['GET'])
+@app.route('/api/movies/<int:movie_id>', methods=['GET'], endpoint='api_movie_details')
+@limiter.limit(api_only_limit)
+@app.route('/movies/<int:movie_id>', methods=['GET'], endpoint='movie_details')
 def get_movie(movie_id):
     """
     Fetches details of a specific movie by its TMDB ID.
@@ -112,7 +116,8 @@ def get_movie(movie_id):
         }), response.status_code
 
 
-@app.route('/api/movies/recommended/<user_id>', methods=['GET'])
+@app.route('/api/movies/recommended/<user_id>', methods=['GET'], endpoint='api_recommended_movies')
+@limiter.limit(api_only_limit)
 @app.route('/movies/recommended/<user_id>', methods=['GET'])
 def get_movie_recommendations(user_id):
     """
