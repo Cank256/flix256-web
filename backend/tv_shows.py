@@ -7,6 +7,7 @@ import requests
 favorites = mongo.db.favorites
 
 
+@app.route('/api/tv/airing_today', methods=['GET'])
 @app.route('/tv/airing_today', methods=['GET'])
 def airing_today():
     """
@@ -31,6 +32,7 @@ def airing_today():
         }), response.status_code
 
 
+@app.route('/api/tv/on_air', methods=['GET'])
 @app.route('/tv/on_air', methods=['GET'])
 def on_air():
     """
@@ -55,6 +57,7 @@ def on_air():
         }), response.status_code
 
 
+@app.route('/api/tv/popular', methods=['GET'])
 @app.route('/tv/popular', methods=['GET'])
 def popular_tv():
     """
@@ -79,6 +82,7 @@ def popular_tv():
         }), response.status_code
 
 
+@app.route('/api/tv/<int:tv_show_id>', methods=['GET'])
 @app.route('/tv/<int:tv_show_id>', methods=['GET'])
 def tv_show(tv_show_id):
     """
@@ -107,6 +111,7 @@ def tv_show(tv_show_id):
         }), response.status_code
 
 
+@app.route('/api/tv/recommended/<user_id>', methods=['GET'])
 @app.route('/tv/recommended/<user_id>', methods=['GET'])
 def get_tv_recommendations(user_id):
     """

@@ -8,6 +8,7 @@ from flask import jsonify, request
 users = mongo.db.users
 
 
+@app.route('/api/auth/signup', methods=['POST'])
 @app.route('/auth/signup', methods=['POST'])
 def signup():
     """
@@ -53,6 +54,7 @@ def signup():
     return jsonify({'user_id': str(user_id)}), 201
 
 
+@app.route('/api/auth/login', methods=['POST'])
 @app.route('/auth/login', methods=['POST'])
 def login():
     """

@@ -7,6 +7,7 @@ import requests
 favorites = mongo.db.favorites
 
 
+@app.route('/api/movies/now_playing', methods=['GET'])
 @app.route('/movies/now_playing', methods=['GET'])
 def now_playing():
     """
@@ -31,6 +32,7 @@ def now_playing():
         }), response.status_code
 
 
+@app.route('/api/movies/upcoming', methods=['GET'])
 @app.route('/movies/upcoming', methods=['GET'])
 def coming_soon():
     """
@@ -55,6 +57,7 @@ def coming_soon():
         }), response.status_code
 
 
+@app.route('/api/movies/popular', methods=['GET'])
 @app.route('/movies/popular', methods=['GET'])
 def popular():
     """
@@ -79,6 +82,7 @@ def popular():
         }), response.status_code
 
 
+@app.route('/api/movies/<int:movie_id>', methods=['GET'])
 @app.route('/movies/<int:movie_id>', methods=['GET'])
 def get_movie(movie_id):
     """
@@ -108,6 +112,7 @@ def get_movie(movie_id):
         }), response.status_code
 
 
+@app.route('/api/movies/recommended/<user_id>', methods=['GET'])
 @app.route('/movies/recommended/<user_id>', methods=['GET'])
 def get_movie_recommendations(user_id):
     """

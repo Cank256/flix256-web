@@ -10,6 +10,7 @@ favorites = mongo.db.favorites
 users = mongo.db.users
 
 
+@app.route('/api/favorite', methods=['POST'])
 @app.route('/favorite', methods=['POST'])
 def add_favorite():
     """
@@ -65,6 +66,7 @@ def add_favorite():
     return jsonify({'favorite_id': str(favorite_id)}), 201
 
 
+@app.route('/api/favorite/<user_id>', methods=['GET'])
 @app.route('/favorite/<user_id>', methods=['GET'])
 def get_favorites(user_id):
     """
@@ -102,6 +104,7 @@ def get_favorites(user_id):
         return jsonify({'error': 'No favorites found for user'}), 404
 
 
+@app.route('/api/favorite', methods=['DELETE'])
 @app.route('/favorite', methods=['DELETE'])
 def delete_favorite():
     """
@@ -191,6 +194,7 @@ def serialize_document(doc):
     return doc
 
 
+@app.route('/api/search', methods=['GET'])
 @app.route('/search', methods=['GET'])
 def search():
     """
@@ -225,6 +229,7 @@ def search():
         return jsonify({'error': 'Search failed'}), 500
 
 
+@app.route('/api/recommended/<user_id>', methods=['GET'])
 @app.route('/recommended/<user_id>', methods=['GET'])
 def get_movie_tv_recommendations(user_id):
     """
