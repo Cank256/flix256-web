@@ -132,8 +132,7 @@ def get_movie_recommendations(user_id):
 
     for favorite in movie_favorites:
         tmdb_id = favorite['fav_id']
-        tmdb_url = f"{TMDB_URL}/movie/{tmdb_id}/recommendations\
-                ?api_key={TMDB_API_KEY}&page=1"
+        tmdb_url = f"{TMDB_URL}/movie/{tmdb_id}/recommendations?api_key={TMDB_API_KEY}&page=1"
         response = requests.get(tmdb_url)
 
         if response.status_code == 200:
@@ -143,14 +142,14 @@ def get_movie_recommendations(user_id):
                     if rec['id'] not in seen_movie_ids:
                         movie_recommendations.append(rec)
                         seen_movie_ids.add(rec['id'])
-            else:
-                return jsonify({
-                    'error': 'No Movie recommendations obtained, select more \
-                        favorites'
-                }), 500
         else:
             return jsonify({
                 'error': 'No recommendations or API error'
             }), 500
 
-    return jsonify(movie_recommendations), 200
+    if len(movie_recommendations) > 0:
+        return jsonify(movie_recommendations), 200
+    else:
+        return jsonify({
+            'error': 'No Movie recommendations obtained, select more favorites'
+        }), 500

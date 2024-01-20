@@ -165,9 +165,7 @@ def validate_required_fields(**fields):
 
     if missing_fields:
         # Constructing the error message based on missing fields
-        error_message = f"\
-            {' and '.join(missing_fields)} \
-                {'is' if len(missing_fields) == 1 else 'are'} required"
+        error_message = f"{' and '.join(missing_fields)} {'is' if len(missing_fields) == 1 else 'are'} required"
         return error_message
     return None
 
@@ -250,15 +248,13 @@ def get_movie_tv_recommendations(user_id):
 
     if user_favorites.count() < 1:
         return jsonify({
-            'error': 'First add favorite Movies and Tv shows to get \
-                recommendations'
+            'error': 'First add favorite Movies and Tv shows to get recommendations'
         }), 422
 
     for favorite in favorites_list:
         tmdb_id = favorite['fav_id']
         fav_type = favorite['fav_type']  # 'movie' or 'tv'
-        tmdb_url = f"{TMDB_URL}/{fav_type}/{tmdb_id}/recommendations\
-                ?api_key={TMDB_API_KEY}&page=1"
+        tmdb_url = f"{TMDB_URL}/{fav_type}/{tmdb_id}/recommendations?api_key={TMDB_API_KEY}&page=1"
 
         response = requests.get(tmdb_url)
         if response.status_code == 200:

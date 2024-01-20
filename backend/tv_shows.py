@@ -131,8 +131,7 @@ def get_tv_recommendations(user_id):
 
     for favorite in tv_favorites:
         tmdb_id = favorite['fav_id']
-        tmdb_url = f"{TMDB_URL}/tv/{tmdb_id}/recommendations\
-                ?api_key={TMDB_API_KEY}&page=1"
+        tmdb_url = f"{TMDB_URL}/tv/{tmdb_id}/recommendations?api_key={TMDB_API_KEY}&page=1"
         response = requests.get(tmdb_url)
 
         if response.status_code == 200:
@@ -143,12 +142,12 @@ def get_tv_recommendations(user_id):
                     if rec['id'] not in seen_tv_ids:
                         tv_recommendations.append(rec)
                         seen_tv_ids.add(rec['id'])
-            else:
-                return jsonify({
-                    'error': 'No TV show recommendations obtained. \
-                    Add more favorite TV for recommendations'
-                }), 500
         else:
             return jsonify({'error': 'No recommendations or API error'}), 500
 
-    return jsonify(tv_recommendations), 200
+    if len(tv_recommendations) > 0:
+        return jsonify(tv_recommendations), 200
+    else:
+        return jsonify({
+            'error': 'No TV show recommendations obtained. Choose more favorites'
+        }), 500
