@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from flask_limiter import Limiter, util
 from flask_pymongo import PyMongo
 from flask_redis import FlaskRedis
@@ -18,6 +19,8 @@ def api_only_limit():
         return '5/minute'  # Limit for API routes
     return 'unlimited'  # No limit for non-API routes
 
+# Enable CORS for all routes
+CORS(app)
 
 # Configure MongoDB Client
 app.config['MONGO_URI'] = os.getenv('MONGO_URI')
