@@ -10,13 +10,13 @@ load_dotenv()
 
 app = Flask(__name__)
 
-limiter = Limiter(util.get_remote_address, app=app, default_limits=["200 per day", "50 per hour"])
+limiter = Limiter(util.get_remote_address, app=app, default_limits=['200 per day', '50 per hour'])
 
 
 def api_only_limit():
-    if request.path.startswith("/api/"):
-        return "5/minute"  # Limit for API routes
-    return "unlimited"  # No limit for non-API routes
+    if request.path.startswith('/api/'):
+        return '5/minute'  # Limit for API routes
+    return 'unlimited'  # No limit for non-API routes
 
 
 # Configure MongoDB Client
@@ -44,7 +44,7 @@ def method_not_allowed(e):
         A JSON response with an error message and the 405 status code.
     """
     return jsonify(
-        error="This method is not allowed for the requested URL."
+        error='This method is not allowed for the requested URL.'
     ), 405
 
 
@@ -59,33 +59,35 @@ def method_not_allowed(e):
     Returns:
         A JSON response with an error message and the 404 status code.
     """
-    return jsonify(error="This requested resource is not found."), 404
+    return jsonify(error='This requested resource is not found.'), 404
 
 
 @app.errorhandler(400)
 def bad_request_error(e):
     return jsonify(
-        error="Bad request - The JSON data is malformed or not present."
+        error='The JSON body data is malformed or not present.'
     ), 400
 
 
 @app.errorhandler(415)
 def unsupported_media_type_error(e):
     return jsonify(
-        error="Unsupported Media Type - The Content-Type must \
-            be 'application/json'."
+        error='Unsupported Media Type - The Content-Type must \
+            be \'application/json\'.'
     ), 415
 
 
 @limiter.request_filter
 def limiter_filter():
     # Return True if the route should not be limited
-    return request.endpoint in ("static", "another_route")
+    return request.endpoint in ('static', 'another_route')
 
 
 @app.errorhandler(429)
 def ratelimit_handler(e):
-    return "You have exceeded your request rate. Try again later.", 429
+    return jsonify(
+        error='You have exceeded your request rate. Try again later.'
+    ), 429
 
 
 # Import views
