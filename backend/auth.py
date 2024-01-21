@@ -2,6 +2,7 @@ from backend import api_only_limit, app, mongo, models, limiter, utils
 from bson import ObjectId
 from datetime import datetime
 from flask import jsonify, request
+from flask_cors import cross_origin
 
 
 # Access the users collection
@@ -10,6 +11,7 @@ users = mongo.db.users
 
 @app.route('/api/auth/signup', methods=['POST'], endpoint='api_signup')
 @limiter.limit(api_only_limit)
+@cross_origin()
 @app.route('/auth/signup', methods=['POST'], endpoint='signup')
 def signup():
     """
@@ -57,6 +59,7 @@ def signup():
 
 @app.route('/api/auth/login', methods=['POST'], endpoint='api_login')
 @limiter.limit(api_only_limit)
+@cross_origin()
 @app.route('/auth/login', methods=['POST'])
 def login():
     """

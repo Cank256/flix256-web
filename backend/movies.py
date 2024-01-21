@@ -1,5 +1,6 @@
 from backend import api_only_limit, app, limiter, models, mongo,TMDB_API_KEY, TMDB_URL
 from flask import jsonify
+from flask_cors import cross_origin
 import requests
 
 
@@ -9,6 +10,7 @@ favorites = mongo.db.favorites
 
 @app.route('/api/movies/now_playing', methods=['GET'], endpoint='api_movies_now_playing')
 @limiter.limit(api_only_limit)
+@cross_origin()
 @app.route('/movies/now_playing', methods=['GET'])
 def now_playing():
     """
@@ -35,6 +37,7 @@ def now_playing():
 
 @app.route('/api/movies/upcoming', methods=['GET'], endpoint='api_upcoming_movies')
 @limiter.limit(api_only_limit)
+@cross_origin()
 @app.route('/movies/upcoming', methods=['GET'])
 def coming_soon():
     """
@@ -61,6 +64,7 @@ def coming_soon():
 
 @app.route('/api/movies/popular', methods=['GET'], endpoint='api_popular_movies')
 @limiter.limit(api_only_limit)
+@cross_origin()
 @app.route('/movies/popular', methods=['GET'])
 def popular():
     """
@@ -87,6 +91,7 @@ def popular():
 
 @app.route('/api/movies/<int:movie_id>', methods=['GET'], endpoint='api_movie_details')
 @limiter.limit(api_only_limit)
+@cross_origin()
 @app.route('/movies/<int:movie_id>', methods=['GET'], endpoint='movie_details')
 def get_movie(movie_id):
     """
@@ -118,6 +123,7 @@ def get_movie(movie_id):
 
 @app.route('/api/movies/recommended/<user_id>', methods=['GET'], endpoint='api_recommended_movies')
 @limiter.limit(api_only_limit)
+@cross_origin()
 @app.route('/movies/recommended/<user_id>', methods=['GET'])
 def get_movie_recommendations(user_id):
     """
