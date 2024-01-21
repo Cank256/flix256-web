@@ -90,4 +90,4 @@ def ratelimit_handler(e):
 
 
 # Import views
-from backend import movies, tv_shows, auth, utils
+from backend import auth, favorites, movies, tv_shows, utils

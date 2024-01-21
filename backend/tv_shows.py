@@ -1,4 +1,4 @@
-from backend import api_only_limit, app, limiter, models, mongo,TMDB_API_KEY, TMDB_URL
+from backend import api_only_limit, app, limiter, mongo, TMDB_API_KEY, TMDB_URL
 from flask import jsonify
 from flask_cors import cross_origin
 import requests
@@ -118,52 +118,3 @@ def tv_show(tv_show_id):
         return jsonify({
             'error': 'TV show not found or API error'
         }), response.status_code
-
-
-@app.route('/api/tv/recommended/<user_id>', methods=['GET'], endpoint='api_recommended_tv_shows')
-@limiter.limit(api_only_limit)
-@cross_origin()
-@app.route('/tv/recommended/<user_id>', methods=['GET'])
-def get_tv_recommendations(user_id):
-    """
-    Fetches TV show recommendations for a specific user based on their
-    favorite TV shows.
-
-    Args:
-        user_id (str): The user's unique identifier.
-
-    Returns:
-        list: A list of recommended TV shows from TMDB, filtered to avoid
-        duplicates.
-    """
-    tv_favorites = favorites.find({'user_id': user_id, 'fav_type': 'tv'})
-    tv_recommendations = []
-    seen_tv_ids = set()
-
-    if tv_favorites.count() < 1:
-        return jsonify({
-            'error': 'First add favorite Tv shows to get recommendations'
-            }), 422
-
-    for favorite in tv_favorites:
-        tmdb_id = favorite['fav_id']
-        tmdb_url = f"{TMDB_URL}/tv/{tmdb_id}/recommendations?api_key={TMDB_API_KEY}&page=1"
-        response = requests.get(tmdb_url)
-
-        if response.status_code == 200:
-            data = response.json()
-            print(data['total_results'])
-            if data['total_results'] > 0:
-                for rec in data['results']:
-                    if rec['id'] not in seen_tv_ids:
-                        tv_recommendations.append(rec)
-                        seen_tv_ids.add(rec['id'])
-        else:
-            return jsonify({'error': 'No recommendations or API error'}), 500
-
-    if len(tv_recommendations) > 0:
-        return jsonify(tv_recommendations), 200
-    else:
-        return jsonify({
-            'error': 'No TV show recommendations obtained. Choose more favorites'
-        }), 500
