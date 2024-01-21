@@ -1,4 +1,4 @@
-from backend import api_only_limit, app, limiter, mongo, TMDB_API_KEY, TMDB_URL
+from backend import api_only_limit, app, cache, limiter, mongo, TMDB_API_KEY, TMDB_URL
 from flask import jsonify
 from flask_cors import cross_origin
 import requests
@@ -8,6 +8,7 @@ import requests
 favorites = mongo.db.favorites
 
 
+@cache.cached(timeout=3600)
 @app.route('/api/tv/airing_today', methods=['GET'], endpoint='api_airing_today')
 @limiter.limit(api_only_limit)
 @cross_origin()
@@ -35,6 +36,7 @@ def airing_today():
         }), response.status_code
 
 
+@cache.cached(timeout=3600)
 @app.route('/api/tv/on_air', methods=['GET'], endpoint='api_on_air')
 @limiter.limit(api_only_limit)
 @cross_origin()
@@ -62,6 +64,7 @@ def on_air():
         }), response.status_code
 
 
+@cache.cached(timeout=3600)
 @app.route('/api/tv/popular', methods=['GET'], endpoint='api_popular_tv_shows')
 @limiter.limit(api_only_limit)
 @cross_origin()

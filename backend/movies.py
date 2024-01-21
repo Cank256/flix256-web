@@ -1,4 +1,4 @@
-from backend import api_only_limit, app, limiter, mongo, TMDB_API_KEY, TMDB_URL
+from backend import api_only_limit, app, cache, limiter, mongo, TMDB_API_KEY, TMDB_URL
 from flask import jsonify
 from flask_cors import cross_origin
 import requests
@@ -8,6 +8,7 @@ import requests
 favorites = mongo.db.favorites
 
 
+@cache.cached(timeout=3600)
 @app.route('/api/movies/now_playing', methods=['GET'], endpoint='api_movies_now_playing')
 @limiter.limit(api_only_limit)
 @cross_origin()
@@ -35,10 +36,13 @@ def now_playing():
         }), response.status_code
 
 
+@cache.cached(timeout=3600)
 @app.route('/api/movies/upcoming', methods=['GET'], endpoint='api_upcoming_movies')
 @limiter.limit(api_only_limit)
 @cross_origin()
+@cache.cached(timeout=3600)
 @app.route('/movies/upcoming', methods=['GET'])
+@cache.cached(timeout=3600)
 def coming_soon():
     """
     Fetches a list of upcoming movies.
@@ -62,6 +66,7 @@ def coming_soon():
         }), response.status_code
 
 
+@cache.cached(timeout=3600)
 @app.route('/api/movies/popular', methods=['GET'], endpoint='api_popular_movies')
 @limiter.limit(api_only_limit)
 @cross_origin()

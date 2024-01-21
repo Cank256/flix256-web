@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request
+from flask_caching import Cache
 from flask_limiter import Limiter, util
 from flask_pymongo import PyMongo
 from flask_redis import FlaskRedis
@@ -17,6 +18,20 @@ def api_only_limit():
     if request.path.startswith('/api/'):
         return '5/minute'  # Limit for API routes
     return 'unlimited'  # No limit for non-API routes
+
+# Initialize Flask-Caching
+cache = Cache()
+
+# Initialize Flask-Redis
+redis = FlaskRedis()
+
+# Configure Flask app with Redis
+app.config['CACHE_TYPE'] = os.getenv('CACHE_TYPE')
+app.config['CACHE_KEY_PREFIX'] = os.getenv('CACHE_KEY_PREFIX')
+app.config['CACHE_REDIS'] = redis
+
+# Initialize Flask-Caching with the app
+cache.init_app(app)
 
 # Configure MongoDB Client
 app.config['MONGO_URI'] = os.getenv('MONGO_URI')
