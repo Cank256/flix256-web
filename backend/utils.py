@@ -1,4 +1,3 @@
-from flask import request
 from backend import mongo
 
 
