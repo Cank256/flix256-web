@@ -11,7 +11,12 @@ load_dotenv()
 
 app = Flask(__name__)
 
-limiter = Limiter(util.get_remote_address, app=app, default_limits=['200 per day', '50 per hour'])
+limiter = Limiter(
+    util.get_remote_address,
+    app=app,
+    storage_uri="redis://localhost:6379/0",
+    default_limits=['200 per day', '50 per hour']
+)
 
 
 def api_only_limit():
