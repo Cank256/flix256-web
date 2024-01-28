@@ -107,10 +107,7 @@ export function search (query, page = 1) {
   return new Promise((resolve, reject) => {
     axios.get(`${backendUrl}/search/multi`, {
       params: {
-        api_key: process.env.API_KEY,
-        language: process.env.API_LANG,
-        query,
-        page,
+        query
       },
     }).then((response) => {
       resolve(response.data);

@@ -27,15 +27,14 @@ def search():
         a failure in one or both of the TMDB API requests.
     """
     query = request.args.get('query')
-    movie_url = f'{TMDB_URL}/search/movie?api_key={TMDB_API_KEY}&query={query}'
-    tv_url = f'{TMDB_URL}/search/tv?api_key={TMDB_API_KEY}&query={query}'
+    search_url = f'{TMDB_URL}/search/multi?api_key={TMDB_API_KEY}&query={query}'
 
-    movie_response = requests.get(movie_url)
-    tv_response = requests.get(tv_url)
-
-    if movie_response.status_code == 200 and tv_response.status_code == 200:
-        movies = movie_response.json()['results']
-        tv_shows = tv_response.json()['results']
-        return jsonify({'movies': movies, 'tv_shows': tv_shows}), 200
+    response = requests.get(search_url)
+    
+    if response.status_code == 200:
+        search = response.json()
+        return jsonify(search), 200
     else:
-        return jsonify({'error': 'Search failed'}), 500
+        return jsonify({
+            'error': 'Movies not found or API error'
+        }), response.status_code
