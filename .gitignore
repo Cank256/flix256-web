@@ -12,3 +12,6 @@ venv/
 
 # MacOS Files
 .DS_Store
+
+# Tests (for now)
+tests
