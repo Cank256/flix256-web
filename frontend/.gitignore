@@ -88,3 +88,6 @@ sw.*
 
 # Vim swap files
 *.swp
+
+# API for now
+api

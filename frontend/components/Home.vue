@@ -21,6 +21,6 @@
 
 <script>
 export default {
-  name: 'NuxtTutorial',
+  name: 'HomeVue',
 }
 </script>
