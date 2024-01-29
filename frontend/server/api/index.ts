@@ -226,7 +226,7 @@ export const languages = [
 /**
  * Get list item
  */
-export function getListItem (type, query) {
+export function getListItem (type: String, query: Object) {
   if (type === 'movie') {
     return lists.movie.find(list => list.query === query);
   } else if (type === 'tv') {
@@ -237,7 +237,7 @@ export function getListItem (type, query) {
 /**
  * Get movies (listing)
  */
-export function getMovies (query) {
+export function getMovies (query: String) {
   return new Promise((resolve, reject) => {
     axios.get(`${backendUrl}/movies/${query}`)
     .then((response) => {
@@ -252,7 +252,7 @@ export function getMovies (query) {
 /**
  * Get movie (single)
  */
-export function getMovie (id) {
+export function getMovie (id: Number) {
   return new Promise((resolve, reject) => {
     axios.get(`${backendUrl}/movies/${id}`)
     .then((response) => {
@@ -267,7 +267,7 @@ export function getMovie (id) {
 /**
  * Get movies recommended (for user)
  */
-export function getMoviesRecommended (userId) {
+export function getMoviesRecommended (userId: String) {
   return new Promise((resolve, reject) => {
     axios.get(`${backendUrl}/movies/recommended/${userId}`)
     .then((response) => {
@@ -282,7 +282,7 @@ export function getMoviesRecommended (userId) {
 /**
  * Get TV shows (listing)
  */
-export function getTvShows (query) {
+export function getTvShows (query: String) {
   return new Promise((resolve, reject) => {
     axios.get(`${backendUrl}/tv/${query}`)
     .then((response) => {
@@ -297,7 +297,7 @@ export function getTvShows (query) {
 /**
  * Get TV show (single)
  */
-export function getTvShow (id) {
+export function getTvShow (id: Number) {
   return new Promise((resolve, reject) => {
     axios.get(`${backendUrl}/tv/${id}`)
     .then((response) => {
@@ -312,7 +312,7 @@ export function getTvShow (id) {
 /**
  * Get TV shows recommended (for user)
  */
-export function getTvsShowRecommended (userId, page = 1) {
+export function getTvsShowRecommended (userId: String, page = 1) {
   return new Promise((resolve, reject) => {
     axios.get(`${backendUrl}/tv/recommended${userId}`)
     .then((response) => {
@@ -327,7 +327,7 @@ export function getTvsShowRecommended (userId, page = 1) {
 /**
  * Search (searches movies, tv and people)
  */
-export function search (query, page = 1) {
+export function search (query: String, page = 1) {
   return new Promise((resolve, reject) => {
     axios.get(`${backendUrl}/search/multi`, {
       params: {
