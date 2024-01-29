@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@nuxt/bridge": "^3.0.1",
-    "axios": "^1.6.7"
+    "axios": "^1.6.7",
+    "sass": "^1.70.0"
   }
 }

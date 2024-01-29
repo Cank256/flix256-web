@@ -1,19 +1,20 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import { RouteLocationNormalizedLoaded, useRoute, useRouter } from 'vue-router';
 
-/**
- * API url
- */
-const backendUrl = process.env.BACKEND_URL;
+// Define API url
+const backendUrl: string | undefined = process.env.BACKEND_URL;
 
-/**
- * Image url
- */
-export const apiImgUrl = process.env.TMDB_IMAGE_URL;
+// Define Image url
+export const apiImgUrl: string | undefined = process.env.TMDB_IMAGE_URL;
 
-/**
- * Different types of lists
- */
-const lists = {
+// Define types for different lists
+interface List {
+  title: string;
+  query: string;
+}
+
+// Define lists for movies and TV shows
+const lists: Record<string, List[]> = {
   movie: [
     { title: 'Trending Movies', query: 'trending' },
     { title: 'Popular Movies', query: 'popular' },
@@ -30,10 +31,14 @@ const lists = {
   ],
 };
 
-/**
- * Different languages with full name
- */
-export const languages = [
+// Define types for languages
+interface Language {
+  iso_639_1: string;
+  english_name: string;
+}
+
+// Define languages
+export const languages: Language[] = [
   { 'iso_639_1': 'xx', 'english_name': 'No Language' },
   { 'iso_639_1': 'aa', 'english_name': 'Afar' },
   { 'iso_639_1': 'af', 'english_name': 'Afrikaans' },
@@ -223,121 +228,52 @@ export const languages = [
   { 'iso_639_1': 'yo', 'english_name': 'Yoruba' },
 ];
 
-/**
- * Get list item
- */
-export function getListItem (type: String, query: Object) {
-  if (type === 'movie') {
-    return lists.movie.find(list => list.query === query);
-  } else if (type === 'tv') {
-    return lists.tv.find(list => list.query === query);
-  }
-};
+// Function to get list item based on type and query
+export function getListItem(type: string, query: string): List | undefined {
+  const list = lists[type];
+  return list ? list.find((item) => item.query === query) : undefined;
+}
 
-/**
- * Get movies (listing)
- */
-export function getMovies (query: String) {
-  return new Promise((resolve, reject) => {
-    axios.get(`${backendUrl}/movies/${query}`)
-    .then((response) => {
-      resolve(response.data);
-    })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-};
+// Function to get movies listing
+export function getMovies(query: string): Promise<AxiosResponse> {
+  return axios.get(`${backendUrl}/movies/${query}`);
+}
 
-/**
- * Get movie (single)
- */
-export function getMovie (id: Number) {
-  return new Promise((resolve, reject) => {
-    axios.get(`${backendUrl}/movies/${id}`)
-    .then((response) => {
-      resolve(response.data);
-    })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-};
+// Function to get a single movie
+export function getMovie(id: string): Promise<AxiosResponse> {
+  return axios.get(`${backendUrl}/movies/${id}`);
+}
 
-/**
- * Get movies recommended (for user)
- */
-export function getMoviesRecommended (userId: String) {
-  return new Promise((resolve, reject) => {
-    axios.get(`${backendUrl}/movies/recommended/${userId}`)
-    .then((response) => {
-      resolve(response.data);
-    })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-};
+// Function to get recommended movies for a user
+export function getMoviesRecommended(userId: string): Promise<AxiosResponse> {
+  return axios.get(`${backendUrl}/movies/recommended/${userId}`);
+}
 
-/**
- * Get TV shows (listing)
- */
-export function getTvShows (query: String) {
-  return new Promise((resolve, reject) => {
-    axios.get(`${backendUrl}/tv/${query}`)
-    .then((response) => {
-      resolve(response.data);
-    })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-};
+// Function to get TV shows listing
+export function getTvShows(query: string): Promise<AxiosResponse> {
+  return axios.get(`${backendUrl}/tv/${query}`);
+}
 
-/**
- * Get TV show (single)
- */
-export function getTvShow (id: Number) {
-  return new Promise((resolve, reject) => {
-    axios.get(`${backendUrl}/tv/${id}`)
-    .then((response) => {
-      resolve(response.data);
-    })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-};
+// Function to get a single TV show
+export function getTvShow(id: string): Promise<AxiosResponse> {
+  return axios.get(`${backendUrl}/tv/${id}`);
+}
 
-/**
- * Get TV shows recommended (for user)
- */
-export function getTvsShowRecommended (userId: String, page = 1) {
-  return new Promise((resolve, reject) => {
-    axios.get(`${backendUrl}/tv/recommended${userId}`)
-    .then((response) => {
-      resolve(response.data);
-    })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-};
+// Function to get recommended TV shows for a user
+export function getTvsShowRecommended(userId: string, page = 1): Promise<AxiosResponse> {
+  return axios.get(`${backendUrl}/tv/recommended${userId}`);
+}
 
-/**
- * Search (searches movies, tv and people)
- */
-export function search (query: String, page = 1) {
-  return new Promise((resolve, reject) => {
-    axios.get(`${backendUrl}/search/multi`, {
-      params: {
-        query
-      },
-    }).then((response) => {
-      resolve(response.data);
-    })
-      .catch((error) => {
-        reject(error);
-      });
+// Function to search for movies, TV shows, and people
+export function search(query: string, page = 1): Promise<AxiosResponse> {
+  return axios.get(`${backendUrl}/search/multi`, {
+    params: {
+      query,
+    },
   });
-};
+}
+
+// Vue Router setup
+const router = useRouter();
+const route = useRoute();
+
