@@ -18,6 +18,8 @@
   "dependencies": {
     "@nuxt/bridge": "^3.0.1",
     "axios": "^1.6.7",
-    "sass": "^1.70.0"
+    "nuxt-property-decorator": "^2.9.1",
+    "sass": "^1.70.0",
+    "vuex": "^4.0.2"
   }
 }

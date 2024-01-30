@@ -40,12 +40,17 @@
                     <button @click="handleDropdownItem('Logout')">Logout</button>
                 </div>
             </div>
+            <!-- <div v-else>
+                <nuxt-link :to="{ name: 'user.login' }" aria-label="Login">Login</nuxt-link>
+                <nuxt-link :to="{ name: 'user.signup' }" aria-label="Login">Signup</nuxt-link>
+            </div> -->
         </div>
     </nav>
     <nuxt />
 </template>
 
 <script>
+    // import { mapGetters, mapActions } from "vuex";
     export default {
         data() {
             return {
@@ -56,6 +61,7 @@
             toggleDropdown() {
                 this.showDropdown = !this.showDropdown;
             },
+
             handleDropdownItem(item) {
                 if (item === 'Profile') {
                     this.$router.push('/user');
@@ -63,10 +69,16 @@
                     console.log(`Clicked on ${item}`);
                 }
             },
+
             goToSearch() {
             // Navigate to the search route when the search input is clicked
             this.$router.push('/search');
             },
+
+            // Check if User is logged in
+            // isLoggedIn() {
+            //     return this.$store.getters['user/isLoggedIn'];
+            // },
         },
     };
 </script>
