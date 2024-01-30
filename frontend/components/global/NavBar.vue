@@ -7,10 +7,10 @@
     
         <!-- Navigation Links -->
         <ul class="nav-links">
-            <li><nuxt-link exact :to="{ name: 'index' }" aria-label="Home">Home</nuxt-link></li>
-            <li><nuxt-link :to="{ name: 'movies' }" aria-label="Movies">Movies</nuxt-link></li>
-            <li><nuxt-link :to="{ name: 'tv' }" aria-label="TvV Shows">TV Shows</nuxt-link></li>
-            <li><nuxt-link :to="{ name: 'favorites' }" aria-label="Favorites">Favorites</nuxt-link></li>
+            <li><nuxt-link exact :to="{ name: 'index' }" active-class="active-link" aria-label="Home">Home</nuxt-link></li>
+            <li><nuxt-link :to="{ name: 'movies' }" active-class="active-link" aria-label="Movies">Movies</nuxt-link></li>
+            <li><nuxt-link :to="{ name: 'tv' }" active-class="active-link" aria-label="TV Shows">TV Shows</nuxt-link></li>
+            <li><nuxt-link :to="{ name: 'favorites' }" active-class="active-link" aria-label="Favorites">Favorites</nuxt-link></li>
         </ul>
     
         <div class="search-user">
@@ -155,5 +155,17 @@
 
     .dropdown button:hover {
         background-color: rgba(255, 255, 255, 0.1);
+    }
+</style>
+
+<style lang="scss" scoped>
+    @import '~/assets/css/utilities/_variables.scss';
+
+    a:hover {
+        color: rgba(232, 228, 228, 0.606);
+    }
+    
+    a.active-link {
+        color: $primary-color;
     }
 </style>

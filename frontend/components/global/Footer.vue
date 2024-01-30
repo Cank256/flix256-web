@@ -101,9 +101,9 @@
 
                 &:hover,
                 &:focus {
-                svg {
-                    fill: #fff;
-                }
+                    svg {
+                        fill: #fff;
+                    }
                 }
             }
         }
