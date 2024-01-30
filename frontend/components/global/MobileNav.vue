@@ -1,5 +1,6 @@
 <template>
   <MobileTopNav />
+  <nuxt />
   <nav :class="$style.mobile_nav">
     <ul class="nolist">
       <li>
@@ -58,13 +59,13 @@
   height: 4.5rem;
   background-color: #000;
 
-  @media (min-width: $breakpoint-large) {
-    top: 0;
-    right: auto;
-    width: 10rem;
-    height: 100%;
-    border-right: 1px solid $secondary-color;
-  }
+  // @media (min-width: $breakpoint-large) {
+  //   top: 0;
+  //   right: auto;
+  //   width: 10rem;
+  //   height: 100%;
+  //   border-right: 1px solid $secondary-color;
+  // }
 
   ul {
     display: flex;

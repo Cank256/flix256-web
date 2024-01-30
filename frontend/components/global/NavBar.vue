@@ -42,6 +42,7 @@
             </div>
         </div>
     </nav>
+    <nuxt />
 </template>
 
 <script>

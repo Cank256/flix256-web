@@ -1,16 +1,19 @@
 <template>
     <div>
-        <Nav />
-        <nuxt />
+        <NavBar v-if="!$device.isMobileOrTablet" />
+        <MobileNav v-else />
+        <slot />
     </div>
 </template>
 
 <script>
-    import Nav from '~/components/global/Nav';
+    import NavBar from '~/components/global/NavBar';
+    import MobileNav from '~/components/global/MobileNav';
     
     export default {
         components: {
-            Nav,
+            NavBar,
+            MobileNav,
         },
     };
 </script>
