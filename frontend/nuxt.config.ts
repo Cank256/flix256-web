@@ -15,4 +15,8 @@ export default defineNuxtConfig({
   ],
 
   plugins: [],
+
+  modules: [
+    '@nuxtjs/device',
+  ],
 })

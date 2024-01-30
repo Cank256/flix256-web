@@ -1776,7 +1776,7 @@
     unimport "^3.7.1"
     untyped "^1.4.0"
 
-"@nuxt/kit@3.9.3", "@nuxt/kit@^3.8.2", "@nuxt/kit@^3.9.1":
+"@nuxt/kit@3.9.3", "@nuxt/kit@^3.7.3", "@nuxt/kit@^3.8.2", "@nuxt/kit@^3.9.1":
   version "3.9.3"
   resolved "https://registry.npmjs.org/@nuxt/kit/-/kit-3.9.3.tgz"
   integrity sha512-bHGXpTB6E+YJCC1L9tTwrP7txgLZzyuFes/tgy1ZM4dlfrCsGqLK/K4mddROMdC3D81scnH84u7yQsN0JRgoTg==
@@ -1914,6 +1914,14 @@
     vite-node "^1.1.1"
     vite-plugin-checker "^0.6.2"
     vue-bundle-renderer "^2.0.0"
+
+"@nuxtjs/device@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/device/-/device-3.1.1.tgz#51fa2308c365323b9f3cce923dbebd40cdffe7ac"
+  integrity sha512-wHTziEevt1hdgePQwPhEedWW3COalhP0YGVB+sGLqSrKujX8vdz7lcBFB01KIftpaP8kY5H8pssibNaJbxGcYw==
+  dependencies:
+    "@nuxt/kit" "^3.7.3"
+    defu "^6.1.2"
 
 "@parcel/watcher-android-arm64@2.4.0":
   version "2.4.0"

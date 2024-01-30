@@ -1,5 +1,6 @@
 <template>
-  <nav :class="$style.nav">
+  <MobileTopNav />
+  <nav :class="$style.mobile_nav">
     <ul class="nolist">
       <li>
         <nuxt-link
@@ -18,22 +19,22 @@
       </li>
       <li>
         <nuxt-link
-          :to="{ name: 'movies' }"
+          :to="{ name: 'tv' }"
           aria-label="TV Shows">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="round" ><path d="M15 7V21M18 11H18.01M18 14H18.01M18 17H18.01M17 3L12 7L7 3M7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V11.8C21 10.1198 21 9.27976 20.673 8.63803C20.3854 8.07354 19.9265 7.6146 19.362 7.32698C18.7202 7 17.8802 7 16.2 7H7.8C6.11984 7 5.27976 7 4.63803 7.32698C4.07354 7.6146 3.6146 8.07354 3.32698 8.63803C3 9.27976 3 10.1198 3 11.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21Z"/></g></svg>
         </nuxt-link>
       </li>
       <li>
         <nuxt-link
-          :to="{ name: 'movies' }"
-          aria-label="Favorites">
+          :to="{ name: 'favorites' }"
+          aria-label="favorites">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="round" ><path d="M4.45067 13.9082L11.4033 20.4395C11.6428 20.6644 11.7625 20.7769 11.9037 20.8046C11.9673 20.8171 12.0327 20.8171 12.0963 20.8046C12.2375 20.7769 12.3572 20.6644 12.5967 20.4395L19.5493 13.9082C21.5055 12.0706 21.743 9.0466 20.0978 6.92607L19.7885 6.52734C17.8203 3.99058 13.8696 4.41601 12.4867 7.31365C12.2913 7.72296 11.7087 7.72296 11.5133 7.31365C10.1304 4.41601 6.17972 3.99058 4.21154 6.52735L3.90219 6.92607C2.25695 9.0466 2.4945 12.0706 4.45067 13.9082Z"/></g></svg>
         </nuxt-link>
       </li>
       <li>
         <nuxt-link
-          :to="{ name: 'movies' }"
-          aria-label="User">
+          :to="{ name: 'user' }"
+          aria-label="user">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="round" ><path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"/><path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z"/></g></svg>
         </nuxt-link>
       </li>
@@ -42,15 +43,16 @@
 </template>
 
 <script>
-
+  import MobileTopNav  from '~/components/global/MobileTopNav';
 </script>
 
 <style lang="scss" module>
 @import '~/assets/css/utilities/_variables.scss';
 
-.nav {
+.mobile_nav {
   position: fixed;
   right: 0;
+  bottom: 0;
   left: 0;
   z-index: 5;
   height: 4.5rem;
@@ -62,7 +64,6 @@
     width: 10rem;
     height: 100%;
     border-right: 1px solid $secondary-color;
-    flex-direction: row; /* Add this line for desktop view */
   }
 
   ul {

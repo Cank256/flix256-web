@@ -1,15 +1,18 @@
 <template>
     <div>
-        <Nav />
+        <NavBar v-if="!$device.isMobileOrTablet" />
+        <MobileNav v-else />
     </div>
 </template>
 
 <script>
-    import Nav from '~/components/global/Nav';
+    import NavBar from '~/components/global/NavBar';
+    import MobileNav from '~/components/global/MobileNav';
     
     export default {
         components: {
-            Nav,
+            NavBar,
+            MobileNav,
         },
     };
 </script>
