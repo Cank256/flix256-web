@@ -272,8 +272,3 @@ export function search(query: string, page = 1): Promise<AxiosResponse> {
     },
   });
 }
-
-// Vue Router setup
-const router = useRouter();
-const route = useRoute();
-

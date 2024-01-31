@@ -2279,6 +2279,11 @@
   resolved "https://registry.npmjs.org/@types/resolve/-/resolve-1.20.2.tgz"
   integrity sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==
 
+"@types/smoothscroll-polyfill@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@types/smoothscroll-polyfill/-/smoothscroll-polyfill-0.3.3.tgz#60dcd0acfdb62a9df5e3d4d935436be089c43adb"
+  integrity sha512-VBcuyevh5N80XlrUz8a2GWgP9MnIVctdUgxWj8YdD+tN2OMptZTEUKYo8wXly8MR91HisJ9CaX8utF9zbMU8yA==
+
 "@unhead/dom@1.8.10", "@unhead/dom@^1.8.10":
   version "1.8.10"
   resolved "https://registry.npmjs.org/@unhead/dom/-/dom-1.8.10.tgz"
@@ -6466,6 +6471,11 @@ smob@^1.0.0:
   version "1.4.1"
   resolved "https://registry.npmjs.org/smob/-/smob-1.4.1.tgz"
   integrity sha512-9LK+E7Hv5R9u4g4C3p+jjLstaLe11MDsL21UpYaCNmapvMkYhqCV4A/f/3gyH8QjMyh6l68q9xC85vihY9ahMQ==
+
+smoothscroll-polyfill@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/smoothscroll-polyfill/-/smoothscroll-polyfill-0.4.4.tgz#3a259131dc6930e6ca80003e1cb03b603b69abf8"
+  integrity sha512-TK5ZA9U5RqCwMpfoMq/l1mrH0JAR7y7KRvOBx0n2869aLxch+gT9GhN3yUfjiw+d/DiF1mKo14+hd62JyMmoBg==
 
 socks-proxy-agent@^8.0.1:
   version "8.0.2"

@@ -110,8 +110,7 @@ def tv_show(tv_show_id):
         - JSON response containing details of the TV show.
         - In case of API errors, returns an error message.
     """
-    url = f'{TMDB_URL}/tv/{tv_show_id}?api_key={TMDB_API_KEY}\
-            &lang=en&append_to_response=videos'
+    url = f'{TMDB_URL}/tv/{tv_show_id}?api_key={TMDB_API_KEY}&lang=en&append_to_response=videos'
     response = requests.get(url)
 
     if response.status_code == 200:
