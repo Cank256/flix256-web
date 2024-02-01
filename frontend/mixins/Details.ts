@@ -1,4 +1,5 @@
-import { apiImgUrl } from '~/server/api';
+// Define Image url
+export const apiImgUrl: string | undefined = process.env.tmdbImageUrl || 'https://image.tmdb.org/t/p';
 
 interface Item {
   title?: string;

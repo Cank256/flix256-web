@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from flask_caching import Cache
+from flask_cors import CORS
 from flask_limiter import Limiter, util
 from flask_pymongo import PyMongo
 from flask_redis import FlaskRedis
@@ -10,6 +11,8 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
+
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
 
 limiter = Limiter(
     util.get_remote_address,

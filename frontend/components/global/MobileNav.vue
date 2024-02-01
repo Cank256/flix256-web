@@ -1,6 +1,4 @@
 <template>
-  <MobileTopNav />
-  <nuxt />
   <nav :class="$style.mobile_nav">
     <ul class="nolist">
       <li>

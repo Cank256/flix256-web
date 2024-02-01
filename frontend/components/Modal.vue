@@ -30,11 +30,12 @@
               allow="autoplay; encrypted-media"
               allowfullscreen />
 
-            <img
+            <!-- <img
               v-if="type === 'image' && activeItem"
               v-lazyload="activeItem.src"
               class="lazyload"
-              alt="">
+              alt=""> -->
+              <NuxtImg v-if="type === 'image' && activeItem" :src="activeItem.src" loading="lazy" class="lazyload" :alt="name" />
           </div>
 
           <div
@@ -419,7 +420,7 @@ body.modal-open {
 
 .modal__image {
   &.lazyloading {
-    background: url('~assets/images/loader.svg') no-repeat center;
+    background: url('~assets/img/loader.svg') no-repeat center;
   }
 
   img {

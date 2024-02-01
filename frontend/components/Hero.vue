@@ -13,12 +13,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="55" height="55" viewBox="0 0 55 55"><circle cx="27.5" cy="27.5" r="26.75" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/><path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.97 40.81L40.64 27.5 20.97 14.19v26.62z"/></svg>
           </button>
 
-          <img
-            v-if="backdrop"
-            v-lazyload="backdrop"
-            class="lazyload"
-            :class="$style.image"
-            :alt="name">
+          <NuxtImg v-if="backdrop" :src="backdrop" loading="lazy" :class="$style.image" :alt="name" />
         </div>
       </div>
 
@@ -28,32 +23,12 @@
           name="hero">
           <div>
             <h1 :class="$style.name">
-              <template v-if="isSingle">
-                {{ name }}
-              </template>
-
-              <template v-else>
                 <nuxt-link :to="{ name: 'movies' }">
-                  {{ name }}
+                  {{ name}}
                 </nuxt-link>
-              </template>
             </h1>
 
             <div :class="$style.meta">
-              <div
-                v-if="stars || item.vote_count"
-                :class="$style.rating">
-                <div
-                  v-if="stars"
-                  :class="$style.stars">
-                  <div :style="{ width: `${stars}%` }" />
-                </div>
-
-                <div v-if="item.vote_count > 0">
-                  {{ item.vote_count | numberWithCommas }} Reviews
-                </div>
-              </div>
-
               <div :class="$style.info">
                 <span v-if="item.number_of_seasons">Season {{ item.number_of_seasons }}</span>
                 <span v-if="yearStart">{{ yearStart }}</span>
@@ -63,7 +38,7 @@
             </div>
 
             <div :class="$style.desc">
-              {{ item.overview | truncate(200) }}
+              {{ truncateText(item.overview, 200) }}
             </div>
 
             <button
@@ -116,7 +91,7 @@ export default {
 
   data () {
     return {
-      isSingle: this.item.id === this.$route.params.id,
+      // isSingle: this.item.id === this.$route.params.id,
       modalVisible: false,
     };
   },
@@ -135,6 +110,10 @@ export default {
     closeModal () {
       this.modalVisible = false;
     },
+
+    truncateText(text, length) {
+      return text.length > length ? text.substring(0, length) + '...' : text;
+    }
   },
 };
 </script>
@@ -146,9 +125,10 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 35rem;
+  height: 50rem;
   color: #999;
-  background-color: #000;
+  background-color: #141414;
+  top: -75px;
 
   @media (min-width: $breakpoint-xsmall) {
     height: 50rem;
@@ -185,11 +165,12 @@ export default {
     left: 0;
     display: block;
     content: '';
-    background-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) 100%);
+    // background-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) 100%);
 
-    @media (min-width: $breakpoint-medium) {
-      background-image: linear-gradient(to right, #000 0, transparent 50%, transparent 100%);
-    }
+    // @media (min-width: $breakpoint-medium) {
+    //   background-image: linear-gradient(to right, #000 0, transparent 50%, transparent 100%);
+    // }
+    background-image: linear-gradient(to top, rgba(20, 20, 20, 1) 0%, rgba(20, 20, 20, 0.1) 50%, rgba(20, 20, 20, 0.1) 100%), linear-gradient(to right, #141414 0, transparent 50%, transparent 100%);
   }
 
   > div {

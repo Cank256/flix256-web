@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
     backendUrl: 'http://127.0.0.1:5000',
-    tmdbImageUrl: 'https://image.tmdb.org/t/p/original',
+    tmdbImageUrl: 'https://image.tmdb.org/t/p',
     youtubeApiKey: ''
   },
   
@@ -14,9 +14,5 @@ export default defineNuxtConfig({
     '~/assets/css/global.scss',
   ],
 
-  plugins: [],
-
-  modules: [
-    '@nuxtjs/device',
-  ],
+  modules: ['@nuxtjs/device', '@pinia/nuxt', '@nuxt/image'],
 })

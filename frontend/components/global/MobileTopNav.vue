@@ -34,7 +34,7 @@
         right: 23px;
         z-index: 5;
         height: 5rem;
-        background-color: rgba(0,0,0,0.1);
+        background-color: rgba(0,0,0,0);
     }
 
     .top-nav {

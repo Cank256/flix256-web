@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { apiImgUrl } from '~/server/api';
+import { apiImgUrl } from '~/store/backend';
 import { name, stars } from '~/mixins/Details';
 
 export default {

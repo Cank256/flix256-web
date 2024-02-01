@@ -84,15 +84,18 @@
 
 <style scoped>
     .nav-bar {
+        position: relative;
         display: flex;
         align-items: center;
         padding: 1rem;
         background-color: rgba(0, 0, 0, 0);
         color: #fff;
+        z-index: 999;
     }
     
     .logo img {
         height: 40px;
+        margin-left: 60px;
     }
     
     .nav-links {
