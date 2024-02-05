@@ -3,17 +3,17 @@
 		<Hero v-if="featuredItem" :item="featuredItem" id="hero" />
 
 		<ListingCarousel
-			v-if="nowPlayingMovies && nowPlayingMovies.length"
-			:title="nowPlayingMoviesTitle"
-			:view-all-url="nowPlayingMoviesUrl"
-			:items="nowPlayingMovies"
+			v-if="trendingMovies && trendingMovies.length"
+			:title="trendingMoviesTitle"
+			:view-all-url="trendingMoviesUrl"
+			:items="trendingMovies"
 		/>
 
 		<ListingCarousel
-			v-if="onTheAirTv && onTheAirTv.length"
-			:title="onTheAirTvTitle"
-			:view-all-url="onTheAirTvUrl"
-			:items="onTheAirTv"
+			v-if="trendingTv && trendingTv.length"
+			:title="trendingTvTitle"
+			:view-all-url="trendingTvUrl"
+			:items="trendingTv"
 		/>
 	</main>
 </template>
@@ -33,19 +33,19 @@ export default {
 	setup() {
 		const store = useBackendStore();
 
-		const nowPlayingMovies = ref(null);
-		const onTheAirTv = ref(null);
+		const trendingMovies = ref(null);
+		const trendingTv = ref(null);
 		const featuredItem = ref(null);
-		const nowPlayingMoviesTitle = store.getListItem('movie', 'now_playing').title;
-		const onTheAirTvTitle = store.getListItem('tv', 'on_the_air').title;
+		const trendingMoviesTitle = store.getListItem('movie', 'trending').title;
+		const trendingTvTitle = store.getListItem('tv', 'trending').title;
 
 		async function fetchData() {
 			try {
-				const nowPlayingMoviesData = await store.getMovies("now_playing");
-				const onTheAirTvData = await store.getTvShows("on_air");
+				const trendingMoviesData = await store.getMovies("trending");
+				const trendingTvData = await store.getTvShows("trending");
 				let featured;
 
-				const items = [...nowPlayingMoviesData.data.results, ...onTheAirTvData.data.results];
+				const items = [...trendingMoviesData.data.results, ...trendingTvData.data.results];
 				const randomItem = items[Math.floor(Math.random() * items.length)];
 				const media = randomItem.title ? "movie" : "tv";
 
@@ -56,8 +56,8 @@ export default {
 				}
 
 				featuredItem.value = featured.data;
-				nowPlayingMovies.value = nowPlayingMoviesData.data.results;
-				onTheAirTv.value = onTheAirTvData.data.results;
+				trendingMovies.value = trendingMoviesData.data.results;
+				trendingTv.value = trendingTvData.data.results;
 			} catch (error) {
 				console.error("There was an error in fetching data", error);
 			}
@@ -66,21 +66,21 @@ export default {
 		fetchData();
 
 		return {
-			nowPlayingMovies,
-			onTheAirTv,
+			trendingMovies,
+			trendingTv,
 			featuredItem,
-			nowPlayingMoviesTitle,
-			onTheAirTvTitle
+			trendingMoviesTitle,
+			trendingTvTitle
 		};
 	},
 
 	computed: {
-		nowPlayingMoviesUrl() {
-			return this.nowPlayingMovies ? { name: "movie" } : "";
+		trendingMoviesUrl() {
+			return this.trendingMovies ? { name: "movie" } : "";
 		},
 		
-		onTheAirTvUrl() {
-			return this.onTheAirTv ? { name: "tv" } : "";
+		trendingTvUrl() {
+			return this.trendingTv ? { name: "tv" } : "";
 		},
 	},
 };
