@@ -9,6 +9,34 @@ favorites = mongo.db.favorites
 
 
 @cache.cached(timeout=3600)
+@app.route('/api/tv/trending', methods=['GET'], endpoint='api_tv_trending')
+@limiter.limit(api_only_limit)
+@cross_origin()
+@app.route('/tv/trending', methods=['GET'])
+def tv_trending():
+    """
+    Fetches a list of TV shows that are trending.
+
+    Uses the TMDB API's 'trending' endpoint. Returns a JSON response with
+    the details of TV shows airing today. Handles API errors gracefully.
+
+    Returns:
+        - JSON response containing TV shows airing today.
+        - In case of API errors, returns an error message.
+    """
+    url = f'{TMDB_URL}/trending/tv/day?api_key={TMDB_API_KEY}&lang=en&page=1'
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        tv_shows = response.json()
+        return jsonify(tv_shows), 200
+    else:
+        return jsonify({
+            'error': 'TV shows not found or API error'
+        }), response.status_code
+
+
+@cache.cached(timeout=3600)
 @app.route('/api/tv/airing_today', methods=['GET'], endpoint='api_airing_today')
 @limiter.limit(api_only_limit)
 @cross_origin()

@@ -9,6 +9,34 @@ favorites = mongo.db.favorites
 
 
 @cache.cached(timeout=3600)
+@app.route('/api/movies/trending', methods=['GET'], endpoint='api_movies_trending')
+@limiter.limit(api_only_limit)
+@cross_origin()
+@app.route('/movies/trending', methods=['GET'])
+def movies_trending():
+    """
+    Fetches a list of movies that are trending.
+
+    Uses the TMDB API's 'trending' endpoint. Returns a JSON response with
+    the details of now-playing movies. Handles API errors gracefully.
+
+    Returns:
+        - JSON response containing now-playing movies.
+        - In case of API errors, returns an error message.
+    """
+    url = f'{TMDB_URL}/trending/movie/day?api_key={TMDB_API_KEY}&lang=en&page=1'
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        movies = response.json()
+        return jsonify(movies), 200
+    else:
+        return jsonify({
+            'error': 'Movies not found or API error'
+        }), response.status_code
+
+
+@cache.cached(timeout=3600)
 @app.route('/api/movies/now_playing', methods=['GET'], endpoint='api_movies_now_playing')
 @limiter.limit(api_only_limit)
 @cross_origin()
