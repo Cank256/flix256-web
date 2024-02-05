@@ -28,7 +28,7 @@
         <div
           v-if="item.vote_average"
           class="card__vote">
-          {{ item.vote_average | rating }}
+          {{ rating.toFixed(1)}}
         </div>
       </div>
     </nuxt-link>
@@ -37,12 +37,13 @@
 
 <script>
 import { apiImgUrl } from '~/store/backend';
-import { name, stars } from '~/mixins/Details';
+import { name, stars, rating } from '~/mixins/Details';
 
 export default {
   mixins: [
     name,
     stars,
+    rating,
   ],
 
   props: {

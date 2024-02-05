@@ -41,6 +41,19 @@ export const stars = {
 };
 
 /**
+ * Star rating
+ */
+export const rating = {
+  computed: {
+    rating(this: { item: Item }) {
+      if (this.item.vote_average) {
+        return this.item.vote_average / 2;
+      }
+    },
+  },
+};
+
+/**
  * Year started
  */
 export const yearStart = {
