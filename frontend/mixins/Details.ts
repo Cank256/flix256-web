@@ -4,6 +4,7 @@ export const apiImgUrl: string | undefined = process.env.tmdbImageUrl || 'https:
 interface Item {
   title?: string;
   name?: string;
+  runtime?: number;
   vote_average?: number;
   release_date?: string;
   first_air_date?: string;
@@ -41,13 +42,29 @@ export const stars = {
 };
 
 /**
- * Star rating
+ * Rating
  */
 export const rating = {
   computed: {
     rating(this: { item: Item }) {
       if (this.item.vote_average) {
         return this.item.vote_average / 2;
+      }
+    },
+  },
+};
+
+/**
+ * Runtime in Hours and Minutes
+ */
+export const runtime = {
+  computed: {
+    runtime(this: { item: Item }) {
+      if (this.item.runtime) {
+        const hours = Math.floor(this.item.runtime / 60);
+        const minutes = this.item.runtime % 60;
+
+        return `${hours}h ${minutes}m`;
       }
     },
   },

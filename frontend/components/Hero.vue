@@ -32,7 +32,7 @@
               <div :class="$style.info">
                 <span v-if="item.number_of_seasons">Season {{ item.number_of_seasons }}</span>
                 <span v-if="yearStart">{{ yearStart }}</span>
-                <span v-if="item.runtime">{{ item.runtime | runtime }}</span>
+                <span v-if="item.runtime">{{ runtime }}</span>
                 <span v-if="cert">Cert. {{ cert }}</span>
               </div>
             </div>
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { name, stars, yearStart, cert, backdrop, trailer } from '~/mixins/Details';
+import { name, stars, runtime, yearStart, cert, backdrop, trailer } from '~/mixins/Details';
 import Modal from '~/components/Modal';
 
 export default {
@@ -76,6 +76,7 @@ export default {
   mixins: [
     name,
     stars,
+    runtime,
     yearStart,
     cert,
     backdrop,
@@ -93,7 +94,6 @@ export default {
     return {
       isSingle: this.item.id === this.$route.params.id,
       modalVisible: false,
-      runtime: null,
     };
   },
 
