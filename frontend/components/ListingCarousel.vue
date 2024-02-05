@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import Carousel from "~/mixins/Carousel";
+import smoothscroll from 'smoothscroll-polyfill';
 import Card from "~/components/Card";
 
 export default {
@@ -91,12 +91,15 @@ export default {
 		Card,
 	},
 
-	mixins: [
-        Carousel
-    ],
+	mixins: [],
 
     data() {
         return {
+            elementWidth: 0,
+            carouselWidth: 0,
+            visibleWidth: 0,
+            maximumPosition: 0,
+            unusableVisibleWidth: 0,
             disableLeftButton: true,
             disableRightButton: false,
         };
@@ -124,14 +127,36 @@ export default {
 	},
 
 	mounted() {
+        smoothscroll.polyfill();
+        window.addEventListener('resize', this.resizeEvent);
+
 		const count = this.viewAllUrl
 			? this.items.length + 1
 			: this.items.length;
 		this.calculateState(count);
 	},
 
+
+    beforeDestroy() {
+        window.removeEventListener('resize', this.resizeEvent);
+    },
+
+    // $refs: {
+    //     carouselElement: HTMLElement
+    // },
+
+    constructor() {
+        this.$refs = {
+        carouselElement: document.createElement('div'),
+        };
+    },
+
 	methods: {
         calculateState(numberOfItems) {
+
+            if (!(this.$refs.carouselElement instanceof HTMLElement)) {
+                return;
+            }
             let unusableVisibleWidth = 72;
             const firstChild = this.$refs.carouselElement.querySelector(":first-child");
             const elementWidth = firstChild ? firstChild.getBoundingClientRect().width : 0;
@@ -152,6 +177,30 @@ export default {
             this.disableLeftButton = !this.$refs.carouselElement.scrollLeft;
             this.disableRightButton = visibleWidth >= carouselWidth;
         },
+
+        moveTo(width) {
+            this.$refs.carouselElement.scrollTo({
+                left: width,
+                behavior: 'smooth',
+            });
+        },
+
+        moveToClickEvent(direction = 'left' | 'right') {
+            const invisible =
+                this.$refs.carouselElement.scrollLeft + (direction === 'left' ? -this.visibleWidth + 1 : this.visibleWidth);
+            const remainder = invisible - (invisible % this.elementWidth);
+
+            this.moveTo(remainder);
+        },
+
+        scrollEvent() {
+            const scrollLeft = this.$refs.carouselElement.scrollLeft;
+            const end = this.maximumPosition - this.visibleWidth - this.elementWidth;
+
+            this.disableLeftButton = scrollLeft < 3;
+            this.disableRightButton = scrollLeft > end;
+        },
+
 		resizeEvent() {
 			const count = this.viewAllUrl
 				? this.items.length + 1
