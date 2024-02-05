@@ -2,13 +2,9 @@
   <div class="card">
     <nuxt-link
       class="card__link"
-      :to="{ name: `${media}-id`, params: { id: item.id } }">
+      :to="{ name: 'movie' }">
       <div class="card__img">
-        <img
-          v-if="poster"
-          v-lazyload="poster"
-          class="lazyload"
-          :alt="name">
+          <NuxtImg v-if="poster" :src="poster" loading="lazy" :alt="name" />
 
         <span v-else>
           <!-- eslint-disable-next-line -->

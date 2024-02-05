@@ -21,9 +21,9 @@
         <transition
           appear
           name="hero">
-          <div>
+          <div style="padding-left: 5rem;">
             <h1 :class="$style.name">
-                <nuxt-link :to="{ name: 'movies' }">
+                <nuxt-link :to="{ name: 'movie' }">
                   {{ name}}
                 </nuxt-link>
             </h1>
@@ -91,8 +91,9 @@ export default {
 
   data () {
     return {
-      // isSingle: this.item.id === this.$route.params.id,
+      isSingle: this.item.id === this.$route.params.id,
       modalVisible: false,
+      runtime: null,
     };
   },
 
@@ -165,11 +166,6 @@ export default {
     left: 0;
     display: block;
     content: '';
-    // background-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) 100%);
-
-    // @media (min-width: $breakpoint-medium) {
-    //   background-image: linear-gradient(to right, #000 0, transparent 50%, transparent 100%);
-    // }
     background-image: linear-gradient(to top, rgba(20, 20, 20, 1) 0%, rgba(20, 20, 20, 0.1) 50%, rgba(20, 20, 20, 0.1) 100%), linear-gradient(to right, #141414 0, transparent 50%, transparent 100%);
   }
 
@@ -280,7 +276,7 @@ export default {
   width: 8.5rem;
   height: 1.4rem;
   margin-right: 1rem;
-  background-image: url('~assets/images/stars.png');
+  background-image: url('~assets/img/stars.png');
   background-repeat: no-repeat;
   background-size: auto 100%;
 
@@ -291,7 +287,7 @@ export default {
 
   > div {
     height: 100%;
-    background-image: url('~assets/images/stars-filled.png');
+    background-image: url('~assets/img/stars-filled.png');
     background-repeat: no-repeat;
     background-size: auto 100%;
   }

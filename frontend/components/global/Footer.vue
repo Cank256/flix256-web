@@ -107,7 +107,7 @@
 @import "~/assets/css/utilities/_variables.scss";
 
 .footer {
-	position: fixed;
+	position: relative;
 	bottom: 0;
 	left: 0;
 	right: 0;

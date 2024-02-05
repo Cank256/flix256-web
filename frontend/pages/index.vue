@@ -1,17 +1,33 @@
 <template>
 	<main class="main">
-		<Hero v-if="featuredItem" :item="featuredItem" />
+		<Hero v-if="featuredItem" :item="featuredItem" id="hero" />
+
+		<ListingCarousel
+			v-if="nowPlayingMovies && nowPlayingMovies.length"
+			:title="nowPlayingMoviesTitle"
+			:view-all-url="nowPlayingMoviesUrl"
+			:items="nowPlayingMovies"
+		/>
+
+		<ListingCarousel
+			v-if="onTheAirTv && onTheAirTv.length"
+			:title="onTheAirTvTitle"
+			:view-all-url="onTheAirTvUrl"
+			:items="onTheAirTv"
+		/>
 	</main>
 </template>
 
 <script>
 import { ref } from "vue";
 import Hero from "~/components/Hero";
+import ListingCarousel from "~/components/ListingCarousel";
 import { useBackendStore } from "~/store/backend";
 
 export default {
 	components: {
 		Hero,
+		ListingCarousel,
 	},
 
 	setup() {
@@ -20,6 +36,8 @@ export default {
 		const nowPlayingMovies = ref(null);
 		const onTheAirTv = ref(null);
 		const featuredItem = ref(null);
+		const nowPlayingMoviesTitle = store.getListItem('movie', 'now_playing').title;
+		const onTheAirTvTitle = store.getListItem('tv', 'on_the_air').title;
 
 		async function fetchData() {
 			try {
@@ -51,24 +69,18 @@ export default {
 			nowPlayingMovies,
 			onTheAirTv,
 			featuredItem,
+			nowPlayingMoviesTitle,
+			onTheAirTvTitle
 		};
 	},
 
 	computed: {
-		nowPlayingMoviesTitle() {
-			return this.nowPlayingMovies.value ? getListItem("movie", "trending").title : "";
-		},
-
 		nowPlayingMoviesUrl() {
-			return this.nowPlayingMovies.value ? { name: "movie-category-name", params: { name: "trending" } } : "";
+			return this.nowPlayingMovies ? { name: "movie" } : "";
 		},
-
-		onTheAirTvTitle() {
-			return this.onTheAirTv.value ? getListItem("tv", "trending").title : "";
-		},
-
+		
 		onTheAirTvUrl() {
-			return this.onTheAirTv.value ? { name: "tv-category-name", params: { name: "trending" } } : "";
+			return this.onTheAirTv ? { name: "tv" } : "";
 		},
 	},
 };

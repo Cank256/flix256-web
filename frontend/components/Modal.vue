@@ -298,7 +298,7 @@ body.modal-open {
   overflow-x: hidden;
   overflow-y: auto;
   cursor: pointer;
-  background-color: #000;
+  background-color: rgba(0,0,0,0.8);
 
   @media (min-width: $breakpoint-large) {
     padding: 4.4rem 10rem;
