@@ -1,5 +1,5 @@
 from backend import api_only_limit, app, limiter, mongo, TMDB_API_KEY, TMDB_URL
-from flask import jsonify
+from flask import jsonify, request
 from flask_cors import cross_origin
 import requests
 
@@ -20,10 +20,17 @@ def get_movie_recommendations(user_id):
     Args:
         user_id (str): The user's unique identifier.
 
+    Optional paramters can be passed as well
+    1. page: page number
+    2. lang: language
+
     Returns:
         list: A list of recommended movies from TMDB, filtered to avoid
         duplicates.
     """
+    language = request.args.get('language', 'en')
+    page = request.args.get('page', 1)
+    
     movie_favorites = favorites.find({'user_id': user_id, 'fav_type': 'movie'})
     movie_recommendations = []
     seen_movie_ids = set()
@@ -35,7 +42,7 @@ def get_movie_recommendations(user_id):
 
     for favorite in movie_favorites:
         tmdb_id = favorite['fav_id']
-        tmdb_url = f"{TMDB_URL}/movie/{tmdb_id}/recommendations?api_key={TMDB_API_KEY}&page=1"
+        tmdb_url = f"{TMDB_URL}/movie/{tmdb_id}/recommendations?api_key={TMDB_API_KEY}&lang={language}&page={page}"
         response = requests.get(tmdb_url)
 
         if response.status_code == 200:
@@ -70,10 +77,17 @@ def get_tv_recommendations(user_id):
     Args:
         user_id (str): The user's unique identifier.
 
+    Optional paramters can be passed as well
+    1. page: page number
+    2. lang: language
+
     Returns:
         list: A list of recommended TV shows from TMDB, filtered to avoid
         duplicates.
     """
+    language = request.args.get('language', 'en')
+    page = request.args.get('page', 1)
+
     tv_favorites = favorites.find({'user_id': user_id, 'fav_type': 'tv'})
     tv_recommendations = []
     seen_tv_ids = set()
@@ -85,7 +99,7 @@ def get_tv_recommendations(user_id):
 
     for favorite in tv_favorites:
         tmdb_id = favorite['fav_id']
-        tmdb_url = f"{TMDB_URL}/tv/{tmdb_id}/recommendations?api_key={TMDB_API_KEY}&page=1"
+        tmdb_url = f"{TMDB_URL}/tv/{tmdb_id}/recommendations?api_key={TMDB_API_KEY}&lang={language}&page={page}"
         response = requests.get(tmdb_url)
 
         if response.status_code == 200:
@@ -119,10 +133,17 @@ def get_movie_tv_recommendations(user_id):
     Args:
         user_id (str): The user's unique identifier.
 
+    Optional paramters can be passed as well
+    1. page: page number
+    2. lang: language
+
     Returns:
         list: A merged and alternating list of movie and TV show
         recommendations from TMDB.
     """
+    language = request.args.get('language', 'en')
+    page = request.args.get('page', 1)
+    
     user_favorites = favorites.find({'user_id': user_id})
     favorites_list = list(user_favorites)
 
@@ -139,7 +160,7 @@ def get_movie_tv_recommendations(user_id):
     for favorite in favorites_list:
         tmdb_id = favorite['fav_id']
         fav_type = favorite['fav_type']  # 'movie' or 'tv'
-        tmdb_url = f"{TMDB_URL}/{fav_type}/{tmdb_id}/recommendations?api_key={TMDB_API_KEY}&page=1"
+        tmdb_url = f"{TMDB_URL}/{fav_type}/{tmdb_id}/recommendations?api_key={TMDB_API_KEY}&lang={language}&page={page}"
 
         response = requests.get(tmdb_url)
         if response.status_code == 200:
