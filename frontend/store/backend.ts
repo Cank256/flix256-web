@@ -25,7 +25,7 @@ const lists: Record<string, List[]> = {
         { title: 'Trending TV Shows', query: 'trending' },
         { title: 'Popular TV Shows', query: 'popular' },
         { title: 'Top Rated TV Shows', query: 'top_rated' },
-        { title: 'Currently Airing TV Shows', query: 'on_the_air' },
+        { title: 'Currently Airing TV Shows', query: 'on_air' },
         { title: 'TV Shows Airing Today', query: 'airing_today' },
     ],
 };
