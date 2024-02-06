@@ -17,7 +17,7 @@ def movies_trending():
     """
     Fetches a list of movies that are trending.
 
-    Uses the TMDB API's 'trending' endpoint. Returns a JSON response with
+    Uses the TMDB API's '/movie/trending' endpoint. Returns a JSON response with
     the details of now-playing movies. Handles API errors gracefully.
 
     Optional paramters can be passed as well
@@ -52,7 +52,7 @@ def now_playing():
     """
     Fetches a list of movies that are currently playing in theaters.
 
-    Uses the TMDB API's 'now_playing' endpoint. Returns a JSON response with
+    Uses the TMDB API's '/movie/now_playing' endpoint. Returns a JSON response with
     the details of now-playing movies. Handles API errors gracefully.
 
     Optional paramters can be passed as well
@@ -89,7 +89,7 @@ def coming_soon():
     """
     Fetches a list of upcoming movies.
 
-    Queries the TMDB API's 'upcoming' endpoint. Returns a JSON list of movies
+    Queries the TMDB API's '/movie/upcoming' endpoint. Returns a JSON list of movies
     that are scheduled to be released soon. API errors are handled.
 
     Optional paramters can be passed as well
@@ -124,7 +124,42 @@ def popular():
     """
     Retrieves a list of popular movies.
 
-    Makes a request to the TMDB API's 'popular' endpoint. The response is a
+    Makes a request to the TMDB API's '/movie/popular' endpoint. The response is a
+    JSON object containing popular movies. Handles API errors.
+
+    Optional paramters can be passed as well
+    1. page: page number
+    2. lang: language
+
+    Returns:
+        - JSON response with popular movies.
+        - Error message if there's an API error.
+    """
+    language = request.args.get('language', 'en')
+    page = request.args.get('page', 1)
+
+    url = f'{TMDB_URL}/movie/top_rated?api_key={TMDB_API_KEY}&lang={language}&page={page}'
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        movies = response.json()
+        return jsonify(movies), 200
+    else:
+        return jsonify({
+            'error': 'Movies not found or API error'
+        }), response.status_code
+
+
+@cache.cached(timeout=3600)
+@app.route('/api/movies/top_rated', methods=['GET'], endpoint='api_top_rated_movies')
+@limiter.limit(api_only_limit)
+@cross_origin(supports_credentials=True)
+@app.route('/movies/top_rated', methods=['GET'])
+def top_rated():
+    """
+    Retrieves a list of top rated movies.
+
+    Makes a request to the TMDB API's '/movie/top_rated' endpoint. The response is a
     JSON object containing popular movies. Handles API errors.
 
     Optional paramters can be passed as well
@@ -158,7 +193,7 @@ def get_movie(movie_id):
     """
     Fetches details of a specific movie by its TMDB ID.
 
-    Queries the TMDB API for details of the movie specified by the 'movie_id'.
+    Queries the TMDB API for details of the movie specified by the '/movie/movie_id'.
     Returns a JSON object with the movie details. If the movie is not found
     or there's an API error, returns an appropriate error message.
 

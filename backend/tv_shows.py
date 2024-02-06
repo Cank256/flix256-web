@@ -17,7 +17,7 @@ def tv_trending():
     """
     Fetches a list of TV shows that are trending.
 
-    Uses the TMDB API's 'trending' endpoint. Returns a JSON response with
+    Uses the TMDB API's '/tv/trending' endpoint. Returns a JSON response with
     the details of TV shows airing today. Handles API errors gracefully.
 
     Optional paramters can be passed as well
@@ -52,7 +52,7 @@ def airing_today():
     """
     Fetches a list of TV shows that are airing today.
 
-    Uses the TMDB API's 'airing_today' endpoint. Returns a JSON response with
+    Uses the TMDB API's '/tv/airing_today' endpoint. Returns a JSON response with
     the details of TV shows airing today. Handles API errors gracefully.
 
     Optional paramters can be passed as well
@@ -87,7 +87,7 @@ def on_air():
     """
     Fetches a list of TV shows that are currently on air.
 
-    Uses the TMDB API's 'on_air' endpoint. Returns a JSON response with
+    Uses the TMDB API's '/tv/on_air' endpoint. Returns a JSON response with
     the details of TV shows currently on air. Handles API errors gracefully.
 
     Optional paramters can be passed as well
@@ -122,7 +122,7 @@ def popular_tv():
     """
     Retrieves a list of popular TV shows.
 
-    Makes a request to the TMDB API's 'popular' endpoint. The response is a
+    Makes a request to the TMDB API's '/tv/popular' endpoint. The response is a
     JSON object containing popular TV shows. Handles API errors.
 
     Optional paramters can be passed as well
@@ -148,6 +148,41 @@ def popular_tv():
         }), response.status_code
 
 
+@cache.cached(timeout=3600)
+@app.route('/api/tv/top_rated', methods=['GET'], endpoint='api_top_rated_shows')
+@limiter.limit(api_only_limit)
+@cross_origin(supports_credentials=True)
+@app.route('/tv/top_rated', methods=['GET'])
+def top_rated_tv():
+    """
+    Retrieves a list of popular TV shows.
+
+    Makes a request to the TMDB API's '/tv/top_rated' endpoint. The response is a
+    JSON object containing popular TV shows. Handles API errors.
+
+    Optional paramters can be passed as well
+    1. page: page number
+    2. lang: language
+
+    Returns:
+        - JSON response with popular TV shows.
+        - Error message if there's an API error.
+    """
+    page = request.args.get('page', 1)
+    lang = request.args.get('lang', 'en')
+
+    url = f'{TMDB_URL}/tv/top_rated?api_key={TMDB_API_KEY}&lang={lang}&page={page}'
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        tv_shows = response.json()
+        return jsonify(tv_shows), 200
+    else:
+        return jsonify({
+            'error': 'TV shows not found or API error'
+        }), response.status_code
+
+
 @app.route('/api/tv/<int:tv_show_id>', methods=['GET'], endpoint='api_tv_show_details')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
@@ -156,7 +191,7 @@ def tv_show(tv_show_id):
     """
     Fetches details of a TV show.
 
-    Uses the TMDB API's 'tv' endpoint. Returns a JSON response with the details
+    Uses the TMDB API's '/tv/tv_id' endpoint. Returns a JSON response with the details
     of a TV show. Handles API errors gracefully.
 
     Optional paramters can be passed as well
