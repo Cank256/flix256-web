@@ -11,7 +11,7 @@ users = mongo.db.users
 
 @app.route('/api/auth/signup', methods=['POST'], endpoint='api_signup')
 @limiter.limit(api_only_limit)
-@cross_origin()
+@cross_origin(supports_credentials=True)
 @app.route('/auth/signup', methods=['POST'], endpoint='signup')
 def signup():
     """
@@ -59,7 +59,7 @@ def signup():
 
 @app.route('/api/auth/login', methods=['POST'], endpoint='api_login')
 @limiter.limit(api_only_limit)
-@cross_origin()
+@cross_origin(supports_credentials=True)
 @app.route('/auth/login', methods=['POST'])
 def login():
     """

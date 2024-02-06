@@ -6,7 +6,7 @@ import requests
 
 @app.route('/api/search', methods=['GET'], endpoint='api_search')
 @limiter.limit(api_only_limit)
-@cross_origin()
+@cross_origin(supports_credentials=True)
 @app.route('/search', methods=['GET'])
 def search():
     """

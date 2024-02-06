@@ -9,9 +9,8 @@ axios.defaults.baseURL = process.env.backendUrl || 'http://127.0.0.1:5000'
 axios.interceptors.request.use((config) => {
 	// Include credentials (if needed)
 	config.withCredentials = true;
-
-	// Modify headers as needed (e.g., for authorization)
-	// config.headers['Authorization'] = 'Bearer your_token';
+	config.headers['Content-Type'] = 'application/json';
+	config.headers['accept'] = 'application/json';
 
 	return config;
 });

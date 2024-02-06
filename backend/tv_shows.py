@@ -11,7 +11,7 @@ favorites = mongo.db.favorites
 @cache.cached(timeout=3600)
 @app.route('/api/tv/trending', methods=['GET'], endpoint='api_tv_trending')
 @limiter.limit(api_only_limit)
-@cross_origin()
+@cross_origin(supports_credentials=True)
 @app.route('/tv/trending', methods=['GET'])
 def tv_trending():
     """
@@ -46,7 +46,7 @@ def tv_trending():
 @cache.cached(timeout=3600)
 @app.route('/api/tv/airing_today', methods=['GET'], endpoint='api_airing_today')
 @limiter.limit(api_only_limit)
-@cross_origin()
+@cross_origin(supports_credentials=True)
 @app.route('/tv/airing_today', methods=['GET'])
 def airing_today():
     """
@@ -81,7 +81,7 @@ def airing_today():
 @cache.cached(timeout=3600)
 @app.route('/api/tv/on_air', methods=['GET'], endpoint='api_on_air')
 @limiter.limit(api_only_limit)
-@cross_origin()
+@cross_origin(supports_credentials=True)
 @app.route('/tv/on_air', methods=['GET'])
 def on_air():
     """
@@ -116,7 +116,7 @@ def on_air():
 @cache.cached(timeout=3600)
 @app.route('/api/tv/popular', methods=['GET'], endpoint='api_popular_tv_shows')
 @limiter.limit(api_only_limit)
-@cross_origin()
+@cross_origin(supports_credentials=True)
 @app.route('/tv/popular', methods=['GET'])
 def popular_tv():
     """
@@ -150,7 +150,7 @@ def popular_tv():
 
 @app.route('/api/tv/<int:tv_show_id>', methods=['GET'], endpoint='api_tv_show_details')
 @limiter.limit(api_only_limit)
-@cross_origin()
+@cross_origin(supports_credentials=True)
 @app.route('/tv/<int:tv_show_id>', methods=['GET'])
 def tv_show(tv_show_id):
     """

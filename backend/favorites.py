@@ -11,7 +11,7 @@ users = mongo.db.users
 
 @app.route('/api/favorite', methods=['POST'], endpoint='api_add_favorites')
 @limiter.limit(api_only_limit)
-@cross_origin()
+@cross_origin(supports_credentials=True)
 @app.route('/favorite', methods=['POST'])
 def add_favorite():
     """
@@ -69,7 +69,7 @@ def add_favorite():
 
 @app.route('/api/favorite/<user_id>', methods=['GET'], endpoint='api_get_favorites')
 @limiter.limit(api_only_limit)
-@cross_origin()
+@cross_origin(supports_credentials=True)
 @app.route('/favorite/<user_id>', methods=['GET'])
 def get_favorites(user_id):
     """
@@ -109,7 +109,7 @@ def get_favorites(user_id):
 
 @app.route('/api/favorite', methods=['DELETE'], endpoint='api_delete_favorite')
 @limiter.limit(api_only_limit)
-@cross_origin()
+@cross_origin(supports_credentials=True)
 @app.route('/favorite', methods=['DELETE'])
 def delete_favorite():
     """

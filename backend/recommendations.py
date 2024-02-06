@@ -10,7 +10,7 @@ favorites = mongo.db.favorites
 
 @app.route('/api/movies/recommended/<user_id>', methods=['GET'], endpoint='api_recommended_movies')
 @limiter.limit(api_only_limit)
-@cross_origin()
+@cross_origin(supports_credentials=True)
 @app.route('/movies/recommended/<user_id>', methods=['GET'])
 def get_movie_recommendations(user_id):
     """
@@ -67,7 +67,7 @@ def get_movie_recommendations(user_id):
 
 @app.route('/api/tv/recommended/<user_id>', methods=['GET'], endpoint='api_recommended_tv_shows')
 @limiter.limit(api_only_limit)
-@cross_origin()
+@cross_origin(supports_credentials=True)
 @app.route('/tv/recommended/<user_id>', methods=['GET'])
 def get_tv_recommendations(user_id):
     """
@@ -123,7 +123,7 @@ def get_tv_recommendations(user_id):
 
 @app.route('/api/recommended/<user_id>', methods=['GET'], endpoint='api_recommendations')
 @limiter.limit(api_only_limit)
-@cross_origin()
+@cross_origin(supports_credentials=True)
 @app.route('/recommended/<user_id>', methods=['GET'])
 def get_movie_tv_recommendations(user_id):
     """

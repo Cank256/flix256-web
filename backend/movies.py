@@ -11,7 +11,7 @@ favorites = mongo.db.favorites
 @cache.cached(timeout=3600)
 @app.route('/api/movies/trending', methods=['GET'], endpoint='api_movies_trending')
 @limiter.limit(api_only_limit)
-@cross_origin()
+@cross_origin(supports_credentials=True)
 @app.route('/movies/trending', methods=['GET'])
 def movies_trending():
     """
@@ -46,7 +46,7 @@ def movies_trending():
 @cache.cached(timeout=3600)
 @app.route('/api/movies/now_playing', methods=['GET'], endpoint='api_movies_now_playing')
 @limiter.limit(api_only_limit)
-@cross_origin()
+@cross_origin(supports_credentials=True)
 @app.route('/movies/now_playing', methods=['GET'])
 def now_playing():
     """
@@ -81,7 +81,7 @@ def now_playing():
 @cache.cached(timeout=3600)
 @app.route('/api/movies/upcoming', methods=['GET'], endpoint='api_upcoming_movies')
 @limiter.limit(api_only_limit)
-@cross_origin()
+@cross_origin(supports_credentials=True)
 @cache.cached(timeout=3600)
 @app.route('/movies/upcoming', methods=['GET'])
 @cache.cached(timeout=3600)
@@ -118,7 +118,7 @@ def coming_soon():
 @cache.cached(timeout=3600)
 @app.route('/api/movies/popular', methods=['GET'], endpoint='api_popular_movies')
 @limiter.limit(api_only_limit)
-@cross_origin()
+@cross_origin(supports_credentials=True)
 @app.route('/movies/popular', methods=['GET'])
 def popular():
     """
@@ -152,7 +152,7 @@ def popular():
 
 @app.route('/api/movies/<int:movie_id>', methods=['GET'], endpoint='api_movie_details')
 @limiter.limit(api_only_limit)
-@cross_origin()
+@cross_origin(supports_credentials=True)
 @app.route('/movies/<int:movie_id>', methods=['GET'], endpoint='movie_details')
 def get_movie(movie_id):
     """
