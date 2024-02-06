@@ -8,6 +8,10 @@ interface List {
     query: string;
 }
 
+interface Params {
+    [key: string]: any;
+}
+
 // Define lists for movies and TV shows
 const lists: Record<string, List[]> = {
     movie: [
@@ -37,8 +41,8 @@ export const useBackendStore = defineStore("backendStore", {
             return list ? list.find((item) => item.query === query) : undefined;
         },
 
-		getMovies(query: string): Promise<AxiosResponse> {
-            return axios.get(`/movies/${query}`);
+		getMovies(query: string, params: Params): Promise<AxiosResponse> {
+            return axios.get(`/movies/${query}`, { params });
         },
 
 		getMovie(id: string): Promise<AxiosResponse> {

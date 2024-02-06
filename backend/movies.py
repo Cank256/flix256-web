@@ -1,5 +1,5 @@
 from backend import api_only_limit, app, cache, limiter, mongo, TMDB_API_KEY, TMDB_URL
-from flask import jsonify
+from flask import jsonify, request
 from flask_cors import cross_origin
 import requests
 
@@ -20,11 +20,18 @@ def movies_trending():
     Uses the TMDB API's 'trending' endpoint. Returns a JSON response with
     the details of now-playing movies. Handles API errors gracefully.
 
+    Optional paramters can be passed as well
+    1. page: page number
+    2. lang: language
+
     Returns:
         - JSON response containing now-playing movies.
         - In case of API errors, returns an error message.
     """
-    url = f'{TMDB_URL}/trending/movie/day?api_key={TMDB_API_KEY}&lang=en&page=1'
+    language = request.args.get('language', 'en')
+    page = request.args.get('page', 1)
+
+    url = f'{TMDB_URL}/trending/movie/day?api_key={TMDB_API_KEY}&lang={language}&page={page}'
     response = requests.get(url)
 
     if response.status_code == 200:
@@ -48,11 +55,18 @@ def now_playing():
     Uses the TMDB API's 'now_playing' endpoint. Returns a JSON response with
     the details of now-playing movies. Handles API errors gracefully.
 
+    Optional paramters can be passed as well
+    1. page: page number
+    2. lang: language
+
     Returns:
         - JSON response containing now-playing movies.
         - In case of API errors, returns an error message.
     """
-    url = f'{TMDB_URL}/movie/now_playing?api_key={TMDB_API_KEY}&lang=en&page=1'
+    language = request.args.get('language', 'en')
+    page = request.args.get('page', 1)
+
+    url = f'{TMDB_URL}/movie/now_playing?api_key={TMDB_API_KEY}&lang={language}&page={page}'
     response = requests.get(url)
 
     if response.status_code == 200:
@@ -78,11 +92,18 @@ def coming_soon():
     Queries the TMDB API's 'upcoming' endpoint. Returns a JSON list of movies
     that are scheduled to be released soon. API errors are handled.
 
+    Optional paramters can be passed as well
+    1. page: page number
+    2. lang: language
+
     Returns:
         - JSON response with upcoming movies.
         - Error message in case of API errors.
     """
-    url = f'{TMDB_URL}/movie/upcoming?api_key={TMDB_API_KEY}&lang=en&page=1'
+    language = request.args.get('language', 'en')
+    page = request.args.get('page', 1)
+
+    url = f'{TMDB_URL}/movie/upcoming?api_key={TMDB_API_KEY}&lang={language}&page={page}'
     response = requests.get(url)
 
     if response.status_code == 200:
@@ -106,11 +127,18 @@ def popular():
     Makes a request to the TMDB API's 'popular' endpoint. The response is a
     JSON object containing popular movies. Handles API errors.
 
+    Optional paramters can be passed as well
+    1. page: page number
+    2. lang: language
+
     Returns:
         - JSON response with popular movies.
         - Error message if there's an API error.
     """
-    url = f'{TMDB_URL}/movie/popular?api_key={TMDB_API_KEY}&lang=en&page=1'
+    language = request.args.get('language', 'en')
+    page = request.args.get('page', 1)
+
+    url = f'{TMDB_URL}/movie/popular?api_key={TMDB_API_KEY}&lang={language}&page={page}'
     response = requests.get(url)
 
     if response.status_code == 200:
@@ -134,6 +162,9 @@ def get_movie(movie_id):
     Returns a JSON object with the movie details. If the movie is not found
     or there's an API error, returns an appropriate error message.
 
+    Optional paramters can be passed as well
+    1. lang: language
+
     Args:
         movie_id (int): The TMDB ID of the movie.
 
@@ -141,7 +172,9 @@ def get_movie(movie_id):
         - JSON response with the movie details.
         - Error message in case of API errors or if the movie is not found.
     """
-    url = f'{TMDB_URL}/movie/{movie_id}?api_key={TMDB_API_KEY}&append_to_response=videos'
+    page = request.args.get('page', 1)
+
+    url = f'{TMDB_URL}/movie/{movie_id}?api_key={TMDB_API_KEY}&append_to_response=videos&lang={page}'
     response = requests.get(url)
 
     if response.status_code == 200:

@@ -76,7 +76,7 @@ export default {
 
 	computed: {
 		trendingMoviesUrl() {
-			return this.trendingMovies ? { name: "movie" } : "";
+			return this.trendingMovies ? { name: 'movie-category-name', params: { name: 'trending' } } : "";
 		},
 		
 		trendingTvUrl() {
