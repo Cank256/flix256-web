@@ -80,7 +80,7 @@ export default {
 		},
 		
 		trendingTvUrl() {
-			return this.trendingTv ? { name: "tv" } : "";
+			return this.trendingTv ? { name: "tv-category-name",  params: { name: 'trending' } } : "";
 		},
 	},
 };
