@@ -1,5 +1,5 @@
 from backend import api_only_limit, app, cache, limiter, mongo, TMDB_API_KEY, TMDB_URL
-from flask import jsonify
+from flask import jsonify, request
 from flask_cors import cross_origin
 import requests
 
@@ -20,11 +20,18 @@ def tv_trending():
     Uses the TMDB API's 'trending' endpoint. Returns a JSON response with
     the details of TV shows airing today. Handles API errors gracefully.
 
+    Optional paramters can be passed as well
+    1. page: page number
+    2. lang: language
+
     Returns:
         - JSON response containing TV shows airing today.
         - In case of API errors, returns an error message.
     """
-    url = f'{TMDB_URL}/trending/tv/day?api_key={TMDB_API_KEY}&lang=en&page=1'
+    page = request.args.get('page', 1)
+    lang = request.args.get('lang', 'en')
+
+    url = f'{TMDB_URL}/trending/tv/day?api_key={TMDB_API_KEY}&lang={lang}&page={page}'
     response = requests.get(url)
 
     if response.status_code == 200:
@@ -48,11 +55,18 @@ def airing_today():
     Uses the TMDB API's 'airing_today' endpoint. Returns a JSON response with
     the details of TV shows airing today. Handles API errors gracefully.
 
+    Optional paramters can be passed as well
+    1. page: page number
+    2. lang: language
+
     Returns:
         - JSON response containing TV shows airing today.
         - In case of API errors, returns an error message.
     """
-    url = f'{TMDB_URL}/tv/airing_today?api_key={TMDB_API_KEY}&lang=en&page=1'
+    page = request.args.get('page', 1)
+    lang = request.args.get('lang', 'en')
+
+    url = f'{TMDB_URL}/tv/airing_today?api_key={TMDB_API_KEY}&lang={lang}&page={page}'
     response = requests.get(url)
 
     if response.status_code == 200:
@@ -76,11 +90,18 @@ def on_air():
     Uses the TMDB API's 'on_air' endpoint. Returns a JSON response with
     the details of TV shows currently on air. Handles API errors gracefully.
 
+    Optional paramters can be passed as well
+    1. page: page number
+    2. lang: language
+
     Returns:
         - JSON response containing TV shows currently on air.
         - In case of API errors, returns an error message.
     """
-    url = f'{TMDB_URL}/tv/on_the_air?api_key={TMDB_API_KEY}&lang=en&page=1'
+    page = request.args.get('page', 1)
+    lang = request.args.get('lang', 'en')
+
+    url = f'{TMDB_URL}/tv/on_the_air?api_key={TMDB_API_KEY}&lang={lang}&page={page}'
     response = requests.get(url)
 
     if response.status_code == 200:
@@ -104,11 +125,18 @@ def popular_tv():
     Makes a request to the TMDB API's 'popular' endpoint. The response is a
     JSON object containing popular TV shows. Handles API errors.
 
+    Optional paramters can be passed as well
+    1. page: page number
+    2. lang: language
+
     Returns:
         - JSON response with popular TV shows.
         - Error message if there's an API error.
     """
-    url = f'{TMDB_URL}/tv/popular?api_key={TMDB_API_KEY}&lang=en&page=1'
+    page = request.args.get('page', 1)
+    lang = request.args.get('lang', 'en')
+
+    url = f'{TMDB_URL}/tv/popular?api_key={TMDB_API_KEY}&lang={lang}&page={page}'
     response = requests.get(url)
 
     if response.status_code == 200:
@@ -131,6 +159,9 @@ def tv_show(tv_show_id):
     Uses the TMDB API's 'tv' endpoint. Returns a JSON response with the details
     of a TV show. Handles API errors gracefully.
 
+    Optional paramters can be passed as well
+    1. lang: language
+
     Args:
         tv_show_id: The ID of the TV show.
 
@@ -138,7 +169,9 @@ def tv_show(tv_show_id):
         - JSON response containing details of the TV show.
         - In case of API errors, returns an error message.
     """
-    url = f'{TMDB_URL}/tv/{tv_show_id}?api_key={TMDB_API_KEY}&lang=en&append_to_response=videos'
+    lang = request.args.get('lang', 'en')
+
+    url = f'{TMDB_URL}/tv/{tv_show_id}?api_key={TMDB_API_KEY}&lang={lang}&append_to_response=videos'
     response = requests.get(url)
 
     if response.status_code == 200:
