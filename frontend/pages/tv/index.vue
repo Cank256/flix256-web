@@ -23,12 +23,12 @@
             :items="popularTvShows"
         />
 
-        <!-- <ListingCarousel
+        <ListingCarousel
             v-if="topRatedTvShows && topRatedTvShows.length"
             :title="topRatedTvShowsTitle"
-            :view-all-url="topRatedUrl"
+            :view-all-url="topRatedTvShowsUrl"
             :items="topRatedTvShows"
-        /> -->
+        />
 	</main>
 </template>
 
@@ -64,20 +64,20 @@ export default {
 		const onAirTvShows = ref(null);
 		const airingTodayTvShows = ref(null);
 		const popularTvShows = ref(null);
-		// const topRatedTvShows = ref(null);
+		const topRatedTvShows = ref(null);
 		const featuredItem = ref(null);
 
 		const onAirTvShowsTitle = store.getListItem('tv', 'on_air').title;
 		const airingTodayTvShowsTitle = store.getListItem('tv', 'airing_today').title;
 		const popularTvShowsTitle = store.getListItem('tv', 'popular').title;
-		// const topRatedTvShowsTitle = store.getListItem('movie', 'top_rated').title;
+		const topRatedTvShowsTitle = store.getListItem('movie', 'top_rated').title;
 
 		async function fetchData() {
 			try {
                 const onAir = await store.getTvShows("on_air");
                 const airingToday = await store.getTvShows("airing_today");
                 const popular = await store.getTvShows("popular");
-                // const topRated = await getTvShows("top_rated");
+                const topRated = await store.getTvShows("top_rated");
                 
                 const items = [...onAir.data.results, ...airingToday.data.results];
                 const randomItem = items[Math.floor(Math.random() * items.length)];
@@ -86,11 +86,11 @@ export default {
                 onAirTvShows.value = onAir.data.results;
                 airingTodayTvShows.value = airingToday.data.results;
                 popularTvShows.value = popular.data.results;
-                // topRatedTvShows.value = topRated.data.results;
+                topRatedTvShows.value = topRated.data.results;
                 featuredItem.value = featured.data;
 
-            } catch {
-                console.error({ statusCode: 504, message: "Data not available" });
+            } catch (error) {
+                console.error({ statusCode: 504, error: error.message });
             }
 		}
 
@@ -100,12 +100,12 @@ export default {
             onAirTvShows,
             airingTodayTvShows,
             popularTvShows,
-            // topRatedTvShows,
+            topRatedTvShows,
             featuredItem,
             onAirTvShowsTitle,
             airingTodayTvShowsTitle,
             popularTvShowsTitle,
-            // topRatedTvShowsTitle
+            topRatedTvShowsTitle
         };
 	},
 
@@ -123,9 +123,9 @@ export default {
         	return { name: "tv-category-name", params: { name: "popular" } };
         },
 
-        // topRatedTvShowsUrl() {
-        // 	return { name: "tv-category-name", params: { name: "top_rated" } };
-        // },
+        topRatedTvShowsUrl() {
+        	return { name: "tv-category-name", params: { name: "top_rated" } };
+        },
 	},
 };
 </script>

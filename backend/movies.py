@@ -138,7 +138,7 @@ def popular():
     language = request.args.get('language', 'en')
     page = request.args.get('page', 1)
 
-    url = f'{TMDB_URL}/movie/top_rated?api_key={TMDB_API_KEY}&lang={language}&page={page}'
+    url = f'{TMDB_URL}/movie/popular?api_key={TMDB_API_KEY}&lang={language}&page={page}'
     response = requests.get(url)
 
     if response.status_code == 200:
@@ -173,7 +173,7 @@ def top_rated():
     language = request.args.get('language', 'en')
     page = request.args.get('page', 1)
 
-    url = f'{TMDB_URL}/movie/popular?api_key={TMDB_API_KEY}&lang={language}&page={page}'
+    url = f'{TMDB_URL}/movie/top_rated?api_key={TMDB_API_KEY}&lang={language}&page={page}'
     response = requests.get(url)
 
     if response.status_code == 200:

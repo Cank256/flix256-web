@@ -23,12 +23,12 @@
             :items="popularMovies"
         />
 
-        <!-- <ListingCarousel
+        <ListingCarousel
             v-if="topRatedMovies && topRatedMovies.length"
             :title="topRatedMoviesTitle"
             :view-all-url="topRatedUrl"
             :items="topRatedMovies"
-        /> -->
+        />
 	</main>
 </template>
 
@@ -70,14 +70,14 @@ export default {
 		const upcomingMoviesTitle = store.getListItem('movie', 'upcoming').title;
 		const nowPlayingMoviesTitle = store.getListItem('movie', 'now_playing').title;
 		const popularMoviesTitle = store.getListItem('movie', 'popular').title;
-		// const topRatedMoviesTitle = store.getListItem('movie', 'top_rated').title;
+		const topRatedMoviesTitle = store.getListItem('movie', 'top_rated').title;
 
 		async function fetchData() {
 			try {
                 const upcoming = await store.getMovies("upcoming");
                 const nowPlaying = await store.getMovies("now_playing");
                 const popular = await store.getMovies("popular");
-                // const topRated = await getMovies("top_rated");
+                const topRated = await store.getMovies("top_rated");
                 
                 const items = [...upcoming.data.results, ...nowPlaying.data.results];
                 const randomItem = items[Math.floor(Math.random() * items.length)];
@@ -86,11 +86,11 @@ export default {
                 upcomingMovies.value = upcoming.data.results;
                 nowPlayingMovies.value = nowPlaying.data.results;
                 popularMovies.value = popular.data.results;
-                // topRatedMovies.value = topRated.data.results;
+                topRatedMovies.value = topRated.data.results;
                 featuredItem.value = featured.data;
 
-            } catch {
-                console.error({ statusCode: 504, message: "Data not available" });
+            } catch(error) {
+                console.error({ statusCode: 504, error: error.message });
             }
 		}
 
@@ -100,12 +100,12 @@ export default {
             upcomingMovies,
             nowPlayingMovies,
             popularMovies,
-            // topRatedMovies,
+            topRatedMovies,
             featuredItem,
             upcomingMoviesTitle,
             nowPlayingMoviesTitle,
             popularMoviesTitle,
-            // topRatedMoviesTitle
+            topRatedMoviesTitle
         };
 	},
 
@@ -123,9 +123,9 @@ export default {
         	return { name: "movie-category-name", params: { name: "popular" } };
         },
 
-        // topRatedUrl() {
-        // 	return { name: "movie-category-name", params: { name: "top_rated" } };
-        // },
+        topRatedUrl() {
+        	return { name: "movie-category-name", params: { name: "top_rated" } };
+        },
 	},
 };
 </script>
