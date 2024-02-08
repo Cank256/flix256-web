@@ -59,12 +59,6 @@ export default {
 		},
 	},
 
-	created() {
-		if (this.item.homepage) {
-			this.item.external_ids.homepage = this.item.homepage;
-		}
-	},
-
 	methods: {
 		formatGenres(genres) {
 			return genres.map((genre) => genre.name).join(", ");

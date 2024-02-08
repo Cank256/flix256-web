@@ -29,12 +29,7 @@
               frameborder="0"
               allow="autoplay; encrypted-media"
               allowfullscreen />
-
-            <!-- <img
-              v-if="type === 'image' && activeItem"
-              v-lazyload="activeItem.src"
-              class="lazyload"
-              alt=""> -->
+              
               <NuxtImg v-if="type === 'image' && activeItem" :src="activeItem.src" loading="lazy" class="lazyload" :alt="name" />
           </div>
 
