@@ -1,29 +1,65 @@
 <template>
 	<div class="spacing" :class="$style.info">
-
 		<div :class="$style.stats">
 			<ul class="nolist">
-				<li v-if="item.budget">
-					<div :class="$style.label">Budget</div>
+				<li v-if="item.first_air_date">
+					<div :class="$style.label">First Aired</div>
 
-					<div :class="$style.value">${{ item.budget }}</div>
+					<div :class="$style.value">
+						{{ item.first_air_date | fullDate }}
+					</div>
 				</li>
-				<li v-if="item.revenue">
-					<div :class="$style.label">Revenue</div>
+				<li v-if="item.last_air_date">
+					<div :class="$style.label">Last Aired</div>
 
-					<div :class="$style.value">${{ item.revenue }}</div>
+					<div :class="$style.value">
+						{{ item.last_air_date | fullDate }}
+					</div>
+				</li>
+				<li v-if="item.episode_run_time && item.episode_run_time.length">
+					<div :class="$style.label">Runtime</div>
+
+					<div :class="$style.value">
+						{{ formatRunTime(item.episode_run_time) }}
+					</div>
+				</li>
+				<li v-if="creators">
+					<div :class="$style.label">Creator</div>
+
+					<div :class="$style.value" v-html="creators" />
 				</li>
 				<li v-if="item.genres && item.genres.length">
 					<div :class="$style.label">Genre</div>
 
 					<div :class="$style.value" v-html="formatGenres(item.genres)" />
 				</li>
-				<li
-					v-if="item.production_companies && item.production_companies.length"
-				>
-					<div :class="$style.label">Production</div>
+				<li v-if="item.number_of_seasons">
+					<div :class="$style.label">Seasons</div>
 
-					<div :class="$style.value" v-html="formatProductionCompanies(item.production_companies)" />
+					<div :class="$style.value">
+						{{ item.number_of_seasons }}
+					</div>
+				</li>
+				<li v-if="item.number_of_episodes">
+					<div :class="$style.label">Episodes</div>
+
+					<div :class="$style.value">
+						{{ item.number_of_episodes }}
+					</div>
+				</li>
+				<li v-if="item.status">
+					<div :class="$style.label">Status</div>
+
+					<div :class="$style.value">
+						{{ item.status }}
+					</div>
+				</li>
+				<li v-if="item.networks && item.networks.length">
+					<div :class="$style.label">Network</div>
+
+					<div :class="$style.value">
+						{{ item.networks | arrayToList }}
+					</div>
 				</li>
 			</ul>
 		</div>
@@ -32,10 +68,10 @@
 
 <script>
 import { apiImgUrl } from "~/store/backend";
-import { name, directors, runtime } from "~/mixins/Details";
+import { name, creators } from "~/mixins/Details";
 
 export default {
-	mixins: [name, directors, runtime],
+	mixins: [name, creators],
 
 	props: {
 		item: {
@@ -56,11 +92,11 @@ export default {
 
 	methods: {
 		formatGenres(genres) {
-			return genres.map((genre) => genre.name).join(", ");
+      return genres.map((genre) => genre.name).join(", ");
 		},
 
-		formatProductionCompanies(production_companies) {
-			return production_companies.map((production_company) => production_company.name).join(", ");
+		formatRunTime(times) {
+			return times.map((time) => `${time}m`).join(", ");
 		},
 	},
 };
@@ -180,7 +216,6 @@ export default {
 	flex: 1;
 	max-width: 90px;
 	margin-right: 1.5rem;
-	color: #fff;
 	color: #fff;
 
 	@media (min-width: $breakpoint-xsmall) {

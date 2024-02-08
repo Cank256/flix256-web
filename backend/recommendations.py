@@ -82,7 +82,7 @@ def get_movie_recommendations():
 @app.route('/api/tv/recommended/<user_id>', methods=['GET'], endpoint='api_recommended_tv_shows')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@app.route('/tv/recommended/<user_id>', methods=['GET'])
+@app.route('/tv/recommended', methods=['GET'])
 def get_tv_recommendations():
     """
     Fetches TV show recommendations for a specific user based on their
@@ -103,32 +103,42 @@ def get_tv_recommendations():
     language = request.args.get('language', 'en')
     page = request.args.get('page', 1)
 
+    if user_id:
+        tv_favorites = favorites.find({'user_id': user_id, 'fav_type': 'tv'})
+        tv_recommendations = []
+        seen_tv_ids = set()
 
-    tv_favorites = favorites.find({'user_id': user_id, 'fav_type': 'tv'})
-    tv_recommendations = []
-    seen_tv_ids = set()
+        if tv_favorites.count() < 1:
+            return jsonify({
+                'error': 'First add favorite Tv shows to get recommendations'
+                }), 422
 
-    if tv_favorites.count() < 1:
-        return jsonify({
-            'error': 'First add favorite Tv shows to get recommendations'
-            }), 422
+        for favorite in tv_favorites:
+            tmdb_id = favorite['fav_id']
+            tmdb_url = f"{TMDB_URL}/tv/{tmdb_id}/recommendations?api_key={TMDB_API_KEY}&lang={language}&page={page}"
+            response = requests.get(tmdb_url)
 
-    for favorite in tv_favorites:
-        tmdb_id = favorite['fav_id']
-        tmdb_url = f"{TMDB_URL}/tv/{tmdb_id}/recommendations?api_key={TMDB_API_KEY}&lang={language}&page={page}"
+            if response.status_code == 200:
+                data = response.json()
+                print(data['total_results'])
+                if data['total_results'] > 0:
+                    for rec in data['results']:
+                        if rec['id'] not in seen_tv_ids:
+                            tv_recommendations.append(rec)
+                            seen_tv_ids.add(rec['id'])
+            else:
+                return jsonify({'error': 'No recommendations or API error'}), 500
+    else:
+        tmdb_url = f"{TMDB_URL}/tv/{tv_show_id}/recommendations?api_key={TMDB_API_KEY}&lang={language}&page={page}"
         response = requests.get(tmdb_url)
 
         if response.status_code == 200:
             data = response.json()
-            print(data['total_results'])
-            if data['total_results'] > 0:
-                for rec in data['results']:
-                    if rec['id'] not in seen_tv_ids:
-                        tv_recommendations.append(rec)
-                        seen_tv_ids.add(rec['id'])
+            tv_recommendations = data['results']
         else:
-            return jsonify({'error': 'No recommendations or API error'}), 500
-
+            return jsonify({
+                'error': 'No recommendations or API error'
+            }), 500
     if len(tv_recommendations) > 0:
         return jsonify(tv_recommendations), 200
     else:

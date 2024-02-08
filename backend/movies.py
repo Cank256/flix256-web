@@ -207,22 +207,14 @@ def get_movie(movie_id):
         - JSON response with the movie details.
         - Error message in case of API errors or if the movie is not found.
     """
-    page = request.args.get('page', 1)
+    lang = request.args.get('lang', 'en')
 
-    url = f'{TMDB_URL}/movie/{movie_id}?api_key={TMDB_API_KEY}&append_to_response=videos&lang={page}'
-    credits_url = f'{TMDB_URL}/movie/{movie_id}/credits?api_key={TMDB_API_KEY}'
-
+    url = f'{TMDB_URL}/movie/{movie_id}?api_key={TMDB_API_KEY}&append_to_response=videos,credits,images,external_ids,release_dates&lang={lang}'
     response = requests.get(url)
-    credits = requests.get(credits_url)
 
     if response.status_code == 200:
-        if credits.status_code == 200:
-            movie = response.json()
-            movie['credits'] = credits.json()
-            return jsonify(movie), 200
-        else:
-            movie = response.json()
-            return jsonify(movie), 200
+        movie = response.json()
+        return jsonify(movie), 200
     else:
         return jsonify({
             'error': 'Movie not found or API error'
