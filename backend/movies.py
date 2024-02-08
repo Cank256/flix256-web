@@ -210,10 +210,10 @@ def get_movie(movie_id):
     page = request.args.get('page', 1)
 
     url = f'{TMDB_URL}/movie/{movie_id}?api_key={TMDB_API_KEY}&append_to_response=videos&lang={page}'
-    credit = f'{TMDB_URL}/movie/{movie_id}/credits?api_key={TMDB_API_KEY}'
+    credits_url = f'{TMDB_URL}/movie/{movie_id}/credits?api_key={TMDB_API_KEY}'
 
     response = requests.get(url)
-    credits = requests.get(credit)
+    credits = requests.get(credits_url)
 
     if response.status_code == 200:
         if credits.status_code == 200:

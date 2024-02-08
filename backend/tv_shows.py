@@ -207,11 +207,19 @@ def tv_show(tv_show_id):
     lang = request.args.get('lang', 'en')
 
     url = f'{TMDB_URL}/tv/{tv_show_id}?api_key={TMDB_API_KEY}&lang={lang}&append_to_response=videos'
+    credits_url = f'{TMDB_URL}/movie/{tv_show_id}/credits?api_key={TMDB_API_KEY}'
+
     response = requests.get(url)
+    credits = requests.get(credits_url)
 
     if response.status_code == 200:
-        tv_show = response.json()
-        return jsonify(tv_show), 200
+        if credits.status_code == 200:
+            tv_show = response.json()
+            tv_show['credits'] = credits.json()
+            return jsonify(tv_show), 200
+        else:
+            tv_show = response.json()
+            return jsonify(tv_show), 200
     else:
         return jsonify({
             'error': 'TV show not found or API error'
