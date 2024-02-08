@@ -35,7 +35,7 @@ export default {
 		const store = useBackendStore();
 		const route = useRoute();
 		const tvShowData = ref(null);
-		const title = store.getListItem("movie", route.params.name).title;
+		const title = store.getListItem("tv", route.params.name).title;
 
 		async function fetchData() {
 			try {

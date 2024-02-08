@@ -2,7 +2,7 @@
   <div class="card">
     <nuxt-link
       class="card__link"
-      :to="{ name: 'movie' }">
+      :to="{ name: `${media}-id`, params: { id: item.id } }">
       <div class="card__img">
           <NuxtImg v-if="poster" :src="poster" loading="lazy" :alt="name" />
 

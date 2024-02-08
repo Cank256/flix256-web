@@ -8,50 +8,64 @@ import requests
 favorites = mongo.db.favorites
 
 
-@app.route('/api/movies/recommended/<user_id>', methods=['GET'], endpoint='api_recommended_movies')
+@app.route('/api/movies/recommended', methods=['GET'], endpoint='api_recommended_movies')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@app.route('/movies/recommended/<user_id>', methods=['GET'])
-def get_movie_recommendations(user_id):
+@app.route('/movies/recommended', methods=['GET'])
+def get_movie_recommendations():
     """
     Fetches movie recommendations for a specific user based on their favorite
-    movies.
-
-    Args:
-        user_id (str): The user's unique identifier.
+    movies or a movie_id that is passed.
 
     Optional paramters can be passed as well
-    1. page: page number
-    2. lang: language
+    - `user_id`: The ID of the user to fetch recommendations for.
+    - `movie_id`: The ID of the movie to fetch recommendations for.
+    - `page`: Which page of results should be returned? Default: 1.
+    - `lang`: The language to return the recommendations in. Default: 'en'.
 
     Returns:
         list: A list of recommended movies from TMDB, filtered to avoid
         duplicates.
     """
+    user_id = request.args.get('user_id', None)
+    movie_id = request.args.get('movie_id', None)
     language = request.args.get('language', 'en')
     page = request.args.get('page', 1)
-    
-    movie_favorites = favorites.find({'user_id': user_id, 'fav_type': 'movie'})
-    movie_recommendations = []
-    seen_movie_ids = set()
 
-    if movie_favorites.count() < 1:
-        return jsonify({
-            'error': 'First add favorite movies to get recommendations'
-        }), 422
+    if user_id:
+        movie_favorites = favorites.find({'user_id': user_id, 'fav_type': 'movie'})
+        movie_recommendations = []
+        seen_movie_ids = set()
 
-    for favorite in movie_favorites:
-        tmdb_id = favorite['fav_id']
-        tmdb_url = f"{TMDB_URL}/movie/{tmdb_id}/recommendations?api_key={TMDB_API_KEY}&lang={language}&page={page}"
+        if movie_favorites.count() < 1:
+            return jsonify({
+                'error': 'First add favorite movies to get recommendations'
+            }), 422
+
+        for favorite in movie_favorites:
+            tmdb_id = favorite['fav_id']
+            tmdb_url = f"{TMDB_URL}/movie/{tmdb_id}/recommendations?api_key={TMDB_API_KEY}&lang={language}&page={page}"
+            response = requests.get(tmdb_url)
+
+            if response.status_code == 200:
+                data = response.json()
+                if data['total_results'] > 0:
+                    for rec in data['results']:
+                        if rec['id'] not in seen_movie_ids:
+                            movie_recommendations.append(rec)
+                            seen_movie_ids.add(rec['id'])
+            else:
+                return jsonify({
+                    'error': 'No recommendations or API error'
+                }), 500
+
+    else:
+        tmdb_url = f"{TMDB_URL}/movie/{movie_id}/recommendations?api_key={TMDB_API_KEY}&lang={language}&page={page}"
         response = requests.get(tmdb_url)
 
         if response.status_code == 200:
             data = response.json()
-            if data['total_results'] > 0:
-                for rec in data['results']:
-                    if rec['id'] not in seen_movie_ids:
-                        movie_recommendations.append(rec)
-                        seen_movie_ids.add(rec['id'])
+            movie_recommendations = data['results']
         else:
             return jsonify({
                 'error': 'No recommendations or API error'
@@ -69,24 +83,26 @@ def get_movie_recommendations(user_id):
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
 @app.route('/tv/recommended/<user_id>', methods=['GET'])
-def get_tv_recommendations(user_id):
+def get_tv_recommendations():
     """
     Fetches TV show recommendations for a specific user based on their
     favorite TV shows.
 
-    Args:
-        user_id (str): The user's unique identifier.
-
     Optional paramters can be passed as well
-    1. page: page number
-    2. lang: language
+    - `user_id`: The ID of the user to fetch recommendations for.
+    - `tv_show_id`: The ID of the tv show to fetch recommendations for.
+    - `page`: Which page of results should be returned? Default: 1.
+    - `lang`: The language to return the recommendations in. Default: 'en'.
 
     Returns:
         list: A list of recommended TV shows from TMDB, filtered to avoid
         duplicates.
     """
+    user_id = request.args.get('user_id')
+    tv_show_id = request.args.get('tv_show_id')
     language = request.args.get('language', 'en')
     page = request.args.get('page', 1)
+
 
     tv_favorites = favorites.find({'user_id': user_id, 'fav_type': 'tv'})
     tv_recommendations = []
@@ -131,7 +147,7 @@ def get_movie_tv_recommendations(user_id):
     user.
 
     Args:
-        user_id (str): The user's unique identifier.
+        user_id (str): The user's unique identifier (required).
 
     Optional paramters can be passed as well
     1. page: page number

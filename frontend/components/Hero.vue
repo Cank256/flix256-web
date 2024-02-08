@@ -23,7 +23,7 @@
           name="hero">
           <div style="padding-left: 5rem;">
             <h1 :class="$style.name">
-                <nuxt-link :to="{ name: 'movie' }">
+                <nuxt-link :to="{ name: `${type}-id`, params: { id: item.id } }">
                   {{ name}}
                 </nuxt-link>
             </h1>

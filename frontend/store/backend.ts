@@ -50,8 +50,8 @@ export const useBackendStore = defineStore("backendStore", {
         },
 
         // Function to get recommended movies for a user
-        getMoviesRecommended(userId: string, params: Params): Promise<AxiosResponse> {
-            return axios.get(`/movies/recommended/${userId}`, {params});
+        getMoviesRecommended(params: Params): Promise<AxiosResponse> {
+            return axios.get(`/movies/recommended`, {params});
         },
         
         // Function to get TV shows listing
@@ -65,8 +65,8 @@ export const useBackendStore = defineStore("backendStore", {
         },
         
         // Function to get recommended TV shows for a user
-        getTvsShowRecommended(userId: string, params: Params): Promise<AxiosResponse> {
-            return axios.get(`/tv/recommended${userId}`, {params});
+        getTvsShowRecommended(params: Params): Promise<AxiosResponse> {
+            return axios.get(`/tv/recommended`, {params});
         },
         
         // Function to search for movies, TV shows, and people

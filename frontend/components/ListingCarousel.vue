@@ -141,10 +141,6 @@ export default {
         window.removeEventListener('resize', this.resizeEvent);
     },
 
-    // $refs: {
-    //     carouselElement: HTMLElement
-    // },
-
     constructor() {
         this.$refs = {
         carouselElement: document.createElement('div'),
