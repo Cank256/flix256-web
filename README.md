@@ -5,7 +5,7 @@ Flix256 is a web application designed to provide personalized movie and TV recom
 
 ## Tech Used
 - Backend: Python 3.7 or higher with Flask
-- Frontend: Vue.js
+- Frontend: Vue.js 3.4 / NuxtJs 3.9
 - Database: MongoDB
 - Caching: REDIS
 - External API: TMDB API
