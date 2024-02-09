@@ -38,7 +38,7 @@
             </div>
 
             <div :class="$style.desc">
-              {{ truncateText(item.overview, 500) }}
+              {{ truncateText(item.overview, 600) }}
             </div>
 
             <button
