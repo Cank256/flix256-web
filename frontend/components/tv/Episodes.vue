@@ -4,7 +4,7 @@
       <select
         v-if="seasons.length > 1"
         v-model="activeSeason"
-        @change="getEpisodes">
+        @change="getEpisodes(this.tvShowId)">
         <option
           v-for="season in seasons"
           :key="`season-${season.season}`"
@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import { useRoute } from "vue-router";
 import { useBackendStore } from "~/store/backend";
 import EpisodesItem from '~/components/tv/EpisodesItem';
 
@@ -43,6 +42,10 @@ export default {
 
   props: {
     numberOfSeasons: {
+      type: Number,
+      required: true,
+    },
+    tvShowId: {
       type: Number,
       required: true,
     },
@@ -77,8 +80,7 @@ export default {
   },
 
   mounted () {
-    const route = useRoute();
-    this.getEpisodes(route.params.id);
+    this.getEpisodes(this.tvShowId);
   },
 
   methods: {

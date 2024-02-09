@@ -13,7 +13,7 @@
 		</template>
 
 		<template v-if="activeMenu === 'episodes' && showEpisodes">
-			<Episodes v-if="item" :number-of-seasons="item.number_of_seasons" />
+			<Episodes v-if="item" :tv-show-id="item.id" :number-of-seasons="item.number_of_seasons" />
 		</template>
 
 		<ListingCarousel
