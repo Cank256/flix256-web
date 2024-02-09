@@ -6,14 +6,14 @@
 					<div :class="$style.label">First Aired</div>
 
 					<div :class="$style.value">
-						{{ item.first_air_date | fullDate }}
+						{{ item.first_air_date }}
 					</div>
 				</li>
 				<li v-if="item.last_air_date">
 					<div :class="$style.label">Last Aired</div>
 
 					<div :class="$style.value">
-						{{ item.last_air_date | fullDate }}
+						{{ item.last_air_date }}
 					</div>
 				</li>
 				<li v-if="item.episode_run_time && item.episode_run_time.length">
@@ -57,9 +57,7 @@
 				<li v-if="item.networks && item.networks.length">
 					<div :class="$style.label">Network</div>
 
-					<div :class="$style.value">
-						{{ item.networks | arrayToList }}
-					</div>
+					<div :class="$style.value" v-html="formatNetworks(item.networks)" />
 				</li>
 			</ul>
 		</div>
@@ -92,11 +90,17 @@ export default {
 
 	methods: {
 		formatGenres(genres) {
-      return genres.map((genre) => genre.name).join(", ");
+			return genres.map((genre) => genre.name).join(", ");
 		},
 
 		formatRunTime(times) {
 			return times.map((time) => `${time}m`).join(", ");
+		},
+
+		formatNetworks(networks) {
+			return networks
+				.map((network) => network.name)
+				.join(", ");
 		},
 	},
 };

@@ -63,6 +63,11 @@ export const useBackendStore = defineStore("backendStore", {
         getTvShow(id: string): Promise<AxiosResponse> {
             return axios.get(`/tv/${id}`);
         },
+
+        // Function to get a single TV show episodes
+        getTvShowEpisodes(params: Params): Promise<AxiosResponse> {
+            return axios.get(`/tv/episodes`, {params});
+        },
         
         // Function to get recommended TV shows for a user
         getTvsShowRecommended(params: Params): Promise<AxiosResponse> {

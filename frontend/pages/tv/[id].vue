@@ -159,7 +159,7 @@ export default {
 			menu.push("Overview");
 
 			// episodes
-			if (this.showEpisodes) menu.push("Episodes");
+			if (!this.showEpisodes) menu.push("Episodes");
 
 			this.menu = menu;
 		},

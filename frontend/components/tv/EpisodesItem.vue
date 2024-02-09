@@ -1,11 +1,12 @@
 <template>
   <div :class="$style.item">
     <div :class="$style.image">
-      <img
-        v-if="poster"
-        v-lazyload="poster"
-        class="lazyload"
-        :alt="episode.name">
+      <NuxtImg
+					v-if="poster"
+					:src="poster"
+					loading="lazy"
+					:alt="episode.name"
+				/>
 
       <span v-else>
         <!-- eslint-disable-next-line -->
@@ -14,17 +15,17 @@
     </div>
 
     <h2 :class="$style.name">
-      <strong>E{{ episode.episode_number | numberWithDoubleDigits }}</strong> {{ episode.name }}
+      <strong>E{{ episode.episode_number }}</strong> {{ episode.name }}
     </h2>
 
     <div :class="$style.overview">
-      {{ episode.overview | truncate(300) }}
+      {{  truncate(episode.overview, 300) }}
     </div>
 
     <div
       v-if="episode.air_date"
       :class="$style.aired">
-      {{ episode.air_date | fullDate }}
+      {{ episode.air_date }}
     </div>
   </div>
 </template>
@@ -46,6 +47,16 @@ export default {
         return `${apiImgUrl}/w400${this.episode.still_path}`;
       } else {
         return null;
+      }
+    },
+  },
+
+  methods: {
+    truncate (text, length) {
+      if (text.length > length) {
+        return text.substring(0, length) + '...';
+      } else {
+        return text;
       }
     },
   },

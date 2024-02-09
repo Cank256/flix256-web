@@ -216,3 +216,39 @@ def tv_show(tv_show_id):
         return jsonify({
             'error': 'TV show not found or API error'
         }), response.status_code
+
+
+@app.route('/api/tv/episodes', methods=['GET'], endpoint='api_tv_show_episodes')
+@limiter.limit(api_only_limit)
+@cross_origin(supports_credentials=True)
+@app.route('/tv/episodes', methods=['GET'])
+def tv_show_episodes():
+    """
+    Fetches details of a TV show.
+
+    Uses the TMDB API's '/tv/tv_id' endpoint. Returns a JSON response with the details
+    of a TV show. Handles API errors gracefully.
+
+    Optional paramters can be passed as well
+    1. tv_show_id: id of the TV show
+    2. season: season number
+    3. lang: language
+
+    Returns:
+        - JSON response containing details of the TV show.
+        - In case of API errors, returns an error message.
+    """
+    tv_show_id = request.args.get('tv_show_id', '')
+    season = request.args.get('season', 1)
+    lang = request.args.get('lang', 'en')
+
+    url = f'{TMDB_URL}/tv/{tv_show_id}/season/{season}?api_key={TMDB_API_KEY}&lang={lang}&append_to_response=videos,credits,images,external_ids,release_dates'
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        tv_show = response.json()
+        return jsonify(tv_show), 200
+    else:
+        return jsonify({
+            'error': 'TV show not found or API error'
+        }), response.status_code

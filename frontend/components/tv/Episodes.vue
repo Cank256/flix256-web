@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { useRoute } from "vue-router";
 import { useBackendStore } from "~/store/backend";
 import EpisodesItem from '~/components/tv/EpisodesItem';
 
@@ -76,11 +77,13 @@ export default {
   },
 
   mounted () {
-    this.getEpisodes();
+    const route = useRoute();
+    this.getEpisodes(route.params.id);
   },
 
   methods: {
-    getEpisodes () {
+    async getEpisodes (tv_show_id) {
+      const store = useBackendStore();
       const season = this.seasons.find(season => season.season === this.activeSeason);
 
       // if we already have the episodes, just show them
@@ -89,13 +92,16 @@ export default {
         this.activeEpisodes = season.episodes;
       } else {
         // get episodes for a certain season
-        getTvShowEpisodes(this.$route.params.id, this.activeSeason).then((response) => {
-          season.episodes = response.episodes;
+        try {
+          const response = await store.getTvShowEpisodes({ tv_show_id, season: this.activeSeason });
+          season.episodes = response.data.episodes;
           this.activeEpisodes = season.episodes;
-        });
+        } catch (error) {
+          console.error("Error fetching episodes:", error);
+        }
       }
     },
-  },
+  }
 };
 </script>
 

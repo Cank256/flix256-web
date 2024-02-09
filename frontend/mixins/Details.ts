@@ -181,8 +181,11 @@ export const directors = {
 
       if (people) {
         return people
+          // .filter(person => person.job === 'Director')
+          // .map(person => `<a href="/person/${person.id}">${person.name}</a>`)
+          // .join(', ');
           .filter(person => person.job === 'Director')
-          .map(person => `<a href="/person/${person.id}">${person.name}</a>`)
+          .map(person => person.name)
           .join(', ');
       }
     },
@@ -198,7 +201,8 @@ export const creators = {
       const people = this.item.created_by;
 
       if (people) {
-        return people.map(person => `<a href="/person/${person.id}">${person.name}</a>`).join(', ');
+        // return people.map(person => `<a href="/person/${person.id}">${person.name}</a>`).join(', ');
+        return people.map(person => person.name).join('| ');
       }
     },
   },
