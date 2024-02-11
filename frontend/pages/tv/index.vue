@@ -90,7 +90,7 @@ export default {
                 featuredItem.value = featured.data;
 
             } catch (error) {
-                console.error({ statusCode: 504, error: error.message });
+                console.error({ statusCode:  error.code, error: error.message });
             }
 		}
 
