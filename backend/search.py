@@ -26,13 +26,19 @@ def search():
         - On failure: JSON object with an error message. This could be due to
         a failure in one or both of the TMDB API requests.
     """
-    query = request.args.get('query')
-    search_url = f'{TMDB_URL}/search/multi?api_key={TMDB_API_KEY}&query={query}'
+    query = request.args.get('query', '')
+    page = request.args.get('page', 1)
+
+    search_url = f'{TMDB_URL}/search/multi?api_key={TMDB_API_KEY}&query={query}&page={page}'
 
     response = requests.get(search_url)
     
     if response.status_code == 200:
         search = response.json()
+
+        # Filter out person-related results
+        search['results'] = [result for result in search['results'] if result['media_type'] in ['movie', 'tv']]
+        
         return jsonify(search), 200
     else:
         return jsonify({
