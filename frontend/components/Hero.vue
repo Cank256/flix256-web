@@ -33,7 +33,7 @@
                 <span v-if="item.number_of_seasons">Season {{ item.number_of_seasons }}</span>
                 <span v-if="yearStart">{{ yearStart }}</span>
                 <span v-if="item.runtime">{{ runtime }}</span>
-                <span v-if="cert">Cert. {{ cert }}</span>
+                <span v-if="cert">Rated ({{ cert }})</span>
               </div>
             </div>
 
