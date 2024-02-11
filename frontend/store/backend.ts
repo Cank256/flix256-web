@@ -1,5 +1,5 @@
 import { type AxiosResponse } from "axios";
-import axios from '~/store/axios'
+import axios from '~/store/axios';
 import { defineStore } from "pinia";
 
 // Define types for different lists
