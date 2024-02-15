@@ -91,7 +91,9 @@ def login():
     })
 
     if user:
-        return jsonify({'user_id': str(user['_id'])}), 200
+        # Convert ObjectId to string
+        user['_id'] = str(user['_id'])
+        return jsonify({'user': user}), 200
     else:
         return jsonify({'error': 'User not found'}), 404
 
