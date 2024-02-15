@@ -28,6 +28,7 @@ def signup():
         exists.
     """
     data = request.get_json()
+    print(data)
 
     # Validate required fields
     validate_data = utils.validate_required_fields(
@@ -54,7 +55,13 @@ def signup():
     # Insert the new user into the database
     user_id = users.insert_one(new_user.to_dict()).inserted_id
 
-    return jsonify({'user_id': str(user_id)}), 201
+    # Fetch the newly created user from the database
+    created_user = users.find_one({'_id': user_id})
+
+    # Convert ObjectId to string
+    created_user['_id'] = str(created_user['_id'])
+
+    return jsonify({'user': created_user}), 201
 
 
 @app.route('/api/auth/login', methods=['POST'], endpoint='api_login')
