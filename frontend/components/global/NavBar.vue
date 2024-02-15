@@ -75,7 +75,7 @@
 			</div>
 
 			<!-- User Icon -->
-			<div class="user-icon" @click="toggleDropdown">
+			<div v-if="isLoggedIn" class="user-icon" @click="toggleDropdown">
 				<svg
 					width="40"
 					height="40"
@@ -106,16 +106,40 @@
 					<button @click="handleDropdownItem('Logout')">Logout</button>
 				</div>
 			</div>
-			<!-- <div v-else>
-                <nuxt-link :to="{ name: 'user.login' }" aria-label="Login">Login</nuxt-link>
-                <nuxt-link :to="{ name: 'user.signup' }" aria-label="Login">Signup</nuxt-link>
-            </div> -->
+			<div v-else class="login-signup-links">
+				<a @click="showLoginPopup" aria-label="Login">Login</a>
+				<span class="separator">|</span>
+				<a @click="showSignupPopup" aria-label="Signup">Signup</a>
+
+				<!-- Login Popup -->
+				<div v-if="showLogin" class="popup">
+					<h2>Login to Your Account</h2>
+					<form @submit.prevent="login">
+						<!-- Login form fields -->
+						<input type="username" placeholder="Username" v-model="username" />
+						<button type="submit">Login</button>
+					</form>
+				</div>
+
+				<!-- Signup Popup -->
+				<div v-if="showSignup" class="popup">
+					<h2>Create an Account</h2>
+					<form @submit.prevent="signup">
+						<!-- Signup form fields -->
+						<input type="text" placeholder="Username" v-model="username" />
+						<input type="email" placeholder="Email" v-model="email" />
+						<input type="text" placeholder="Language" v-model="lang" />
+						<button type="submit">Login</button>
+					</form>
+				</div>
+			</div>
 		</div>
 	</nav>
 </template>
 
 <script>
 import { useSearchStore } from "~/store/search";
+import { useAuthStore } from "~/store/auth";
 
 export default {
 	data() {
@@ -124,17 +148,71 @@ export default {
 			showSearch: this.$route.name === "search" ? true : false,
 			query: this.$route.query.q ? this.$route.query.q : "",
 			fromPage: useSearchStore().fromPage,
+			isLoggedIn: false,
+			showLogin: false,
+			showSignup: false,
 		};
 	},
 
 	watch: {
 		$route(to, from) {
-            this.query = to.query.q || "";
+			this.query = to.query.q || "";
 		},
 	},
 
 	mounted() {
 		this.$refs.input.focus();
+        // Check if localStorage is available
+        if (typeof localStorage !== 'undefined') {
+            // Set isLoggedIn based on localStorage value
+            this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        }
+	},
+
+	setup() {
+		const authStore = useAuthStore();
+		const userId = ref("");
+		const username = ref("");
+		const email = ref("");
+		const lang = ref("");
+
+		const signup = async () => {
+			if (!username.value || !email.value) {
+				// Handle missing fields with user-friendly message
+				console.error("Username and email are required");
+				return;
+			}
+			const userData = {
+				userId: userId.value,
+				username: username.value,
+				email: email.value,
+				lang: lang.value,
+			};
+
+			try {
+				await authStore.register(userData);
+			} catch (error) {
+				console.error("Registration failed:", error);
+			}
+
+		};
+
+		const login = async () => {
+			if (!username.value) {
+				// Handle missing fields with user-friendly message
+				console.error("Username is required");
+				return;
+			}
+
+			try {
+				await authStore.login(username.value);
+			} catch (error) {
+				console.error("Login failed:", error);
+			}
+
+		};
+
+		return { username, email, lang, signup, login };
 	},
 
 	methods: {
@@ -146,7 +224,18 @@ export default {
 			if (item === "Profile") {
 				this.$router.push("/user");
 			} else {
-				console.log(`Clicked on ${item}`);
+				const authStore = useAuthStore();
+
+				const isLoggedIn = authStore.isLoggedIn;
+				const getUser = authStore.getUser;
+
+				const logout = () => {
+					authStore.logoutUser();
+					// Redirect to home page
+					this.$router.push("/");
+				};
+
+				return { isLoggedIn, getUser, logout };
 			}
 		},
 
@@ -154,47 +243,51 @@ export default {
 			this.showSearch = !this.showSearch;
 		},
 
-        toggleSearchState() {
-            // Toggle search state
-            useSearchStore().toggleSearch();
-        },
+		toggleSearchState() {
+			// Toggle search state
+			useSearchStore().toggleSearch();
+		},
 
-        goToRoute() {
-            if (this.query) {
-                if (this.$route.name === "search") {
-                // If already on search page, update query parameter
-                this.$router.replace({ query: { q: this.query } });
-                } else {
-                // Navigate to search page with query parameter
-                this.$router.push({ name: "search", query: { q: this.query } });
-                }
-            } else {
-                // If query is empty, go back to previous page
-                this.$router.push({ path: this.fromPage });
-            }
-            },
+		goToRoute() {
+			if (this.query) {
+				if (this.$route.name === "search") {
+					// If already on search page, update query parameter
+					this.$router.replace({ query: { q: this.query } });
+				} else {
+					// Navigate to search page with query parameter
+					this.$router.push({ name: "search", query: { q: this.query } });
+				}
+			} else {
+				// If query is empty, go back to previous page
+				this.$router.push({ path: this.fromPage });
+			}
+		},
 
-        goBack() {
-            // Reset query and navigate back
-            this.query = "";
-            this.$router.push({ path: this.fromPage });
-        },
+		goBack() {
+			// Reset query and navigate back
+			this.query = "";
+			this.$router.push({ path: this.fromPage });
+		},
 
-        unFocus(e) {
-            const searchStore = useSearchStore();
-            if (this.$route.name !== "search") {
-                const target = e.relatedTarget;
-                if (!target || !target.classList.contains("search-toggle")) {
-                this.query = "";
-                searchStore.closeSearch();
-                }
-            }
-        },
+		unFocus(e) {
+			const searchStore = useSearchStore();
+			if (this.$route.name !== "search") {
+				const target = e.relatedTarget;
+				if (!target || !target.classList.contains("search-toggle")) {
+					this.query = "";
+					searchStore.closeSearch();
+				}
+			}
+		},
 
-		// Check if User is logged in
-		// isLoggedIn() {
-		//     return this.$store.getters['user/isLoggedIn'];
-		// },
+		showLoginPopup() {
+			this.showLogin = true;
+			this.showSignup = false;
+		},
+		showSignupPopup() {
+			this.showSignup = true;
+			this.showLogin = false;
+		},
 	},
 };
 </script>
@@ -301,6 +394,30 @@ export default {
 
 .dropdown button:hover {
 	background-color: rgba(255, 255, 255, 0.1);
+}
+
+.login-signup-links {
+	display: flex;
+	align-items: center;
+	font-size: 2rem;
+	font-weight: 500;
+}
+
+.separator {
+	margin: 0 1.5rem;
+}
+
+.popup {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	z-index: 999;
+	width: 300px;
 }
 </style>
 
