@@ -74,38 +74,12 @@
 				</svg>
 			</div>
 
-			<!-- User Icon -->
-			<div v-if="isLoggedIn" class="user-icon" @click="toggleDropdown">
-				<svg
-					width="40"
-					height="40"
-					viewBox="0 0 24 24"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg"
-				>
-					<g
-						fill="none"
-						stroke="#fff"
-						stroke-width="1.5"
-						stroke-linecap="round"
-						stroke-miterlimit="10"
-						stroke-linejoin="round"
-					>
-						<path
-							d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
-						/>
-						<path
-							d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z"
-						/>
-					</g>
-				</svg>
-
-				<div v-if="showProfile" class="overlay" @click="closePopup"></div>
-
-				<div v-if="showProfile" class="popup profile-popup centered">
+			<ClientOnly>
+				<!-- User Icon -->
+				<div v-if="isLoggedIn" class="user-icon" @click="toggleDropdown">
 					<svg
-						width="80"
-						height="80"
+						width="40"
+						height="40"
 						viewBox="0 0 24 24"
 						fill="none"
 						xmlns="http://www.w3.org/2000/svg"
@@ -126,85 +100,114 @@
 							/>
 						</g>
 					</svg>
-					<div v-if="user" class="profile_data">
-						<p>{{ user.user.username }}</p>
-						<p>{{ user.user.email }}</p>
-						<button @click="deleteAccount">Delete Account</button>
+
+					<div v-if="showProfile" class="overlay" @click="closePopup"></div>
+
+					<div v-if="showProfile" class="popup profile-popup centered">
+						<svg
+							width="80"
+							height="80"
+							viewBox="0 0 24 24"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<g
+								fill="none"
+								stroke="#fff"
+								stroke-width="1.5"
+								stroke-linecap="round"
+								stroke-miterlimit="10"
+								stroke-linejoin="round"
+							>
+								<path
+									d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+								/>
+								<path
+									d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z"
+								/>
+							</g>
+						</svg>
+						<div v-if="user" class="profile_data">
+							<p>{{ user.user.username }}</p>
+							<p>{{ user.user.email }}</p>
+							<button @click="deleteAccount">Delete Account</button>
+						</div>
+					</div>
+
+					<!-- Dropdown -->
+					<div v-show="showDropdown" class="dropdown">
+						<button @click="handleDropdownItem('Profile')">Profile</button>
+						<button @click="handleDropdownItem('Logout')">Logout</button>
 					</div>
 				</div>
+				<!-- <ClientOnly> -->
+				<div v-else class="login-signup-links">
+					<a @click="showLoginPopup" aria-label="Login">Login</a>
+					<span class="separator">|</span>
+					<a @click="showSignupPopup" aria-label="Signup">Signup</a>
 
-				<!-- Dropdown -->
-				<div v-show="showDropdown" class="dropdown">
-					<button @click="handleDropdownItem('Profile')">Profile</button>
-					<button @click="handleDropdownItem('Logout')">Logout</button>
+					<!-- Darkened background overlay -->
+					<div
+						v-if="showLogin || showSignup"
+						class="overlay"
+						@click="closePopup"
+					></div>
+
+					<!-- Login Popup -->
+					<div v-if="showLogin" class="popup login-popup">
+						<form class="popup_form" @submit.prevent="login">
+							<p class="popup_title">LOGIN</p>
+							<!-- Login form fields -->
+
+							<div class="form-group">
+								<label for="loginUsername">Username / Email</label>
+								<input type="text" id="loginUsername" v-model="username" />
+							</div>
+							<button type="submit">Login</button>
+						</form>
+					</div>
+
+					<!-- Signup Popup -->
+					<div v-if="showSignup" class="popup signup-popup">
+						<form class="popup_form" @submit.prevent="signup">
+							<p class="popup_title">SIGNUP</p>
+							<!-- Signup form fields -->
+							<div class="form-group">
+								<label for="signupUsername">Username</label>
+								<input
+									type="text"
+									id="signupUsername"
+									placeholder="Username"
+									v-model="username"
+								/>
+							</div>
+							<div class="form-group">
+								<label for="signupEmail">Email (e.g johndoe@mail.com)</label>
+								<input
+									type="email"
+									id="signupEmail"
+									placeholder="Email"
+									v-model="email"
+								/>
+							</div>
+							<div class="form-group">
+								<label for="signupLanguage">Language</label>
+								<select id="signupLanguage" v-model="lang">
+									<option value="" disabled>Select a language</option>
+									<option
+										v-for="language in languages"
+										:key="language.iso_639_1"
+										:value="language.iso_639_1"
+									>
+										{{ language.english_name }}
+									</option>
+								</select>
+							</div>
+							<button type="submit">Signup</button>
+						</form>
+					</div>
 				</div>
-			</div>
-			<div v-else class="login-signup-links">
-				<a @click="showLoginPopup" aria-label="Login">Login</a>
-				<span class="separator">|</span>
-				<a @click="showSignupPopup" aria-label="Signup">Signup</a>
-
-				<!-- Darkened background overlay -->
-				<div
-					v-if="showLogin || showSignup"
-					class="overlay"
-					@click="closePopup"
-				></div>
-
-				<!-- Login Popup -->
-				<div v-if="showLogin" class="popup login-popup">
-					<form class="popup_form" @submit.prevent="login">
-						<p class="popup_title">LOGIN</p>
-						<!-- Login form fields -->
-
-						<div class="form-group">
-							<label for="loginUsername">Username / Email</label>
-							<input type="text" id="loginUsername" v-model="username" />
-						</div>
-						<button type="submit">Login</button>
-					</form>
-				</div>
-
-				<!-- Signup Popup -->
-				<div v-if="showSignup" class="popup signup-popup">
-					<form class="popup_form" @submit.prevent="signup">
-						<p class="popup_title">SIGNUP</p>
-						<!-- Signup form fields -->
-						<div class="form-group">
-							<label for="signupUsername">Username</label>
-							<input
-								type="text"
-								id="signupUsername"
-								placeholder="Username"
-								v-model="username"
-							/>
-						</div>
-						<div class="form-group">
-							<label for="signupEmail">Email (e.g johndoe@mail.com)</label>
-							<input
-								type="email"
-								id="signupEmail"
-								placeholder="Email"
-								v-model="email"
-							/>
-						</div>
-						<div class="form-group">
-							<label for="signupLanguage">Language</label>
-							<select id="signupLanguage" v-model="lang">
-								<option value="" disabled>Select a language</option>
-								<option
-									v-for="language in languages"
-									:key="language.iso_639_1"
-									:value="language.iso_639_1"
-								>
-									{{ language.english_name }}
-								</option>
-							</select>
-						</div>
-						<button type="submit">Signup</button>
-					</form>
-				</div>
-			</div>
+			</ClientOnly>
 		</div>
 	</nav>
 </template>
@@ -354,7 +357,7 @@ export default {
 			}
 		},
 
-		handleFavorites(){
+		handleFavorites() {
 			this.$router.push({ name: "favorites" });
 		},
 
@@ -425,7 +428,6 @@ export default {
 </script>
 
 <style scoped>
-
 a {
 	cursor: pointer;
 }
