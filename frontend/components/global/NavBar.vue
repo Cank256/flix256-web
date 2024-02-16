@@ -34,7 +34,7 @@
 			</li>
 			<li>
 				<nuxt-link
-					:to="{ name: 'favorites' }"
+					@click="isLoggedIn ? handleFavorites() : showLoginPopup()"
 					active-class="active-link"
 					aria-label="Favorites"
 					>Favorites</nuxt-link
@@ -127,7 +127,7 @@
 						</g>
 					</svg>
 					<div v-if="user" class="profile_data">
-						<p >{{ user.user.username }}</p>
+						<p>{{ user.user.username }}</p>
 						<p>{{ user.user.email }}</p>
 						<button @click="deleteAccount">Delete Account</button>
 					</div>
@@ -354,6 +354,10 @@ export default {
 			}
 		},
 
+		handleFavorites(){
+			this.$router.push({ name: "favorites" });
+		},
+
 		toggleSearchInput() {
 			this.showSearch = !this.showSearch;
 		},
@@ -421,6 +425,10 @@ export default {
 </script>
 
 <style scoped>
+
+a {
+	cursor: pointer;
+}
 .nav-bar {
 	position: relative;
 	display: flex;
