@@ -17,7 +17,7 @@ def add_favorite():
     """
     Endpoint to add a favorite movie or TV show for a user.
 
-    Expects 'user_id', 'fav_type', 'fav_id', 'fav_title', and 'fav_backdrop'.
+    Expects 'user_id', 'media_type', 'id', 'title', and 'poster_path'.
     Validates required fields and adds a new favorite movie or tv serie.
 
     Returns:
@@ -27,18 +27,18 @@ def add_favorite():
     data = request.get_json()
 
     user_id = data.get('user_id')
-    fav_type = data.get('fav_type')
-    fav_id = data.get('fav_id')
-    fav_title = data.get('fav_title')
-    fav_backdrop = data.get('fav_backdrop')
+    media_type = data.get('media_type')
+    id = data.get('id')
+    title = data.get('title')
+    poster_path = data.get('poster_path')
 
     # Validate required fields
     error_message = utils.validate_required_fields(
         user_id=user_id,
-        fav_type=fav_type,
-        movie_id=fav_id,
-        movie_title=fav_title,
-        movie_backdrop=fav_backdrop
+        media_type=media_type,
+        id=id,
+        title=title,
+        poster_path=poster_path
     )
 
     if error_message:
@@ -57,10 +57,10 @@ def add_favorite():
 
     favorite_data = models.Favorite(
         user_id=user_id,
-        fav_type=fav_type,
-        fav_id=fav_id,
-        fav_title=fav_title,
-        fav_backdrop=fav_backdrop
+        media_type=media_type,
+        id=id,
+        title=title,
+        poster_path=poster_path
     )
     favorite_id = favorites.insert_one(favorite_data.to_dict()).inserted_id
 
@@ -100,9 +100,9 @@ def get_favorites(user_id):
     if user_favorites.count() > 0:
         # Convert the generator to a list
         favorites_result = [favorite for favorite in user_favorites]
-        return jsonify([
-            utils.serialize_document(doc) for doc in favorites_result
-        ]), 200
+        return jsonify(
+            results = [utils.serialize_document(doc) for doc in favorites_result]
+        ), 200
     else:
         return jsonify({'error': 'No favorites found for user'}), 404
 

@@ -55,10 +55,10 @@ class Favorite:
 
     Attributes:
         user_id (ObjectId): The ID of the user who marked the movie as favorite
-        fav_type (str): The type of the favorite item (movie or tv_show).
-        fav_id (str): The ID of the movie or tv show marked as favorite.
-        fav_title (str): The title of the movie or tv show marked as favorite.
-        fav_backdrop (str): The backdrop link of the movie or tv show marked as
+        media_type (str): The type of the favorite item (movie or tv_show).
+        id (str): The ID of the movie or tv show marked as favorite.
+        title (str): The title of the movie or tv show marked as favorite.
+        poster_path (str): The poster_path link of the movie or tv show marked as
         favorite.
         createdAt (datetime): The timestamp when the movie was marked as
         favorite.
@@ -68,7 +68,7 @@ class Favorite:
         database operations.
     """
 
-    def __init__(self, user_id, fav_type, fav_id, fav_title, fav_backdrop):
+    def __init__(self, user_id, media_type, id, title, poster_path):
         """
         Constructs all the necessary attributes for the Favorite object.
 
@@ -78,10 +78,10 @@ class Favorite:
             movie_id (ObjectId): The ID of the movie being marked as favorite.
         """
         self.user_id = user_id
-        self.fav_type = fav_type
-        self.fav_id = fav_id
-        self.fav_title = fav_title
-        self.fav_backdrop = fav_backdrop
+        self.media_type = media_type
+        self.id = id
+        self.title = title
+        self.poster_path = poster_path
         self.createdAt = datetime.now()
 
     def to_dict(self):
@@ -93,9 +93,9 @@ class Favorite:
         """
         return {
             "user_id": self.user_id,
-            "fav_type": self.fav_type,
-            "fav_id": self.fav_id,
-            "fav_title": self.fav_title,
-            "fav_backdrop": self.fav_backdrop,
+            "media_type": self.media_type,
+            "id": self.id,
+            "title": self.title,
+            "poster_path": self.poster_path,
             "createdAt": self.createdAt
         }
