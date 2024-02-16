@@ -28,7 +28,6 @@ def signup():
         exists.
     """
     data = request.get_json()
-    print(data)
 
     # Validate required fields
     validate_data = utils.validate_required_fields(

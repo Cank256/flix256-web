@@ -24,7 +24,8 @@ def add_favorite():
         - JSON containing the new favorite's ID on successful addition.
         - JSON with error message if any required fields are missing.
     """
-    data = request.get_json()
+    fields = request.get_json()
+    data = fields.get('params') if fields.get('params') else fields
 
     user_id = data.get('user_id')
     media_type = data.get('media_type')
@@ -110,8 +111,8 @@ def get_favorites(user_id):
 @app.route('/api/favorite', methods=['DELETE'], endpoint='api_delete_favorite')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@app.route('/favorite', methods=['DELETE'])
-def delete_favorite():
+@app.route('/favorite/<favorite_id>', methods=['DELETE'])
+def delete_favorite(favorite_id):
     """
     Endpoint to delete a favorite movie or TV show for a user.
 
@@ -121,26 +122,15 @@ def delete_favorite():
         - JSON with a success message on successful deletion.
         - JSON with error message if the favorite item is not found.
     """
-    # Validate if user_id and favorite_id are valid ObjectIds
-    data = request.get_json()
-
-    favorite_id = data.get('favorite_id')
     if not ObjectId.is_valid(favorite_id):
         return jsonify({
             'error': 'favorite_id not provided or it is invalid'
         }), 400
 
-    user_id = data.get('user_id')
-    if not user_id or not ObjectId.is_valid(user_id):
-        return jsonify({
-            'error': 'user_id not provided or it is invalid'
-        }), 400
-
     # Validate that the favorite belongs to the user
     check_favorite = favorites.find_one({
-            '_id': ObjectId(favorite_id),
-            'user_id': user_id
-        })
+            '_id': ObjectId(favorite_id)
+    })
     if not check_favorite:
         return jsonify({
             'error': 'You are not authorized to delete this resource'
