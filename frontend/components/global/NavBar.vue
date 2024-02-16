@@ -111,25 +111,60 @@
 				<span class="separator">|</span>
 				<a @click="showSignupPopup" aria-label="Signup">Signup</a>
 
+				<!-- Darkened background overlay -->
+				<div
+					v-if="showLogin || showSignup"
+					class="overlay"
+					@click="closePopup"
+				></div>
+
 				<!-- Login Popup -->
-				<div v-if="showLogin" class="popup">
-					<h2>Login to Your Account</h2>
-					<form @submit.prevent="login">
+				<div v-if="showLogin" class="popup login-popup">
+					<form class="popup_form" @submit.prevent="login">
+						<p class="popup_title">LOGIN</p>
 						<!-- Login form fields -->
-						<input type="username" placeholder="Username" v-model="username" />
+
+						<div class="form-group">
+							<label for="loginUsername">Username</label>
+							<input type="text" id="loginUsername" v-model="username" />
+						</div>
 						<button type="submit">Login</button>
 					</form>
 				</div>
 
 				<!-- Signup Popup -->
-				<div v-if="showSignup" class="popup">
-					<h2>Create an Account</h2>
-					<form @submit.prevent="signup">
+				<div v-if="showSignup" class="popup signup-popup">
+					<form class="popup_form" @submit.prevent="signup">
+						<p class="popup_title">SIGNUP</p>
 						<!-- Signup form fields -->
-						<input type="text" placeholder="Username" v-model="username" />
-						<input type="email" placeholder="Email" v-model="email" />
-						<input type="text" placeholder="Language" v-model="lang" />
-						<button type="submit">Login</button>
+						<div class="form-group">
+							<label for="signupUsername">Username</label>
+							<input
+								type="text"
+								id="signupUsername"
+								placeholder="Username"
+								v-model="username"
+							/>
+						</div>
+						<div class="form-group">
+							<label for="signupEmail">Email</label>
+							<input
+								type="email"
+								id="signupEmail"
+								placeholder="Email"
+								v-model="email"
+							/>
+						</div>
+						<div class="form-group">
+							<label for="signupLanguage">Language</label>
+							<input
+								type="text"
+								id="signupLanguage"
+								placeholder="Language"
+								v-model="lang"
+							/>
+						</div>
+						<button type="submit">Signup</button>
 					</form>
 				</div>
 			</div>
@@ -138,6 +173,7 @@
 </template>
 
 <script>
+import { ref, watch } from 'vue';
 import { useSearchStore } from "~/store/search";
 import { useAuthStore } from "~/store/auth";
 
@@ -162,11 +198,11 @@ export default {
 
 	mounted() {
 		this.$refs.input.focus();
-        // Check if localStorage is available
-        if (typeof localStorage !== 'undefined') {
-            // Set isLoggedIn based on localStorage value
-            this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-        }
+		// Check if localStorage is available
+		// if (typeof localStorage !== "undefined") {
+		// 	// Set isLoggedIn based on localStorage value
+		// 	this.isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+		// }
 	},
 
 	setup() {
@@ -175,6 +211,31 @@ export default {
 		const username = ref("");
 		const email = ref("");
 		const lang = ref("");
+        const isLoggedIn = ref(false);
+
+		if (typeof localStorage !== "undefined") {
+			// Initial sync from localStorage on page load
+			if (localStorage.getItem("isLoggedIn") === "true") {
+				isLoggedIn.value = true;
+			}
+
+
+			// Watch for changes in authStore 
+			watch(() => authStore.isLoggedIn, (newValue) => {
+				isLoggedIn.value = newValue;
+				localStorage.setItem("isLoggedIn", newValue); // Update localStorage
+			});
+		}
+
+		if (typeof window !== 'undefined') {
+
+			// Watch for localStorage changes (e.g., logged in on another tab)
+			window.addEventListener('storage', (event) => {
+				if (event.key === 'isLoggedIn') {
+					isLoggedIn.value = event.newValue === 'true';
+				}
+			});
+		}
 
 		const signup = async () => {
 			if (!username.value || !email.value) {
@@ -194,7 +255,6 @@ export default {
 			} catch (error) {
 				console.error("Registration failed:", error);
 			}
-
 		};
 
 		const login = async () => {
@@ -209,10 +269,9 @@ export default {
 			} catch (error) {
 				console.error("Login failed:", error);
 			}
-
 		};
 
-		return { username, email, lang, signup, login };
+		return { username, email, lang, isLoggedIn, signup, login };
 	},
 
 	methods: {
@@ -225,17 +284,8 @@ export default {
 				this.$router.push("/user");
 			} else {
 				const authStore = useAuthStore();
-
-				const isLoggedIn = authStore.isLoggedIn;
-				const getUser = authStore.getUser;
-
-				const logout = () => {
-					authStore.logoutUser();
-					// Redirect to home page
-					this.$router.push("/");
-				};
-
-				return { isLoggedIn, getUser, logout };
+				authStore.logout();
+				this.$router.push("/");
 			}
 		},
 
@@ -287,6 +337,11 @@ export default {
 		showSignupPopup() {
 			this.showSignup = true;
 			this.showLogin = false;
+		},
+
+		closePopup() {
+			this.showLogin = false;
+			this.showSignup = false;
 		},
 	},
 };
@@ -417,7 +472,67 @@ export default {
 	border-radius: 5px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	z-index: 999;
-	width: 300px;
+	width: 25%;
+}
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+	z-index: 999;
+}
+
+.popup_title {
+	font-size: 2rem;
+	font-weight: 800;
+	margin-bottom: 1rem;
+	color: #000;
+}
+
+.popup_form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2rem;
+}
+
+.popup_form input {
+	padding: 1.5rem;
+	border-radius: 5px;
+	width: 100%;
+	font-size: 1.8rem;
+}
+
+.popup_form button {
+	padding: 1rem;
+	border-radius: 5px;
+	width: 100%;
+	background-color: #2196f3;
+	color: #fff;
+	border: #167dd1 solid 2px;
+}
+
+.popup_form button:hover {
+	background-color: #167dd1;
+}
+
+.popup_form label {
+	font-size: 1.8rem;
+	font-weight: 500;
+	color: #000;
+}
+
+.form-group {
+	margin-bottom: 10px;
+	width: 100%;
+}
+
+.form-group label {
+	display: block;
+	margin-bottom: 5px;
 }
 </style>
 
