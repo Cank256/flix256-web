@@ -125,7 +125,7 @@
 						<!-- Login form fields -->
 
 						<div class="form-group">
-							<label for="loginUsername">Username</label>
+							<label for="loginUsername">Username / Email</label>
 							<input type="text" id="loginUsername" v-model="username" />
 						</div>
 						<button type="submit">Login</button>
@@ -147,7 +147,7 @@
 							/>
 						</div>
 						<div class="form-group">
-							<label for="signupEmail">Email</label>
+							<label for="signupEmail">Email (e.g johndoe@mail.com)</label>
 							<input
 								type="email"
 								id="signupEmail"
@@ -157,12 +157,16 @@
 						</div>
 						<div class="form-group">
 							<label for="signupLanguage">Language</label>
-							<input
+							<!-- <input
 								type="text"
 								id="signupLanguage"
 								placeholder="Language"
 								v-model="lang"
-							/>
+							/> -->
+							<select id="signupLanguage" v-model="lang">
+								<option value="" disabled>Select a language</option>
+								<option v-for="language in languages" :key="language.iso_639_1" :value="language.iso_639_1">{{ language.english_name }}</option>
+							</select>
 						</div>
 						<button type="submit">Signup</button>
 					</form>
@@ -176,6 +180,7 @@
 import { ref, watch } from 'vue';
 import { useSearchStore } from "~/store/search";
 import { useAuthStore } from "~/store/auth";
+import { languages } from '~/mixins/Languages';
 
 export default {
 	data() {
@@ -187,6 +192,7 @@ export default {
 			isLoggedIn: false,
 			showLogin: false,
 			showSignup: false,
+			languages: [...languages]
 		};
 	},
 
@@ -198,11 +204,6 @@ export default {
 
 	mounted() {
 		this.$refs.input.focus();
-		// Check if localStorage is available
-		// if (typeof localStorage !== "undefined") {
-		// 	// Set isLoggedIn based on localStorage value
-		// 	this.isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-		// }
 	},
 
 	setup() {
@@ -504,6 +505,15 @@ export default {
 	border-radius: 5px;
 	width: 100%;
 	font-size: 1.8rem;
+}
+
+.popup_form select {
+	padding: 1.5rem;
+	border-radius: 5px;
+	width: 100%;
+	font-size: 1.8rem;
+	background-color: #fff;
+	color: #000;
 }
 
 .popup_form button {

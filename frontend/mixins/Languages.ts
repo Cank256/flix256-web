@@ -6,7 +6,7 @@ interface Language {
 
 // Define languages
 export const languages: Language[] = [
-	{ iso_639_1: "xx", english_name: "No Language" },
+	{ iso_639_1: "xx", english_name: "NA" },
 	{ iso_639_1: "aa", english_name: "Afar" },
 	{ iso_639_1: "af", english_name: "Afrikaans" },
 	{ iso_639_1: "ak", english_name: "Akan" },
