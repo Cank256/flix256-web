@@ -3,7 +3,7 @@
 		<TopNav title="Favorites" />
 
 		<Listing
-			v-if="favoritesData && favoritesData.length"
+			v-if="favoritesData && favoritesData.results.length"
 			title="Favorites"
 			:items="favoritesData"
 			:loading="loading"
@@ -42,7 +42,7 @@ export default {
             async function fetchData() {
                 try {
                     const items = await store.getFavorites(user_id, { page: 1 });
-                    favoritesData.value = items.data;
+                    return favoritesData.value = items.data;
                 } catch (error) {
                     console.error("There was an error in fetching data", error);
                 }
