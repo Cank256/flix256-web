@@ -75,6 +75,11 @@ export const useBackendStore = defineStore("backendStore", {
         },
         
         // Function to search for movies, TV shows, and people
+        getFavorites(query: string, params: Params): Promise<AxiosResponse> {
+            return axios.get(`/favorite/${query}`, {params});
+        },
+        
+        // Function to search for movies, TV shows, and people
         search(params: Params): Promise<AxiosResponse> {
             return axios.get(`/search`, {params});
         },

@@ -100,6 +100,39 @@
 					</g>
 				</svg>
 
+				<div v-if="showProfile" class="overlay" @click="closePopup"></div>
+
+				<div v-if="showProfile" class="popup profile-popup centered">
+					<svg
+						width="80"
+						height="80"
+						viewBox="0 0 24 24"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<g
+							fill="none"
+							stroke="#fff"
+							stroke-width="1.5"
+							stroke-linecap="round"
+							stroke-miterlimit="10"
+							stroke-linejoin="round"
+						>
+							<path
+								d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+							/>
+							<path
+								d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z"
+							/>
+						</g>
+					</svg>
+					<div v-if="user" class="profile_data">
+						<p >{{ user.user.username }}</p>
+						<p>{{ user.user.email }}</p>
+						<button @click="deleteAccount">Delete Account</button>
+					</div>
+				</div>
+
 				<!-- Dropdown -->
 				<div v-show="showDropdown" class="dropdown">
 					<button @click="handleDropdownItem('Profile')">Profile</button>
@@ -157,15 +190,15 @@
 						</div>
 						<div class="form-group">
 							<label for="signupLanguage">Language</label>
-							<!-- <input
-								type="text"
-								id="signupLanguage"
-								placeholder="Language"
-								v-model="lang"
-							/> -->
 							<select id="signupLanguage" v-model="lang">
 								<option value="" disabled>Select a language</option>
-								<option v-for="language in languages" :key="language.iso_639_1" :value="language.iso_639_1">{{ language.english_name }}</option>
+								<option
+									v-for="language in languages"
+									:key="language.iso_639_1"
+									:value="language.iso_639_1"
+								>
+									{{ language.english_name }}
+								</option>
 							</select>
 						</div>
 						<button type="submit">Signup</button>
@@ -177,10 +210,10 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue';
+import { ref, watch } from "vue";
 import { useSearchStore } from "~/store/search";
 import { useAuthStore } from "~/store/auth";
-import { languages } from '~/mixins/Languages';
+import { languages } from "~/mixins/Languages";
 
 export default {
 	data() {
@@ -190,9 +223,11 @@ export default {
 			query: this.$route.query.q ? this.$route.query.q : "",
 			fromPage: useSearchStore().fromPage,
 			isLoggedIn: false,
+			showProfile: false,
 			showLogin: false,
 			showSignup: false,
-			languages: [...languages]
+			languages: [...languages],
+			user: null,
 		};
 	},
 
@@ -212,28 +247,36 @@ export default {
 		const username = ref("");
 		const email = ref("");
 		const lang = ref("");
-        const isLoggedIn = ref(false);
+		const isLoggedIn = ref(false);
+		const user = ref("");
 
 		if (typeof localStorage !== "undefined") {
 			// Initial sync from localStorage on page load
 			if (localStorage.getItem("isLoggedIn") === "true") {
 				isLoggedIn.value = true;
+				user.value = JSON.parse(localStorage.getItem("user"));
 			}
 
+			// Watch for changes in authStore
+			watch(
+				() => authStore.isLoggedIn,
+				(newValue) => {
+					isLoggedIn.value = newValue;
+					localStorage.setItem("isLoggedIn", newValue); // Update localStorage
+				},
 
-			// Watch for changes in authStore 
-			watch(() => authStore.isLoggedIn, (newValue) => {
-				isLoggedIn.value = newValue;
-				localStorage.setItem("isLoggedIn", newValue); // Update localStorage
-			});
+				() => authStore.user,
+				(newValue) => {
+					user.value = newValue;
+				}
+			);
 		}
 
-		if (typeof window !== 'undefined') {
-
+		if (typeof window !== "undefined") {
 			// Watch for localStorage changes (e.g., logged in on another tab)
-			window.addEventListener('storage', (event) => {
-				if (event.key === 'isLoggedIn') {
-					isLoggedIn.value = event.newValue === 'true';
+			window.addEventListener("storage", (event) => {
+				if (event.key === "isLoggedIn") {
+					isLoggedIn.value = event.newValue === "true";
 				}
 			});
 		}
@@ -253,6 +296,7 @@ export default {
 
 			try {
 				await authStore.register(userData);
+				closePopup();
 			} catch (error) {
 				console.error("Registration failed:", error);
 			}
@@ -267,12 +311,31 @@ export default {
 
 			try {
 				await authStore.login(username.value);
+				this.closePopup();
 			} catch (error) {
 				console.error("Login failed:", error);
 			}
 		};
 
-		return { username, email, lang, isLoggedIn, signup, login };
+		const deleteAccount = async () => {
+			try {
+				await authStore.delete(user.value.user._id);
+				closePopup();
+			} catch (error) {
+				console.error("Account deletion failed:", error);
+			}
+		};
+
+		return {
+			username,
+			email,
+			lang,
+			isLoggedIn,
+			user,
+			signup,
+			login,
+			deleteAccount,
+		};
 	},
 
 	methods: {
@@ -281,10 +344,11 @@ export default {
 		},
 
 		handleDropdownItem(item) {
+			const authStore = useAuthStore();
+
 			if (item === "Profile") {
-				this.$router.push("/user");
+				this.showProfilePopup();
 			} else {
-				const authStore = useAuthStore();
 				authStore.logout();
 				this.$router.push("/");
 			}
@@ -331,16 +395,24 @@ export default {
 			}
 		},
 
+		showProfilePopup() {
+			this.showProfile = true;
+			this.showLogin = false;
+			this.showSignup = false;
+		},
+
 		showLoginPopup() {
 			this.showLogin = true;
 			this.showSignup = false;
 		},
+
 		showSignupPopup() {
 			this.showSignup = true;
 			this.showLogin = false;
 		},
 
 		closePopup() {
+			this.showProfile = false;
 			this.showLogin = false;
 			this.showSignup = false;
 		},
@@ -543,6 +615,31 @@ export default {
 .form-group label {
 	display: block;
 	margin-bottom: 5px;
+}
+
+.profile-popup {
+	background: #292929;
+}
+
+.centered {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+
+.profile_data button {
+	padding: 1rem;
+	border-radius: 5px;
+	width: 100%;
+	background-color: #fb3131;
+	color: #fff;
+	border: #a50f0f solid 2px;
+}
+
+.profile_data button:hover {
+	background-color: #eb7c72;
 }
 </style>
 

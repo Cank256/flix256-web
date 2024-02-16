@@ -49,6 +49,19 @@ export const useAuthStore = defineStore("auth", {
                 console.error("Login error:", error);
             }
         },
+        async delete(user_id: string) {
+            try {
+                const response = await axios.delete(`/users/${user_id}`);
+
+                if (response.status >= 300) {
+                    throw new Error(`Account deletion failed: ${response.data}`);
+                }
+
+                this.resetState();
+            } catch (error) {
+                console.error("Login error:", error);
+            }
+        },
         async logout() {
             this.resetState();
         },
