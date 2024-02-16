@@ -12,6 +12,14 @@ interface Params {
     [key: string]: any;
 }
 
+interface Favorite {
+    user_id: string;
+    id: string;
+    media_type: string;
+    title: string;
+    poster_path: string;
+}
+
 // Define lists for movies and TV shows
 const lists: Record<string, List[]> = {
     movie: [
@@ -75,13 +83,22 @@ export const useBackendStore = defineStore("backendStore", {
         },
         
         // Function to search for movies, TV shows, and people
+        addFavorite(favorite: Favorite): Promise<AxiosResponse> {
+            return axios.post(`/favorite`, favorite);
+        },
+        
+        // Function to search for movies, TV shows, and people
         getFavorites(query: string, params: Params): Promise<AxiosResponse> {
             return axios.get(`/favorite/${query}`, {params});
+        },
+
+        deleteFavorite(fav_id: string): Promise<AxiosResponse> {
+            return axios.delete(`/favorite/${fav_id}`,);
         },
         
         // Function to search for movies, TV shows, and people
         search(params: Params): Promise<AxiosResponse> {
-            return axios.get(`/search`, {params});
+            return axios.get(`/search`, { params });
         },
     }
 });
