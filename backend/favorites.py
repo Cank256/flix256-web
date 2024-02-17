@@ -111,8 +111,8 @@ def get_favorites(user_id):
 @app.route('/api/favorite', methods=['DELETE'], endpoint='api_delete_favorite')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@app.route('/favorite/<favorite_id>', methods=['DELETE'])
-def delete_favorite(favorite_id):
+@app.route('/favorite/<favorite_id>/<user_id>', methods=['DELETE'])
+def delete_favorite(favorite_id, user_id):
     """
     Endpoint to delete a favorite movie or TV show for a user.
 
@@ -127,10 +127,17 @@ def delete_favorite(favorite_id):
             'error': 'favorite_id not provided or it is invalid'
         }), 400
 
+    if not ObjectId.is_valid(user_id):
+        return jsonify({
+            'error': 'user_id not provided or it is invalid'
+        }), 400
+
     # Validate that the favorite belongs to the user
     check_favorite = favorites.find_one({
-            '_id': ObjectId(favorite_id)
+            '_id': ObjectId(favorite_id),
+            'user_id': user_id
     })
+
     if not check_favorite:
         return jsonify({
             'error': 'You are not authorized to delete this resource'
