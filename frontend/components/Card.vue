@@ -44,7 +44,7 @@
 
 		<div class="save-container">
 			<img
-				v-if="isSaved || checkFavorites(item.id)"
+				v-if="isSaved || isFavorite"
 				@click="deleteItem"
 				src="@/assets/img/svg/heart_2.svg"
 				class="heart-icon"
@@ -79,7 +79,12 @@ export default {
 	data() {
 		return {
 			isSaved: false,
+			isFavorite: false,
 		};
+	},
+
+	mounted() {
+		this.isFavorite = this.checkFavorites(this.item.id);
 	},
 
 	computed: {
@@ -101,7 +106,7 @@ export default {
 			} else {
 				return "movie";
 			}
-		}
+		},
 	},
 
 	methods: {
@@ -146,7 +151,13 @@ export default {
 			// Iterate over items.results and check if each item is found in favorites
 			if (userFavorites) {
 				const result = userFavorites.some(
-					(favorite) => favorite.id === item_id
+					(favorite) => {
+						const check = favorite.id === item_id;
+						if (check) {
+							this.item._id = favorite._id;
+						}
+						return check;
+					}
 				);
 				return result;
 			} else {
