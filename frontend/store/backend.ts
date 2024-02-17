@@ -1,5 +1,6 @@
 import { type AxiosResponse } from "axios";
 import axios from '~/store/axios';
+import { useAuthStore } from '~/store/auth';
 import { defineStore } from "pinia";
 
 // Define types for different lists
@@ -78,13 +79,12 @@ export const useBackendStore = defineStore("backendStore", {
         },
         
         // Function to get recommended TV shows for a user
-        getTvsShowRecommended(params: Params): Promise<AxiosResponse> {
-            return axios.get(`/tv/recommended`, {params});
-        },
-        
-        // Function to search for movies, TV shows, and people
-        addFavorite(favorite: Favorite): Promise<AxiosResponse> {
-            return axios.post(`/favorite`, favorite);
+        async addFavorite(favorite: Favorite): Promise<AxiosResponse> {
+            const response = await axios.post(`/favorite`, favorite);
+            const favData = await this.getFavorites(favorite.user_id, {});
+            localStorage.removeItem('favorites');
+            localStorage.setItem('favorites', JSON.stringify(favData.data.results));
+            return response;
         },
         
         // Function to search for movies, TV shows, and people
@@ -92,8 +92,12 @@ export const useBackendStore = defineStore("backendStore", {
             return axios.get(`/favorite/${query}`, {params});
         },
 
-        deleteFavorite(fav_id: string): Promise<AxiosResponse> {
-            return axios.delete(`/favorite/${fav_id}`,);
+        async deleteFavorite(fav_id: string, user_id: string): Promise<AxiosResponse> {
+            const response = await axios.delete(`/favorite/${fav_id}/${user_id}`);
+            const favData = await this.getFavorites(user_id, {});
+            localStorage.removeItem('favorites');
+            localStorage.setItem('favorites', JSON.stringify(favData.data.results));
+            return response;
         },
         
         // Function to search for movies, TV shows, and people

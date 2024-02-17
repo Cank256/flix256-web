@@ -44,7 +44,7 @@
 
 		<div class="save-container">
 			<img
-				v-if="isSaved"
+				v-if="isSaved || checkFavorites(item.id)"
 				@click="deleteItem"
 				src="@/assets/img/svg/heart_2.svg"
 				class="heart-icon"
@@ -101,14 +101,10 @@ export default {
 			} else {
 				return "movie";
 			}
-		},
+		}
 	},
 
 	methods: {
-		isSavedAction() {
-			this.isSaved ? (this.isSaved = false) : (this.isSaved = true);
-		},
-
 		getUserId() {
 			if (localStorage.getItem("user") !== null) {
 				const userData = JSON.parse(localStorage.getItem("user"));
@@ -135,12 +131,28 @@ export default {
 
 		async deleteItem() {
 			try {
-				await useBackendStore().deleteFavorite(this.item._id);
+				await useBackendStore().deleteFavorite(this.item._id, this.getUserId());
 				this.isSaved = false;
 			} catch (error) {
 				console.error("There was an error in deleting favorite", error);
 			}
 		},
+
+		checkFavorites(item_id) {
+			// Get favorites from localStorage
+			const userFavorites =
+				JSON.parse(window.localStorage.getItem("favorites")) || [];
+
+			// Iterate over items.results and check if each item is found in favorites
+			if (userFavorites) {
+				const result = userFavorites.some(
+					(favorite) => favorite.id === item_id
+				);
+				return result;
+			} else {
+				return false;
+			}
+		}
 	},
 };
 </script>

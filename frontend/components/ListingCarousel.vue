@@ -85,6 +85,7 @@
 <script>
 import smoothscroll from 'smoothscroll-polyfill';
 import Card from "~/components/Card";
+import { useBackendStore } from "~/store/backend";
 
 export default {
 	components: {
@@ -102,6 +103,7 @@ export default {
             unusableVisibleWidth: 0,
             disableLeftButton: true,
             disableRightButton: false,
+			favorites: [],
         };
     },
 
@@ -203,6 +205,19 @@ export default {
 				: this.items.length;
 
 			this.calculateState(count);
+		},
+
+		async getFavorites() {
+			const store = useBackendStore();
+			const user_id = this.getUserId();
+
+			try {
+				const favorites = await store.getFavorites(user_id, { page: 1 });
+				this.favorites = favorites.data;
+				// Further logic to handle favorites
+			} catch (error) {
+				console.error("Error fetching favorites:", error);
+			}
 		},
 	},
 };

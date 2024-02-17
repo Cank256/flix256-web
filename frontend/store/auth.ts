@@ -29,8 +29,9 @@ export const useAuthStore = defineStore("auth", {
                     throw new Error(`Registration failed: ${response.data}`);
                 }
 
-                const data = response.data;
-                this.setUserData(data);
+                const userData = response.data;
+                const favorites = await axios.get(`/favorite/${userData.user._id}`);
+                this.setUserData(userData, favorites.data.results);
             } catch (error) {
                 console.error("Registration error:", error);
             }
@@ -43,8 +44,9 @@ export const useAuthStore = defineStore("auth", {
                     throw new Error(`Login failed: ${response.data}`);
                 }
 
-                const data = response.data;
-                this.setUserData(data);
+                const userData = response.data;
+                const favorites = await axios.get(`/favorite/${userData.user._id}`);
+                this.setUserData(userData, favorites.data.results);
             } catch (error) {
                 console.error("Login error:", error);
             }
@@ -65,14 +67,15 @@ export const useAuthStore = defineStore("auth", {
         async logout() {
             this.resetState();
         },
-        setUserData(data: User) {
-            this.userId = data.userId;
-            this.username = data.username;
-            this.email = data.email;
-            this.lang = data.lang;
+        setUserData(user: User, favorites: any) {
+            this.userId = user.userId;
+            this.username = user.username;
+            this.email = user.email;
+            this.lang = user.lang;
             this.isLoggedInState = true;
             localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('user', JSON.stringify(data));
+            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('favorites', JSON.stringify(favorites));
         },
         resetState() {
             this.userId = null;
@@ -82,6 +85,7 @@ export const useAuthStore = defineStore("auth", {
             this.isLoggedInState = false;
             localStorage.setItem('isLoggedIn', 'false');
             localStorage.removeItem('user');
+            localStorage.removeItem('favorites');
         },
     },
 });

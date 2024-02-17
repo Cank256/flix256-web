@@ -1,7 +1,10 @@
+import { useBackendStore } from "~/store/backend";
+
 // Define Image url
 export const apiImgUrl: string | undefined = process.env.tmdbImageUrl || 'https://image.tmdb.org/t/p';
 
 interface Item {
+  id: number;
   title?: string;
   name?: string;
   runtime?: number;
@@ -207,3 +210,29 @@ export const creators = {
     },
   },
 };
+
+export const checkIfIsFavorite = {
+  computed: {
+    async checkIfIsFavorite(this: { item: Item }) {
+      const itemId = this.item.id;
+      const store = useBackendStore();
+
+      const userData = JSON.parse(window.localStorage.getItem("user") || "{}");
+
+      try {
+        const favItems = await store.getFavorites(userData.user._id, { page: 1 });
+
+        // Check if favItems.data is an array before calling some
+        if (Array.isArray(favItems.data)) {
+          // Use some to check if itemId exists in favItems.data
+          return favItems.data.some((favItem: any) => favItem.id === itemId);
+        }
+      } catch (error) {
+        console.error("Error fetching favorites:", error);
+      }
+
+      return false; // Return false if there was an error or favItems.data is not an array
+    }
+  }
+};
+
