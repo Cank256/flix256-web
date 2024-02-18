@@ -1,2 +1,2 @@
 cp .env.example .env
-web: uwsgi --http 0.0.0.0:$PORT --module run:app
+web: gunicorn --bind 0.0.0.0:$PORT run:app
