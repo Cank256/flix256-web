@@ -17,7 +17,7 @@ CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, supports_cred
 limiter = Limiter(
     util.get_remote_address,
     app=app,
-    storage_uri="redis://localhost:6379/0",
+    storage_uri=os.getenv('REDIS_URL'),
     default_limits=['200 per day', '50 per hour']
 )
 
@@ -31,15 +31,11 @@ def api_only_limit():
 cache = Cache()
 
 # Initialize Flask-Redis
-redis = FlaskRedis()
+# Initialize Flask-Redis
+redis_client = FlaskRedis()
 
-# Configure Flask app with Redis
-app.config['CACHE_TYPE'] = os.getenv('CACHE_TYPE')
-app.config['CACHE_KEY_PREFIX'] = os.getenv('CACHE_KEY_PREFIX')
-app.config['CACHE_REDIS'] = redis
-
-# Initialize Flask-Caching with the app
-cache.init_app(app)
+# Configure Redis connection with password
+redis_client.init_app(app, password=os.getenv('REDIS_PASSWORD'))
 
 # Configure MongoDB Client
 app.config['MONGO_URI'] = os.getenv('MONGO_URI')
