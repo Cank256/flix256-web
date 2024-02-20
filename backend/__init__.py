@@ -29,7 +29,7 @@ def api_only_limit():
     return 'unlimited'  # No limit for non-API routes
 
 # Initialize Flask-Caching
-cache = Cache()
+cache = Cache(app)
 
 # Initialize Flask-Redis
 # Initialize Flask-Redis
