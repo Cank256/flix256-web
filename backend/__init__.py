@@ -45,7 +45,7 @@ redis_client.init_app(app, password=os.getenv('REDIS_PASSWORD'))
 mongo = pymongo.MongoClient(os.getenv('MONGODB_URI'), ssl=True,ssl_cert_reqs='CERT_NONE')
 
 # Configure REDIS Client
-app.config['REDIS_URL'] = os.getenv('REDISDB_URL')
+app.config['REDIS_URL'] = os.getenv('REDIS_URI')
 redis_client = FlaskRedis(app)
 
 # TMDB URL and API Key to be used for fetching data
