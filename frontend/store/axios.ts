@@ -3,7 +3,7 @@
 import axios from "axios";
 
 // Set the base URL for backend
-axios.defaults.baseURL = process.env.backendUrl || 'http://127.0.0.1:5000'
+axios.defaults.baseURL = process.env.backendUrl || 'https://flix256-3989cf42b7a0.herokuapp.com/'
 
 // Set up Axios interceptors for CORS
 axios.interceptors.request.use((config) => {
