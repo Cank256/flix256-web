@@ -16,7 +16,7 @@ app = Flask(__name__)
 CORS(
     app,
     resources={
-        r"/*": {"origins": ["http://localhost:3000", "https://flix256.netlify.app/"]}
+        r"/*": {"origins": ["http://localhost:3000", "https://flix256.netlify.app"]}
     },
     supports_credentials=True)
 
