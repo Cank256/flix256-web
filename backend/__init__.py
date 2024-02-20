@@ -3,8 +3,9 @@ from flask import Flask, jsonify, request
 from flask_caching import Cache
 from flask_cors import CORS
 from flask_limiter import Limiter, util
-from flask_pymongo import PyMongo
+# from flask_pymongo import PyMongo
 from flask_redis import FlaskRedis
+import pymongo
 import os
 
 # Load environment variables from .env file
@@ -12,7 +13,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000, https://flix256.netlify.app/"}}, supports_credentials=True)
 
 limiter = Limiter(
     util.get_remote_address,
@@ -38,11 +39,13 @@ redis_client = FlaskRedis()
 redis_client.init_app(app, password=os.getenv('REDIS_PASSWORD'))
 
 # Configure MongoDB Client
-app.config['MONGO_URI'] = os.getenv('MONGO_URI')
-mongo = PyMongo(app)
+# app.config['MONGO_URI'] = os.getenv('MONGODB_URI')
+# mongo = PyMongo(app)
+
+mongo = pymongo.MongoClient(os.getenv('MONGODB_URI'), ssl=True,ssl_cert_reqs='CERT_NONE')
 
 # Configure REDIS Client
-app.config['REDIS_URL'] = os.getenv('REDIS_URL')
+app.config['REDIS_URL'] = os.getenv('REDISDB_URL')
 redis_client = FlaskRedis(app)
 
 # TMDB URL and API Key to be used for fetching data
