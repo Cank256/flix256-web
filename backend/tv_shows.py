@@ -1,4 +1,4 @@
-from backend import api_only_limit, app, cache, limiter, mongo, TMDB_API_KEY, TMDB_URL
+from backend import api_only_limit, app, cache, crossdomain, limiter, mongo, TMDB_API_KEY, TMDB_URL
 from flask import jsonify, request
 from flask_cors import cross_origin
 import requests
@@ -9,10 +9,11 @@ favorites = mongo.db.favorites
 
 
 @cache.cached(timeout=3600)
-@app.route('/api/tv/trending', methods=['GET'], endpoint='api_tv_trending')
+@app.route('/api/tv/trending', methods=['GET', 'OPTIONS'], endpoint='api_tv_trending')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@app.route('/tv/trending', methods=['GET'])
+@crossdomain(origin='*')
+@app.route('/tv/trending', methods=['GET', 'OPTIONS'])
 def tv_trending():
     """
     Fetches a list of TV shows that are trending.
@@ -44,10 +45,11 @@ def tv_trending():
 
 
 @cache.cached(timeout=3600)
-@app.route('/api/tv/airing_today', methods=['GET'], endpoint='api_airing_today')
+@app.route('/api/tv/airing_today', methods=['GET', 'OPTIONS'], endpoint='api_airing_today')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@app.route('/tv/airing_today', methods=['GET'])
+@crossdomain(origin='*')
+@app.route('/tv/airing_today', methods=['GET', 'OPTIONS'])
 def airing_today():
     """
     Fetches a list of TV shows that are airing today.
@@ -79,10 +81,11 @@ def airing_today():
 
 
 @cache.cached(timeout=3600)
-@app.route('/api/tv/on_air', methods=['GET'], endpoint='api_on_air')
+@app.route('/api/tv/on_air', methods=['GET', 'OPTIONS'], endpoint='api_on_air')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@app.route('/tv/on_air', methods=['GET'])
+@crossdomain(origin='*')
+@app.route('/tv/on_air', methods=['GET', 'OPTIONS'])
 def on_air():
     """
     Fetches a list of TV shows that are currently on air.
@@ -114,10 +117,11 @@ def on_air():
 
 
 @cache.cached(timeout=3600)
-@app.route('/api/tv/popular', methods=['GET'], endpoint='api_popular_tv_shows')
+@app.route('/api/tv/popular', methods=['GET', 'OPTIONS'], endpoint='api_popular_tv_shows')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@app.route('/tv/popular', methods=['GET'])
+@crossdomain(origin='*')
+@app.route('/tv/popular', methods=['GET', 'OPTIONS'])
 def popular_tv():
     """
     Retrieves a list of popular TV shows.
@@ -149,10 +153,11 @@ def popular_tv():
 
 
 @cache.cached(timeout=3600)
-@app.route('/api/tv/top_rated', methods=['GET'], endpoint='api_top_rated_shows')
+@app.route('/api/tv/top_rated', methods=['GET', 'OPTIONS'], endpoint='api_top_rated_shows')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@app.route('/tv/top_rated', methods=['GET'])
+@crossdomain(origin='*')
+@app.route('/tv/top_rated', methods=['GET', 'OPTIONS'])
 def top_rated_tv():
     """
     Retrieves a list of popular TV shows.
@@ -183,10 +188,11 @@ def top_rated_tv():
         }), response.status_code
 
 
-@app.route('/api/tv/<int:tv_show_id>', methods=['GET'], endpoint='api_tv_show_details')
+@app.route('/api/tv/<int:tv_show_id>', methods=['GET', 'OPTIONS'], endpoint='api_tv_show_details')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@app.route('/tv/<int:tv_show_id>', methods=['GET'])
+@crossdomain(origin='*')
+@app.route('/tv/<int:tv_show_id>', methods=['GET', 'OPTIONS'])
 def tv_show(tv_show_id):
     """
     Fetches details of a TV show.
@@ -218,10 +224,11 @@ def tv_show(tv_show_id):
         }), response.status_code
 
 
-@app.route('/api/tv/episodes', methods=['GET'], endpoint='api_tv_show_episodes')
+@app.route('/api/tv/episodes', methods=['GET', 'OPTIONS'], endpoint='api_tv_show_episodes')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@app.route('/tv/episodes', methods=['GET'])
+@crossdomain(origin='*')
+@app.route('/tv/episodes', methods=['GET', 'OPTIONS'])
 def tv_show_episodes():
     """
     Fetches details of a TV show.

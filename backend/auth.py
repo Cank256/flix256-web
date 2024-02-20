@@ -1,4 +1,4 @@
-from backend import api_only_limit, app, mongo, models, limiter, utils
+from backend import api_only_limit, app, crossdomain, mongo, models, limiter, utils
 from bson import ObjectId
 from datetime import datetime
 from flask import jsonify, request
@@ -9,10 +9,11 @@ from flask_cors import cross_origin
 users = mongo.db.users
 
 
-@app.route('/api/auth/signup', methods=['POST'], endpoint='api_signup')
+@app.route('/api/auth/signup', methods=['POST', 'OPTIONS'], endpoint='api_signup')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@app.route('/auth/signup', methods=['POST'], endpoint='signup')
+@crossdomain(origin='*')
+@app.route('/auth/signup', methods=['POST', 'OPTIONS'], endpoint='signup')
 def signup():
     """
     Endpoint for user registration.
@@ -63,10 +64,11 @@ def signup():
     return jsonify({'user': created_user}), 201
 
 
-@app.route('/api/auth/login', methods=['POST'], endpoint='api_login')
+@app.route('/api/auth/login', methods=['POST', 'OPTIONS'], endpoint='api_login')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@app.route('/auth/login', methods=['POST'])
+@crossdomain(origin='*')
+@app.route('/auth/login', methods=['POST', 'OPTIONS'], endpoint='login')
 def login():
     """
     Endpoint for user login.
@@ -97,7 +99,8 @@ def login():
         return jsonify({'error': 'User not found'}), 404
 
 
-@app.route('/users/<user_id>', methods=['GET'])
+@app.route('/users/<user_id>', methods=['GET', 'OPTIONS'])
+@crossdomain(origin='*')
 def get_user(user_id):
     """
     Endpoint to retrieve user information.
@@ -123,7 +126,8 @@ def get_user(user_id):
         return jsonify({'error': 'User not found'}), 404
 
 
-@app.route('/users/<user_id>', methods=['PUT'])
+@app.route('/users/<user_id>', methods=['PUT', 'OPTIONS'])
+@crossdomain(origin='*')
 def update_user(user_id):
     """
     Endpoint to update user information.
@@ -176,7 +180,8 @@ def update_user(user_id):
         return jsonify({'error': 'User not found'}), 400
 
 
-@app.route('/users/<user_id>', methods=['DELETE'])
+@app.route('/users/<user_id>', methods=['DELETE', 'OPTIONS'])
+@crossdomain(origin='*')
 def delete_user(user_id):
     """
     Endpoint to delete a user.
