@@ -1,4 +1,4 @@
-from backend import api_only_limit, app, crossdomain, limiter, models, mongo, utils
+from backend import api_only_limit, app, limiter, models, mongo, utils
 from bson import ObjectId
 from flask import jsonify, request
 from flask_cors import cross_origin
@@ -9,11 +9,10 @@ favorites = mongo.db.favorites
 users = mongo.db.users
 
 
-@app.route('/api/favorite', methods=['POST', 'OPTIONS'], endpoint='api_add_favorites')
+@app.route('/api/favorite', methods=['POST'], endpoint='api_add_favorites')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@crossdomain(origin='*')
-@app.route('/favorite', methods=['POST', 'OPTIONS'])
+@app.route('/favorite', methods=['POST'])
 def add_favorite():
     """
     Endpoint to add a favorite movie or TV show for a user.
@@ -69,11 +68,10 @@ def add_favorite():
     return jsonify({'favorite_id': str(favorite_id)}), 201
 
 
-@app.route('/api/favorite/<user_id>', methods=['GET', 'OPTIONS'], endpoint='api_get_favorites')
+@app.route('/api/favorite/<user_id>', methods=['GET'], endpoint='api_get_favorites')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@crossdomain(origin='*')
-@app.route('/favorite/<user_id>', methods=['GET', 'OPTIONS'])
+@app.route('/favorite/<user_id>', methods=['GET'])
 def get_favorites(user_id):
     """
     Endpoint to retrieve all favorite movies or TV shows for a specific user.
@@ -110,11 +108,10 @@ def get_favorites(user_id):
         return jsonify({'error': 'No favorites found for user'}), 404
 
 
-@app.route('/api/favorite', methods=['DELETE', 'OPTIONS'], endpoint='api_delete_favorite')
+@app.route('/api/favorite', methods=['DELETE'], endpoint='api_delete_favorite')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@crossdomain(origin='*')
-@app.route('/favorite/<favorite_id>/<user_id>', methods=['DELETE', 'OPTIONS'])
+@app.route('/favorite/<favorite_id>/<user_id>', methods=['DELETE'])
 def delete_favorite(favorite_id, user_id):
     """
     Endpoint to delete a favorite movie or TV show for a user.

@@ -1,4 +1,4 @@
-from backend import api_only_limit, app, cache, crossdomain, limiter, mongo, TMDB_API_KEY, TMDB_URL
+from backend import api_only_limit, app, cache, limiter, mongo, TMDB_API_KEY, TMDB_URL
 from flask import jsonify, request
 from flask_cors import cross_origin
 import requests
@@ -9,11 +9,10 @@ favorites = mongo.db.favorites
 
 
 @cache.cached(timeout=3600)
-@app.route('/api/movies/trending', methods=['GET', 'OPTIONS'], endpoint='api_movies_trending')
+@app.route('/api/movies/trending', methods=['GET'], endpoint='api_movies_trending')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@crossdomain(origin='*')
-@app.route('/movies/trending', methods=['GET', 'OPTIONS'])
+@app.route('/movies/trending', methods=['GET'])
 def movies_trending():
     """
     Fetches a list of movies that are trending.
@@ -45,11 +44,10 @@ def movies_trending():
 
 
 @cache.cached(timeout=3600)
-@app.route('/api/movies/now_playing', methods=['GET', 'OPTIONS'], endpoint='api_movies_now_playing')
+@app.route('/api/movies/now_playing', methods=['GET'], endpoint='api_movies_now_playing')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@crossdomain(origin='*')
-@app.route('/movies/now_playing', methods=['GET', 'OPTIONS'])
+@app.route('/movies/now_playing', methods=['GET'])
 def now_playing():
     """
     Fetches a list of movies that are currently playing in theaters.
@@ -81,12 +79,11 @@ def now_playing():
 
 
 @cache.cached(timeout=3600)
-@app.route('/api/movies/upcoming', methods=['GET', 'OPTIONS'], endpoint='api_upcoming_movies')
+@app.route('/api/movies/upcoming', methods=['GET'], endpoint='api_upcoming_movies')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@crossdomain(origin='*')
 @cache.cached(timeout=3600)
-@app.route('/movies/upcoming', methods=['GET', 'OPTIONS'])
+@app.route('/movies/upcoming', methods=['GET'])
 @cache.cached(timeout=3600)
 def coming_soon():
     """
@@ -119,11 +116,10 @@ def coming_soon():
 
 
 @cache.cached(timeout=3600)
-@app.route('/api/movies/popular', methods=['GET', 'OPTIONS'], endpoint='api_popular_movies')
+@app.route('/api/movies/popular', methods=['GET'], endpoint='api_popular_movies')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@crossdomain(origin='*')
-@app.route('/movies/popular', methods=['GET', 'OPTIONS'])
+@app.route('/movies/popular', methods=['GET'])
 def popular():
     """
     Retrieves a list of popular movies.
@@ -155,11 +151,10 @@ def popular():
 
 
 @cache.cached(timeout=3600)
-@app.route('/api/movies/top_rated', methods=['GET', 'OPTIONS'], endpoint='api_top_rated_movies')
+@app.route('/api/movies/top_rated', methods=['GET'], endpoint='api_top_rated_movies')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@crossdomain(origin='*')
-@app.route('/movies/top_rated', methods=['GET', 'OPTIONS'])
+@app.route('/movies/top_rated', methods=['GET'])
 def top_rated():
     """
     Retrieves a list of top rated movies.
@@ -190,11 +185,10 @@ def top_rated():
         }), response.status_code
 
 
-@app.route('/api/movies/<int:movie_id>', methods=['GET', 'OPTIONS'], endpoint='api_movie_details')
+@app.route('/api/movies/<int:movie_id>', methods=['GET'], endpoint='api_movie_details')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@crossdomain(origin='*')
-@app.route('/movies/<int:movie_id>', methods=['GET', 'OPTIONS'], endpoint='movie_details')
+@app.route('/movies/<int:movie_id>', methods=['GET'], endpoint='movie_details')
 def get_movie(movie_id):
     """
     Fetches details of a specific movie by its TMDB ID.

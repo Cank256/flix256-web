@@ -1,4 +1,4 @@
-from backend import api_only_limit, app, crossdomain, limiter, mongo, TMDB_API_KEY, TMDB_URL
+from backend import api_only_limit, app, limiter, mongo, TMDB_API_KEY, TMDB_URL
 from flask import jsonify, request
 from flask_cors import cross_origin
 import requests
@@ -8,11 +8,10 @@ import requests
 favorites = mongo.db.favorites
 
 
-@app.route('/api/movies/recommended', methods=['GET', 'OPTIONS'], endpoint='api_recommended_movies')
+@app.route('/api/movies/recommended', methods=['GET'], endpoint='api_recommended_movies')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@crossdomain(origin='*')
-@app.route('/movies/recommended', methods=['GET', 'OPTIONS'])
+@app.route('/movies/recommended', methods=['GET'])
 def get_movie_recommendations():
     """
     Fetches movie recommendations for a specific user based on their favorite
@@ -80,11 +79,10 @@ def get_movie_recommendations():
         }), 500
 
 
-@app.route('/api/tv/recommended/<user_id>', methods=['GET', 'OPTIONS'], endpoint='api_recommended_tv_shows')
+@app.route('/api/tv/recommended/<user_id>', methods=['GET'], endpoint='api_recommended_tv_shows')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@crossdomain(origin='*')
-@app.route('/tv/recommended', methods=['GET', 'OPTIONS'])
+@app.route('/tv/recommended', methods=['GET'])
 def get_tv_recommendations():
     """
     Fetches TV show recommendations for a specific user based on their
@@ -149,11 +147,10 @@ def get_tv_recommendations():
         }), 500
 
 
-@app.route('/api/recommended/<user_id>', methods=['GET', 'OPTIONS'], endpoint='api_recommendations')
+@app.route('/api/recommended/<user_id>', methods=['GET'], endpoint='api_recommendations')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@crossdomain(origin='*')
-@app.route('/recommended/<user_id>', methods=['GET', 'OPTIONS'])
+@app.route('/recommended/<user_id>', methods=['GET'])
 def get_movie_tv_recommendations(user_id):
     """
     Fetches a combined list of movie and TV show recommendations for a specific

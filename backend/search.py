@@ -1,14 +1,13 @@
-from backend import api_only_limit, app, crossdomain, limiter, TMDB_API_KEY, TMDB_URL
+from backend import api_only_limit, app, limiter, TMDB_API_KEY, TMDB_URL
 from flask import jsonify, request
 from flask_cors import cross_origin
 import requests
 
 
-@app.route('/api/search', methods=['GET', 'OPTIONS'], endpoint='api_search')
+@app.route('/api/search', methods=['GET'], endpoint='api_search')
 @limiter.limit(api_only_limit)
 @cross_origin(supports_credentials=True)
-@crossdomain(origin='*')
-@app.route('/search', methods=['GET', 'OPTIONS'])
+@app.route('/search', methods=['GET'])
 def search():
     """
     Endpoint to search for movies and TV shows on TMDB.
