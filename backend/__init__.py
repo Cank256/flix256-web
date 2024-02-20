@@ -45,6 +45,8 @@ redis_client.init_app(app, password=os.getenv('REDIS_PASSWORD'))
 mongo = pymongo.MongoClient(os.getenv('MONGODB_URI'), ssl=True,ssl_cert_reqs='CERT_NONE')
 
 # Configure REDIS Client
+app.config['CACHE_TYPE'] = os.getenv('CACHE_TYPE')
+app.config['CACHE_KEY_PREFIX'] = os.getenv('CACHE_KEY_PREFIX')
 app.config['REDIS_URL'] = os.getenv('REDIS_URI')
 redis_client = FlaskRedis(app)
 
