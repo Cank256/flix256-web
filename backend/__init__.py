@@ -13,12 +13,17 @@ load_dotenv()
 
 app = Flask(__name__)
 
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000, https://flix256.netlify.app/"}}, supports_credentials=True)
+CORS(
+    app,
+    resources={
+        r"/*": {"origins": ["http://localhost:3000", "https://flix256.netlify.app/"]}
+    },
+    supports_credentials=True)
 
 limiter = Limiter(
     util.get_remote_address,
     app=app,
-    storage_uri=os.getenv('REDIS_URL'),
+    storage_uri=os.getenv('REDIS_URI'),
     default_limits=['200 per day', '50 per hour']
 )
 
@@ -27,9 +32,6 @@ def api_only_limit():
     if request.path.startswith('/api/'):
         return '5/minute'  # Limit for API routes
     return 'unlimited'  # No limit for non-API routes
-
-# Initialize Flask-Caching
-cache = Cache(app)
 
 # Initialize Flask-Redis
 # Initialize Flask-Redis
@@ -49,6 +51,9 @@ app.config['CACHE_TYPE'] = os.getenv('CACHE_TYPE')
 app.config['CACHE_KEY_PREFIX'] = os.getenv('CACHE_KEY_PREFIX')
 app.config['REDIS_URL'] = os.getenv('REDIS_URI')
 redis_client = FlaskRedis(app)
+
+# Initialize Flask-Caching
+cache = Cache(app)
 
 # TMDB URL and API Key to be used for fetching data
 TMDB_URL = os.getenv('TMDB_URL')
@@ -100,17 +105,18 @@ def unsupported_media_type_error(e):
     ), 415
 
 
-@limiter.request_filter
-def limiter_filter():
-    # Return True if the route should not be limited
-    return request.endpoint in ('static', 'another_route')
-
 
 @app.errorhandler(429)
 def ratelimit_handler(e):
     return jsonify(
         error='You have exceeded your request rate. Try again later.'
     ), 429
+
+
+@limiter.request_filter
+def limiter_filter():
+    # Return True if the route should not be limited
+    return request.endpoint in ('static', 'another_route')
 
 
 # Import views
