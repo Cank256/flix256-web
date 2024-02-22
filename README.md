@@ -3,6 +3,8 @@
 ## Introduction
 Flix256 is a web application designed to provide personalized movie and TV recommendations. It aggregates data from TMDB, offering users current, upcoming, and popular titles alongside a platform to share reviews.
 
+Live Demo: https://flix256.netlify.com
+
 ## Tech Used
 - Backend: Python 3.7 or higher with Flask
 - Frontend: Vue.js 3.4 / NuxtJs 3.9
