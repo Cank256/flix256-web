@@ -120,4 +120,4 @@ def limiter_filter():
 
 
 # Import views
-from backend import auth, favorites, movies, recommendations, search, tv_shows
+from app import auth, favorites, movies, recommendations, search, tv_shows

@@ -1,4 +1,4 @@
-from backend import api_only_limit, app, mongo, models, limiter, utils
+from app import api_only_limit, app, mongo, models, limiter, utils
 from bson import ObjectId
 from datetime import datetime
 from flask import jsonify, request

@@ -1,4 +1,4 @@
-from backend import api_only_limit, app, cache, limiter, mongo, TMDB_API_KEY, TMDB_URL
+from app import api_only_limit, app, cache, limiter, mongo, TMDB_API_KEY, TMDB_URL
 from flask import jsonify, request
 from flask_cors import cross_origin
 import requests

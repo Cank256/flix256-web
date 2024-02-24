@@ -1,4 +1,4 @@
-from backend import mongo
+from app import mongo
 
 
 # Access the favorites and user collections

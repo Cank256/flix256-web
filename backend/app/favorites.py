@@ -1,4 +1,4 @@
-from backend import api_only_limit, app, limiter, models, mongo, utils
+from app import api_only_limit, app, limiter, models, mongo, utils
 from bson import ObjectId
 from flask import jsonify, request
 from flask_cors import cross_origin
