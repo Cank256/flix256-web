@@ -105,7 +105,7 @@ def get_favorites(user_id):
             results = [utils.serialize_document(doc) for doc in favorites_result]
         ), 200
     else:
-        return jsonify({}), 200
+        return jsonify({'error': 'No favorites found for user'}), 404
 
 
 @app.route('/api/favorite', methods=['DELETE'], endpoint='api_delete_favorite')

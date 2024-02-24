@@ -1,0 +1,31 @@
+{
+  "name": "flix256",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxtjs/device": "^3.1.1",
+    "@pinia/nuxt": "^0.5.1",
+    "@types/smoothscroll-polyfill": "^0.3.3",
+    "nuxt": "^3.9.3",
+    "vue": "^3.4.14",
+    "vue-router": "^4.2.5"
+  },
+  "dependencies": {
+    "@nuxt/bridge": "^3.0.1",
+    "@nuxt/image": "^1.3.0",
+    "@nuxt/types": "^2.17.3",
+    "axios": "^1.6.7",
+    "nuxt-property-decorator": "^2.9.1",
+    "sass": "^1.70.0",
+    "smoothscroll-polyfill": "^0.4.4",
+    "vue-demi": "^0.14.6",
+    "vuex": "^4.0.2"
+  }
+}
