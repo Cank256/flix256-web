@@ -2,7 +2,7 @@
 FROM python:3.11
 
 # Set the working directory inside the container
-WORKDIR /backend
+WORKDIR /app
 
 # Copy requirements file and install dependencies
 COPY requirements.txt requirements.txt
@@ -12,7 +12,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Expose the server port
-EXPOSE 8080
+EXPOSE 5000
 
 # Command to start the server
-CMD ["gunicorn", "-b", "0.0.0.0:8080", "root:app"]
+CMD ["uwsgi", "-http", "0.0.0.0:5000", "--module", "root:app"]
