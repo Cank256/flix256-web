@@ -1,14 +1,17 @@
-# Use the official Python image as the base image
-FROM python:3.8
+# Use a base image with Python 3.11 (e.g., Debian or Alpine)
+FROM python:3.11
 
-# Set the working directory in the container
+# Set the working directory inside the container
 WORKDIR /backend
 
-# Copy the application files into the working directory
+# Copy the application code into the container
 COPY . /backend
 
-# Install the application dependencies
-RUN pip install -r requirements.txt
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Define the entry point for the container
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Expose port 5000
+EXPOSE 5000
+
+# Define the startup command
+CMD ["python", "run.py"]
