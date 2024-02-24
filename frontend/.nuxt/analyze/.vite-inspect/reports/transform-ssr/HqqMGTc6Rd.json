@@ -1,0 +1,288 @@
+{
+  "resolvedId": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/Modal.vue?vue&type=style&index=0&lang.scss",
+  "transforms": [
+    {
+      "name": "vite:vue",
+      "result": "\n@import '~/assets/css/utilities/_variables.scss';\n\nbody.modal-open {\n  overflow: hidden;\n}\n\n.modal {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  z-index: 999;\n  overflow-x: hidden;\n  overflow-y: auto;\n  cursor: pointer;\n  background-color: rgba(0,0,0,0.8);\n\n  @media (min-width: $breakpoint-large) {\n    padding: 4.4rem 10rem;\n  }\n}\n\n.modal__wrap {\n  display: flex;\n  flex-direction: column;\n  min-height: 100%;\n}\n\n.modal__body {\n  position: relative;\n  margin: auto;\n  cursor: default;\n}\n\n.modal__close {\n  position: absolute;\n  top: 0;\n  right: 0;\n  z-index: 1;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 4.4rem;\n  height: 4.4rem;\n  padding: 0;\n  background: none;\n\n  @media (max-width: $breakpoint-large) {\n    position: fixed;\n    left: 0;\n    width: 6rem;\n    height: 6rem;\n  }\n}\n\n.modal--nav {\n  @media (max-width: $breakpoint-large) {\n    padding-bottom: 5rem;\n  }\n\n  .modal__image img {\n    @media (max-width: $breakpoint-large) {\n      max-height: calc(100vh - 5rem);\n    }\n  }\n}\n\n.modal__nav {\n  position: absolute;\n  right: 0;\n  bottom: -4.4rem;\n  left: 0;\n  display: flex;\n  align-items: center;\n  height: 4.4rem;\n\n  @media (max-width: $breakpoint-large) {\n    position: fixed;\n    right: 0;\n    bottom: 0;\n    left: 0;\n    justify-content: space-between;\n    height: 5rem;\n    background-color: #000;\n  }\n\n  @media (min-width: $breakpoint-large) {\n    justify-content: flex-end;\n  }\n}\n\n.modal__arrow {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: 0;\n  background: none;\n\n  @media (max-width: $breakpoint-large) {\n    flex: 1;\n    height: 5rem;\n  }\n\n  @media (min-width: $breakpoint-large) {\n    position: fixed;\n    top: 50%;\n    width: 10rem;\n    height: 10rem;\n    margin-top: -5rem;\n  }\n}\n\n@media (min-width: $breakpoint-large) {\n  .modal__arrow--prev {\n    left: 0;\n  }\n\n  .modal__arrow--next {\n    right: 0;\n  }\n}\n\n.modal__count {\n  font-size: 1.6rem;\n  line-height: 1;\n}\n\n@media (min-width: $breakpoint-large) {\n  .modal--images {\n    .modal__close {\n      top: -4.4rem;\n    }\n  }\n}\n\n.modal__image {\n  &.lazyloading {\n    background: url('~assets/img/loader.svg') no-repeat center;\n  }\n\n  img {\n    max-height: calc(100vh);\n\n    @media (min-width: $breakpoint-large) {\n      max-height: calc(100vh - 8.8rem);\n    }\n  }\n}\n\n@media (min-width: $breakpoint-large) {\n  .modal--iframe {\n    .modal__close {\n      top: -4.4rem;\n    }\n  }\n}\n\n.modal__iframe {\n  position: relative;\n  width: 100%;\n  height: 0;\n  padding-bottom: 56.25%;\n  overflow: hidden;\n\n  iframe {\n    position: absolute;\n    top: 0;\n    left: 0;\n    display: block;\n    width: 100%;\n    height: 100%;\n    padding: 0;\n    margin: 0;\n    background: #000;\n    border: 0;\n  }\n}\n\n.modal-enter,\n.modal-leave-active {\n  opacity: 0;\n}\n\n.modal-enter-active,\n.modal-leave-active {\n  transition: opacity 0.3s ease;\n}\n",
+      "start": 1708426969514,
+      "end": 1708426969514,
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/Modal.vue"
+        ],
+        "names": [],
+        "mappings": "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",
+        "file": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/Modal.vue",
+        "sourceRoot": "",
+        "sourcesContent": [
+          "<template>\n  <transition name=\"modal\" appear>\n    <div\n      ref=\"modal\"\n      class=\"modal\"\n      tabindex=\"-1\"\n      aria-hidden=\"false\"\n      :aria-label=\"label\"\n      role=\"dialog\"\n      :class=\"modalClass\"\n      @click=\"close\">\n      <div class=\"modal__wrap\">\n        <div\n          class=\"modal__body\"\n          @click.stop>\n          <button\n            class=\"modal__close\"\n            aria-label=\"Close\"\n            type=\"button\"\n            @click.stop=\"close\">\n            <!-- eslint-disable-next-line -->\n            <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"15\" height=\"15\" viewBox=\"0 0 15 15\"><g fill=\"none\" stroke=\"#fff\" stroke-linecap=\"round\" stroke-miterlimit=\"10\" stroke-width=\"1.5\"><path d=\"M.75.75l13.5 13.5M14.25.75L.75 14.25\"/></g></svg>\n          </button>\n\n          <div :class=\"`modal__${type}`\">\n            <iframe\n              v-if=\"type === 'iframe' && activeItem\"\n              :src=\"activeItem.src\"\n              frameborder=\"0\"\n              allow=\"autoplay; encrypted-media\"\n              allowfullscreen />\n              \n              <NuxtImg v-if=\"type === 'image' && activeItem\" :src=\"activeItem.src\" loading=\"lazy\" class=\"lazyload\" :alt=\"name\" />\n          </div>\n\n          <div\n            v-if=\"showNav\"\n            class=\"modal__nav\">\n            <button\n              class=\"modal__arrow modal__arrow--prev\"\n              aria-label=\"Previous\"\n              type=\"button\"\n              @click.stop=\"previous\">\n              <!-- eslint-disable-next-line -->\n              <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\"><path fill=\"none\" stroke=\"#fff\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" d=\"M17.9 23.2L6.1 12 17.9.8\"></path></svg>\n            </button>\n\n            <div class=\"modal__count\">\n              {{ selected + 1 }} / {{ data.length }}\n            </div>\n\n            <button\n              class=\"modal__arrow modal__arrow--next\"\n              aria-label=\"Next\"\n              type=\"button\"\n              title=\"Next\"\n              @click.stop=\"next\">\n              <!-- eslint-disable-next-line -->\n              <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\"><path fill=\"none\" stroke=\"#fff\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" d=\"M6.1 23.2L17.9 12 6.1.8\"></path></svg>\n            </button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </transition>\n</template>\n\n<script>\nimport { debounce } from '~/mixins/Functions';\n\nlet focusedElBeforeOpen;\nlet focusableEls;\nlet firstFocusableEl;\nlet lastFocusableEl;\n\nexport default {\n  props: {\n    data: {\n      type: Array,\n      required: false,\n      default: function () {\n        return [];\n      },\n    },\n\n    type: {\n      type: String,\n      required: false,\n      default: 'image',\n    },\n\n    modifier: {\n      type: String,\n      required: false,\n      default: '',\n    },\n\n    nav: {\n      type: Boolean,\n      required: false,\n      default: false,\n    },\n\n    startAt: {\n      type: Number,\n      required: false,\n      default: 0,\n    },\n\n    ariaLabel: {\n      type: String,\n      required: false,\n      default: '',\n    },\n  },\n\n  head () {\n    return {\n      bodyAttrs: {\n        class: 'modal-open',\n      },\n    };\n  },\n\n  data () {\n    return {\n      selected: null,\n      activeItem: null,\n    };\n  },\n\n  computed: {\n    modalClass () {\n      return {\n        'modal--nav': this.showNav,\n        [`modal--${this.type}`]: true,\n        [this.modifier]: true,\n      };\n    },\n\n    showNav () {\n      return this.nav && this.data.length > 1;\n    },\n\n    label () {\n      if (this.ariaLabel) {\n        return this.ariaLabel;\n      } else if (this.activeItem && this.activeItem.name) {\n        return this.activeItem.name;\n      } else {\n        return null;\n      }\n    },\n  },\n\n  watch: {\n    selected () {\n      this.activeItem = this.data[this.selected];\n    },\n  },\n\n  created () {\n    this.selected = this.startAt;\n  },\n\n  beforeMount () {\n    window.addEventListener('keydown', this.handleKeyDown);\n    focusedElBeforeOpen = document.activeElement;\n  },\n\n  mounted () {\n    focusableEls = this.$refs.modal.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex=\"0\"]');\n    focusableEls = Array.prototype.slice.call(focusableEls);\n\n    firstFocusableEl = focusableEls[0];\n    lastFocusableEl = focusableEls[focusableEls.length];\n\n    // focus on the first element\n    firstFocusableEl.focus();\n\n    // calculate iframe size for responsive sizing on resize\n    if (this.type === 'iframe') {\n      this.handleIframeSize();\n      window.addEventListener('resize', this.resizeIframeSize);\n    }\n  },\n\n  beforeDestroy () {\n    window.removeEventListener('keydown', this.handleKeyDown);\n\n    if (this.type === 'iframe') {\n      window.removeEventListener('resize', this.resizeIframeSize);\n    }\n\n    if (focusedElBeforeOpen) {\n      focusedElBeforeOpen.focus();\n    }\n  },\n\n  methods: {\n    previous () {\n      this.selected = ((this.selected) + this.data.length) % this.data.length;\n    },\n\n    next () {\n      this.selected = (this.selected + 1) % this.data.length;\n    },\n\n    close () {\n      this.$emit('close');\n    },\n\n    handleKeyDown (e) {\n      if (e.keyCode === 27) { // esc key\n        this.close();\n      } else if (this.nav && e.keyCode === 39) { // right arrow\n        this.next();\n      } else if (this.nav && e.keyCode === 37) { // left arrow\n        this.previous();\n      } else if (e.keyCode === 9) { // tab\n        if (focusableEls.length === 1) {\n          e.preventDefault();\n          return;\n        }\n\n        if (e.shiftKey) {\n          this.handleBackwardTab(e);\n        } else {\n          this.handleForwardTab(e);\n        }\n      }\n    },\n\n    handleForwardTab (e) {\n      if (document.activeElement === lastFocusableEl) {\n        e.preventDefault();\n        firstFocusableEl.focus();\n      }\n    },\n\n    handleBackwardTab (e) {\n      if (document.activeElement === firstFocusableEl) {\n        e.preventDefault();\n        lastFocusableEl.focus();\n      }\n    },\n\n    handleIframeSize () {\n      const aspectRatio = 16 / 9;\n      const styles = getComputedStyle(this.$refs.modal);\n      let maxWidth = this.$refs.modal.offsetWidth;\n      let maxHeight = this.$refs.modal.offsetHeight;\n      let width;\n      let height;\n\n      maxWidth -= parseFloat(styles.paddingRight) + parseFloat(styles.paddingLeft);\n      maxHeight -= parseFloat(styles.paddingTop) + parseFloat(styles.paddingBottom);\n\n      width = maxWidth;\n      height = maxHeight;\n\n      if (maxHeight > maxWidth / aspectRatio) {\n        height = maxWidth / aspectRatio;\n      } else if (maxWidth > maxHeight * aspectRatio) {\n        width = maxHeight * aspectRatio;\n      }\n\n      this.$refs.modal.querySelector('.modal__iframe').style.width = `${width}px`;\n      this.$refs.modal.querySelector('.modal__iframe').style.height = `${height}px`;\n    },\n\n    resizeIframeSize: debounce(function () {\n      this.handleIframeSize();\n    }, 600),\n  },\n};\n</script>\n\n<style lang=\"scss\">\n@import '~/assets/css/utilities/_variables.scss';\n\nbody.modal-open {\n  overflow: hidden;\n}\n\n.modal {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  z-index: 999;\n  overflow-x: hidden;\n  overflow-y: auto;\n  cursor: pointer;\n  background-color: rgba(0,0,0,0.8);\n\n  @media (min-width: $breakpoint-large) {\n    padding: 4.4rem 10rem;\n  }\n}\n\n.modal__wrap {\n  display: flex;\n  flex-direction: column;\n  min-height: 100%;\n}\n\n.modal__body {\n  position: relative;\n  margin: auto;\n  cursor: default;\n}\n\n.modal__close {\n  position: absolute;\n  top: 0;\n  right: 0;\n  z-index: 1;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 4.4rem;\n  height: 4.4rem;\n  padding: 0;\n  background: none;\n\n  @media (max-width: $breakpoint-large) {\n    position: fixed;\n    left: 0;\n    width: 6rem;\n    height: 6rem;\n  }\n}\n\n.modal--nav {\n  @media (max-width: $breakpoint-large) {\n    padding-bottom: 5rem;\n  }\n\n  .modal__image img {\n    @media (max-width: $breakpoint-large) {\n      max-height: calc(100vh - 5rem);\n    }\n  }\n}\n\n.modal__nav {\n  position: absolute;\n  right: 0;\n  bottom: -4.4rem;\n  left: 0;\n  display: flex;\n  align-items: center;\n  height: 4.4rem;\n\n  @media (max-width: $breakpoint-large) {\n    position: fixed;\n    right: 0;\n    bottom: 0;\n    left: 0;\n    justify-content: space-between;\n    height: 5rem;\n    background-color: #000;\n  }\n\n  @media (min-width: $breakpoint-large) {\n    justify-content: flex-end;\n  }\n}\n\n.modal__arrow {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: 0;\n  background: none;\n\n  @media (max-width: $breakpoint-large) {\n    flex: 1;\n    height: 5rem;\n  }\n\n  @media (min-width: $breakpoint-large) {\n    position: fixed;\n    top: 50%;\n    width: 10rem;\n    height: 10rem;\n    margin-top: -5rem;\n  }\n}\n\n@media (min-width: $breakpoint-large) {\n  .modal__arrow--prev {\n    left: 0;\n  }\n\n  .modal__arrow--next {\n    right: 0;\n  }\n}\n\n.modal__count {\n  font-size: 1.6rem;\n  line-height: 1;\n}\n\n@media (min-width: $breakpoint-large) {\n  .modal--images {\n    .modal__close {\n      top: -4.4rem;\n    }\n  }\n}\n\n.modal__image {\n  &.lazyloading {\n    background: url('~assets/img/loader.svg') no-repeat center;\n  }\n\n  img {\n    max-height: calc(100vh);\n\n    @media (min-width: $breakpoint-large) {\n      max-height: calc(100vh - 8.8rem);\n    }\n  }\n}\n\n@media (min-width: $breakpoint-large) {\n  .modal--iframe {\n    .modal__close {\n      top: -4.4rem;\n    }\n  }\n}\n\n.modal__iframe {\n  position: relative;\n  width: 100%;\n  height: 0;\n  padding-bottom: 56.25%;\n  overflow: hidden;\n\n  iframe {\n    position: absolute;\n    top: 0;\n    left: 0;\n    display: block;\n    width: 100%;\n    height: 100%;\n    padding: 0;\n    margin: 0;\n    background: #000;\n    border: 0;\n  }\n}\n\n.modal-enter,\n.modal-leave-active {\n  opacity: 0;\n}\n\n.modal-enter-active,\n.modal-leave-active {\n  transition: opacity 0.3s ease;\n}\n</style>\n"
+        ]
+      }
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426969514,
+      "end": 1708426969514,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426969514,
+      "end": 1708426969514,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426969514,
+      "end": 1708426969514,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426969514,
+      "end": 1708426969514,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:client-fallback-auto-id",
+      "start": 1708426969514,
+      "end": 1708426969514,
+      "order": "pre"
+    },
+    {
+      "name": "vite:css",
+      "result": "body.modal-open{overflow:hidden}.modal{background-color:rgba(0,0,0,.8);bottom:0;cursor:pointer;left:0;overflow-x:hidden;overflow-y:auto;position:fixed;right:0;top:0;z-index:999}@media (min-width:1200px){.modal{padding:4.4rem 10rem}}.modal__wrap{display:flex;flex-direction:column;min-height:100%}.modal__body{cursor:default;margin:auto;position:relative}.modal__close{align-items:center;background:none;display:flex;height:4.4rem;justify-content:center;padding:0;position:absolute;right:0;top:0;width:4.4rem;z-index:1}@media (max-width:1200px){.modal__close{height:6rem;left:0;position:fixed;width:6rem}.modal--nav{padding-bottom:5rem}.modal--nav .modal__image img{max-height:calc(100vh - 5rem)}}.modal__nav{align-items:center;bottom:-4.4rem;display:flex;height:4.4rem;left:0;position:absolute;right:0}@media (max-width:1200px){.modal__nav{background-color:#000;bottom:0;height:5rem;justify-content:space-between;left:0;position:fixed;right:0}}@media (min-width:1200px){.modal__nav{justify-content:flex-end}}.modal__arrow{align-items:center;background:none;display:flex;justify-content:center;padding:0}@media (max-width:1200px){.modal__arrow{flex:1;height:5rem}}@media (min-width:1200px){.modal__arrow{height:10rem;margin-top:-5rem;position:fixed;top:50%;width:10rem}.modal__arrow--prev{left:0}.modal__arrow--next{right:0}}.modal__count{font-size:1.6rem;line-height:1}@media (min-width:1200px){.modal--images .modal__close{top:-4.4rem}}.modal__image.lazyloading{background:url(~assets/img/loader.svg) no-repeat 50%}.modal__image img{max-height:100vh}@media (min-width:1200px){.modal__image img{max-height:calc(100vh - 8.8rem)}.modal--iframe .modal__close{top:-4.4rem}}.modal__iframe{height:0;overflow:hidden;padding-bottom:56.25%;position:relative;width:100%}.modal__iframe iframe{background:#000;border:0;display:block;height:100%;left:0;margin:0;padding:0;position:absolute;top:0;width:100%}.modal-enter,.modal-leave-active{opacity:0}.modal-enter-active,.modal-leave-active{transition:opacity .3s ease}",
+      "start": 1708426969514,
+      "end": 1708426969583,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "file": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/Modal.vue",
+        "mappings": "AAGA,gBACE,gBAGF,OAUE,gCANA,SAKA,eAJA,OAEA,kBACA,gBAPA,eAEA,QADA,MAIA,YAMA,0BAZF,OAaI,sBAIJ,aACE,aACA,sBACA,gBAGF,aAGE,eADA,YADA,kBAKF,cAME,mBAKA,gBANA,aAIA,cAFA,uBAGA,UATA,kBAEA,QADA,MAMA,aAJA,UASA,0BAbF,cAiBI,YAFA,OADA,eAEA,WAKJ,YAEI,oBAGF,8BAEI,+BAKN,YAME,mBAHA,eAEA,aAEA,cAHA,OAHA,kBACA,QAOA,0BATF,YAgBI,sBAJA,SAGA,YADA,8BADA,OAHA,eACA,SAQF,0BAnBF,YAoBI,0BAIJ,cAEE,mBAGA,gBAJA,aAEA,uBACA,UAGA,0BAPF,cAQI,OACA,aAGF,0BAZF,cAgBI,aACA,iBAJA,eACA,QACA,YAOF,oBACE,OAGF,oBACE,SAIJ,cACE,iBACA,cAGF,0BAEI,6BACE,aAMJ,0BACE,qDAGF,kBACE,iBAEA,0BAHF,kBAII,gCAOF,6BACE,aAKN,eAGE,SAEA,gBADA,sBAHA,kBACA,WAKA,sBASE,gBACA,SANA,cAEA,YAHA,OAKA,SADA,UANA,kBACA,MAGA,WASJ,iCAEE,UAGF,wCAEE",
+        "names": [],
+        "sources": [
+          "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/Modal.vue"
+        ],
+        "sourcesContent": [
+          null
+        ]
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1708426969583,
+      "end": 1708426969583,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1708426969583,
+      "end": 1708426969583,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1708426969583,
+      "end": 1708426969583,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "body.modal-open{overflow:hidden}.modal{background-color:rgba(0,0,0,.8);bottom:0;cursor:pointer;left:0;overflow-x:hidden;overflow-y:auto;position:fixed;right:0;top:0;z-index:999}@media (min-width:1200px){.modal{padding:4.4rem 10rem}}.modal__wrap{display:flex;flex-direction:column;min-height:100%}.modal__body{cursor:default;margin:auto;position:relative}.modal__close{align-items:center;background:none;display:flex;height:4.4rem;justify-content:center;padding:0;position:absolute;right:0;top:0;width:4.4rem;z-index:1}@media (max-width:1200px){.modal__close{height:6rem;left:0;position:fixed;width:6rem}.modal--nav{padding-bottom:5rem}.modal--nav .modal__image img{max-height:calc(100vh - 5rem)}}.modal__nav{align-items:center;bottom:-4.4rem;display:flex;height:4.4rem;left:0;position:absolute;right:0}@media (max-width:1200px){.modal__nav{background-color:#000;bottom:0;height:5rem;justify-content:space-between;left:0;position:fixed;right:0}}@media (min-width:1200px){.modal__nav{justify-content:flex-end}}.modal__arrow{align-items:center;background:none;display:flex;justify-content:center;padding:0}@media (max-width:1200px){.modal__arrow{flex:1;height:5rem}}@media (min-width:1200px){.modal__arrow{height:10rem;margin-top:-5rem;position:fixed;top:50%;width:10rem}.modal__arrow--prev{left:0}.modal__arrow--next{right:0}}.modal__count{font-size:1.6rem;line-height:1}@media (min-width:1200px){.modal--images .modal__close{top:-4.4rem}}.modal__image.lazyloading{background:url(~assets/img/loader.svg) no-repeat 50%}.modal__image img{max-height:100vh}@media (min-width:1200px){.modal__image img{max-height:calc(100vh - 8.8rem)}.modal--iframe .modal__close{top:-4.4rem}}.modal__iframe{height:0;overflow:hidden;padding-bottom:56.25%;position:relative;width:100%}.modal__iframe iframe{background:#000;border:0;display:block;height:100%;left:0;margin:0;padding:0;position:absolute;top:0;width:100%}.modal-enter,.modal-leave-active{opacity:0}.modal-enter-active,.modal-leave-active{transition:opacity .3s ease}",
+      "start": 1708426969583,
+      "end": 1708426969584,
+      "order": "normal",
+      "sourcemaps": {
+        "file": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/Modal.vue",
+        "mappings": "AAAA,gBAAgB,eAAe,CAAC,OAAO,+BAA+B,CAAC,QAAQ,CAAC,cAAc,CAAC,MAAM,CAAC,iBAAiB,CAAC,eAAe,CAAC,cAAc,CAAC,OAAO,CAAC,KAAK,CAAC,WAAW,CAAC,0BAA0B,OAAO,oBAAoB,CAAC,CAAC,aAAa,YAAY,CAAC,qBAAqB,CAAC,eAAe,CAAC,aAAa,cAAc,CAAC,WAAW,CAAC,iBAAiB,CAAC,cAAc,kBAAkB,CAAC,eAAe,CAAC,YAAY,CAAC,aAAa,CAAC,sBAAsB,CAAC,SAAS,CAAC,iBAAiB,CAAC,OAAO,CAAC,KAAK,CAAC,YAAY,CAAC,SAAS,CAAC,0BAA0B,cAAc,WAAW,CAAC,MAAM,CAAC,cAAc,CAAC,UAAU,CAAC,YAAY,mBAAmB,CAAC,8BAA8B,6BAA6B,CAAC,CAAC,YAAY,kBAAkB,CAAC,cAAc,CAAC,YAAY,CAAC,aAAa,CAAC,MAAM,CAAC,iBAAiB,CAAC,OAAO,CAAC,0BAA0B,YAAY,qBAAqB,CAAC,QAAQ,CAAC,WAAW,CAAC,6BAA6B,CAAC,MAAM,CAAC,cAAc,CAAC,OAAO,CAAC,CAAC,0BAA0B,YAAY,wBAAwB,CAAC,CAAC,cAAc,kBAAkB,CAAC,eAAe,CAAC,YAAY,CAAC,sBAAsB,CAAC,SAAS,CAAC,0BAA0B,cAAc,MAAM,CAAC,WAAW,CAAC,CAAC,0BAA0B,cAAc,YAAY,CAAC,gBAAgB,CAAC,cAAc,CAAC,OAAO,CAAC,WAAW,CAAC,oBAAoB,MAAM,CAAC,oBAAoB,OAAO,CAAC,CAAC,cAAc,gBAAgB,CAAC,aAAa,CAAC,0BAA0B,6BAA6B,WAAW,CAAC,CAAC,0BAA0B,oDAAoD,CAAC,kBAAkB,gBAAgB,CAAC,0BAA0B,kBAAkB,+BAA+B,CAAC,6BAA6B,WAAW,CAAC,CAAC,eAAe,QAAQ,CAAC,eAAe,CAAC,qBAAqB,CAAC,iBAAiB,CAAC,UAAU,CAAC,sBAAsB,eAAe,CAAC,QAAQ,CAAC,aAAa,CAAC,WAAW,CAAC,MAAM,CAAC,QAAQ,CAAC,SAAS,CAAC,iBAAiB,CAAC,KAAK,CAAC,UAAU,CAAC,iCAAiC,SAAS,CAAC,wCAAwC,2BAA2B",
+        "names": [],
+        "sources": [
+          "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/Modal.vue"
+        ],
+        "sourcesContent": [
+          null
+        ],
+        "version": 3
+      }
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:components:imports",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "normal"
+    },
+    {
+      "name": "ssr-styles",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426969584,
+      "end": 1708426969584,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-template",
+      "start": 1708426969584,
+      "end": 1708426969585,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:components-loader",
+      "start": 1708426969585,
+      "end": 1708426969585,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-composables:transform",
+      "start": 1708426969585,
+      "end": 1708426969585,
+      "order": "post"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1708426969585,
+      "end": 1708426969585,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1708426969585,
+      "end": 1708426969585,
+      "order": "normal"
+    }
+  ]
+}

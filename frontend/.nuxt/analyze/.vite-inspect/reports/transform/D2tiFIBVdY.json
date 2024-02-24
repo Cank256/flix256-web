@@ -1,0 +1,215 @@
+{
+  "resolvedId": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/ListingCarousel.vue",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "<template>\n\t<div class=\"listing listing--carousel\">\n\t\t<div v-if=\"title || viewAllUrl\" class=\"listing__head\">\n\t\t\t<h2 v-if=\"title\" class=\"listing__title\">\n\t\t\t\t{{ title }}\n\t\t\t</h2>\n\n\t\t\t<nuxt-link v-if=\"viewAllUrl\" :to=\"viewAllUrl\" class=\"listing__explore\">\n\t\t\t\t<strong>Explore All</strong>\n\t\t\t</nuxt-link>\n\t\t</div>\n\n\t\t<div class=\"carousel\">\n\t\t\t<button\n\t\t\t\tclass=\"carousel__nav carousel__nav--left\"\n\t\t\t\taria-label=\"Previous\"\n\t\t\t\ttype=\"button\"\n\t\t\t\t:disabled=\"disableLeftButton\"\n\t\t\t\t@click=\"moveToClickEvent('left')\"\n\t\t\t>\n\t\t\t\t<!-- eslint-disable-next-line -->\n\t\t\t\t<svg\n\t\t\t\t\txmlns=\"http://www.w3.org/2000/svg\"\n\t\t\t\t\twidth=\"24\"\n\t\t\t\t\theight=\"24\"\n\t\t\t\t\tviewBox=\"0 0 24 24\"\n\t\t\t\t>\n\t\t\t\t\t<path\n\t\t\t\t\t\tfill=\"none\"\n\t\t\t\t\t\tstroke=\"#fff\"\n\t\t\t\t\t\tstroke-width=\"1.5\"\n\t\t\t\t\t\tstroke-linecap=\"round\"\n\t\t\t\t\t\tstroke-linejoin=\"round\"\n\t\t\t\t\t\tstroke-miterlimit=\"10\"\n\t\t\t\t\t\td=\"M17.9 23.2L6.1 12 17.9.8\"\n\t\t\t\t\t/>\n\t\t\t\t</svg>\n\t\t\t</button>\n\n\t\t\t<div ref=\"carouselElement\" class=\"carousel__items\" @scroll=\"scrollEvent\">\n\t\t\t\t<Card\n\t\t\t\t\tv-for=\"item in items\"\n\t\t\t\t\t:key=\"`card-${item.id}`\"\n\t\t\t\t\t:item=\"item\"\n\t\t\t\t/>\n\n\t\t\t\t<div v-if=\"viewAllUrl\" class=\"card\">\n\t\t\t\t\t<nuxt-link :to=\"viewAllUrl\" class=\"card__link\">\n\t\t\t\t\t\t<div class=\"card__img\">\n\t\t\t\t\t\t\t<span>Explore All</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</nuxt-link>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<button\n\t\t\t\tclass=\"carousel__nav carousel__nav--right\"\n\t\t\t\taria-label=\"Next\"\n\t\t\t\ttype=\"button\"\n\t\t\t\t:disabled=\"disableRightButton\"\n\t\t\t\t@click=\"moveToClickEvent('right')\"\n\t\t\t>\n\t\t\t\t<!-- eslint-disable-next-line -->\n\t\t\t\t<svg\n\t\t\t\t\txmlns=\"http://www.w3.org/2000/svg\"\n\t\t\t\t\twidth=\"24\"\n\t\t\t\t\theight=\"24\"\n\t\t\t\t\tviewBox=\"0 0 24 24\"\n\t\t\t\t>\n\t\t\t\t\t<path\n\t\t\t\t\t\tfill=\"none\"\n\t\t\t\t\t\tstroke=\"#fff\"\n\t\t\t\t\t\tstroke-width=\"1.5\"\n\t\t\t\t\t\tstroke-linecap=\"round\"\n\t\t\t\t\t\tstroke-linejoin=\"round\"\n\t\t\t\t\t\tstroke-miterlimit=\"10\"\n\t\t\t\t\t\td=\"M6.1 23.2L17.9 12 6.1.8\"\n\t\t\t\t\t/>\n\t\t\t\t</svg>\n\t\t\t</button>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport smoothscroll from 'smoothscroll-polyfill';\nimport Card from \"~/components/Card\";\nimport { useBackendStore } from \"~/store/backend\";\n\nexport default {\n\tcomponents: {\n\t\tCard,\n\t},\n\n\tmixins: [],\n\n    data() {\n        return {\n            elementWidth: 0,\n            carouselWidth: 0,\n            visibleWidth: 0,\n            maximumPosition: 0,\n            unusableVisibleWidth: 0,\n            disableLeftButton: true,\n            disableRightButton: false,\n\t\t\tfavorites: [],\n        };\n    },\n\n\tprops: {\n\t\ttitle: {\n\t\t\ttype: String,\n\t\t\trequired: false,\n\t\t\tdefault: \"\",\n\t\t},\n\n\t\tviewAllUrl: {\n\t\t\ttype: Object,\n\t\t\trequired: false,\n\t\t\tdefault: function () {\n\t\t\t\treturn null;\n\t\t\t},\n\t\t},\n\n\t\titems: {\n\t\t\ttype: Object,\n\t\t\trequired: true,\n\t\t},\n\t},\n\n\tmounted() {\n        smoothscroll.polyfill();\n        window.addEventListener('resize', this.resizeEvent);\n\n\t\tconst count = this.viewAllUrl\n\t\t\t? this.items.length + 1\n\t\t\t: this.items.length;\n\t\tthis.calculateState(count);\n\t},\n\n\n    beforeDestroy() {\n        window.removeEventListener('resize', this.resizeEvent);\n    },\n\n    constructor() {\n        this.$refs = {\n        carouselElement: document.createElement('div'),\n        };\n    },\n\n\tmethods: {\n        calculateState(numberOfItems) {\n\n            if (!(this.$refs.carouselElement instanceof HTMLElement)) {\n                return;\n            }\n            let unusableVisibleWidth = 72;\n            const firstChild = this.$refs.carouselElement.querySelector(\":first-child\");\n            const elementWidth = firstChild ? firstChild.getBoundingClientRect().width : 0;\n            const carouselWidth = numberOfItems * elementWidth;\n            const maximumPosition = this.$refs.carouselElement.scrollWidth;\n\n            if (window.innerWidth >= 1200) {\n            unusableVisibleWidth = 92;\n            }\n\n            const visibleWidth = this.$refs.carouselElement.offsetWidth - unusableVisibleWidth;\n\n            this.unusableVisibleWidth = unusableVisibleWidth;\n            this.elementWidth = elementWidth;\n            this.carouselWidth = carouselWidth;\n            this.visibleWidth = visibleWidth;\n            this.maximumPosition = maximumPosition;\n            this.disableLeftButton = !this.$refs.carouselElement.scrollLeft;\n            this.disableRightButton = visibleWidth >= carouselWidth;\n        },\n\n        moveTo(width) {\n            this.$refs.carouselElement.scrollTo({\n                left: width,\n                behavior: 'smooth',\n            });\n        },\n\n        moveToClickEvent(direction = 'left' | 'right') {\n            const invisible =\n                this.$refs.carouselElement.scrollLeft + (direction === 'left' ? -this.visibleWidth + 1 : this.visibleWidth);\n            const remainder = invisible - (invisible % this.elementWidth);\n\n            this.moveTo(remainder);\n        },\n\n        scrollEvent() {\n            const scrollLeft = this.$refs.carouselElement.scrollLeft;\n            const end = this.maximumPosition - this.visibleWidth - this.elementWidth;\n\n            this.disableLeftButton = scrollLeft < 3;\n            this.disableRightButton = scrollLeft > end;\n        },\n\n\t\tresizeEvent() {\n\t\t\tconst count = this.viewAllUrl\n\t\t\t\t? this.items.length + 1\n\t\t\t\t: this.items.length;\n\n\t\t\tthis.calculateState(count);\n\t\t},\n\t},\n};\n</script>\n",
+      "start": 1708426961380,
+      "end": 1708426961556,
+      "sourcemaps": null
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426961556,
+      "end": 1708426961556,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426961556,
+      "end": 1708426961556,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:client-fallback-auto-id",
+      "start": 1708426961556,
+      "end": 1708426961556,
+      "order": "pre"
+    },
+    {
+      "name": "vite:css",
+      "start": 1708426961556,
+      "end": 1708426961556,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1708426961556,
+      "end": 1708426961556,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1708426961556,
+      "end": 1708426961556,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1708426961556,
+      "end": 1708426961556,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "\nimport smoothscroll from 'smoothscroll-polyfill';\nimport Card from \"~/components/Card\";\nimport { useBackendStore } from \"~/store/backend\";\n\nconst _sfc_main = {\n\tcomponents: {\n\t\tCard,\n\t},\n\n\tmixins: [],\n\n    data() {\n        return {\n            elementWidth: 0,\n            carouselWidth: 0,\n            visibleWidth: 0,\n            maximumPosition: 0,\n            unusableVisibleWidth: 0,\n            disableLeftButton: true,\n            disableRightButton: false,\n\t\t\tfavorites: [],\n        };\n    },\n\n\tprops: {\n\t\ttitle: {\n\t\t\ttype: String,\n\t\t\trequired: false,\n\t\t\tdefault: \"\",\n\t\t},\n\n\t\tviewAllUrl: {\n\t\t\ttype: Object,\n\t\t\trequired: false,\n\t\t\tdefault: function () {\n\t\t\t\treturn null;\n\t\t\t},\n\t\t},\n\n\t\titems: {\n\t\t\ttype: Object,\n\t\t\trequired: true,\n\t\t},\n\t},\n\n\tmounted() {\n        smoothscroll.polyfill();\n        window.addEventListener('resize', this.resizeEvent);\n\n\t\tconst count = this.viewAllUrl\n\t\t\t? this.items.length + 1\n\t\t\t: this.items.length;\n\t\tthis.calculateState(count);\n\t},\n\n\n    beforeDestroy() {\n        window.removeEventListener('resize', this.resizeEvent);\n    },\n\n    constructor() {\n        this.$refs = {\n        carouselElement: document.createElement('div'),\n        };\n    },\n\n\tmethods: {\n        calculateState(numberOfItems) {\n\n            if (!(this.$refs.carouselElement instanceof HTMLElement)) {\n                return;\n            }\n            let unusableVisibleWidth = 72;\n            const firstChild = this.$refs.carouselElement.querySelector(\":first-child\");\n            const elementWidth = firstChild ? firstChild.getBoundingClientRect().width : 0;\n            const carouselWidth = numberOfItems * elementWidth;\n            const maximumPosition = this.$refs.carouselElement.scrollWidth;\n\n            if (window.innerWidth >= 1200) {\n            unusableVisibleWidth = 92;\n            }\n\n            const visibleWidth = this.$refs.carouselElement.offsetWidth - unusableVisibleWidth;\n\n            this.unusableVisibleWidth = unusableVisibleWidth;\n            this.elementWidth = elementWidth;\n            this.carouselWidth = carouselWidth;\n            this.visibleWidth = visibleWidth;\n            this.maximumPosition = maximumPosition;\n            this.disableLeftButton = !this.$refs.carouselElement.scrollLeft;\n            this.disableRightButton = visibleWidth >= carouselWidth;\n        },\n\n        moveTo(width) {\n            this.$refs.carouselElement.scrollTo({\n                left: width,\n                behavior: 'smooth',\n            });\n        },\n\n        moveToClickEvent(direction = 'left' | 'right') {\n            const invisible =\n                this.$refs.carouselElement.scrollLeft + (direction === 'left' ? -this.visibleWidth + 1 : this.visibleWidth);\n            const remainder = invisible - (invisible % this.elementWidth);\n\n            this.moveTo(remainder);\n        },\n\n        scrollEvent() {\n            const scrollLeft = this.$refs.carouselElement.scrollLeft;\n            const end = this.maximumPosition - this.visibleWidth - this.elementWidth;\n\n            this.disableLeftButton = scrollLeft < 3;\n            this.disableRightButton = scrollLeft > end;\n        },\n\n\t\tresizeEvent() {\n\t\t\tconst count = this.viewAllUrl\n\t\t\t\t? this.items.length + 1\n\t\t\t\t: this.items.length;\n\n\t\t\tthis.calculateState(count);\n\t\t},\n\t},\n};\n\nimport { toDisplayString as _toDisplayString, openBlock as _openBlock, createElementBlock as _createElementBlock, createCommentVNode as _createCommentVNode, createElementVNode as _createElementVNode, resolveComponent as _resolveComponent, withCtx as _withCtx, createBlock as _createBlock, renderList as _renderList, Fragment as _Fragment, createVNode as _createVNode } from \"vue\"\n\nconst _hoisted_1 = { class: \"listing listing--carousel\" }\nconst _hoisted_2 = {\n  key: 0,\n  class: \"listing__head\"\n}\nconst _hoisted_3 = {\n  key: 0,\n  class: \"listing__title\"\n}\nconst _hoisted_4 = /*#__PURE__*/_createElementVNode(\"strong\", null, \"Explore All\", -1)\nconst _hoisted_5 = { class: \"carousel\" }\nconst _hoisted_6 = [\"disabled\"]\nconst _hoisted_7 = /*#__PURE__*/_createElementVNode(\"svg\", {\n  xmlns: \"http://www.w3.org/2000/svg\",\n  width: \"24\",\n  height: \"24\",\n  viewBox: \"0 0 24 24\"\n}, [\n  /*#__PURE__*/_createElementVNode(\"path\", {\n    fill: \"none\",\n    stroke: \"#fff\",\n    \"stroke-width\": \"1.5\",\n    \"stroke-linecap\": \"round\",\n    \"stroke-linejoin\": \"round\",\n    \"stroke-miterlimit\": \"10\",\n    d: \"M17.9 23.2L6.1 12 17.9.8\"\n  })\n], -1)\nconst _hoisted_8 = [\n  _hoisted_7\n]\nconst _hoisted_9 = {\n  key: 0,\n  class: \"card\"\n}\nconst _hoisted_10 = /*#__PURE__*/_createElementVNode(\"div\", { class: \"card__img\" }, [\n  /*#__PURE__*/_createElementVNode(\"span\", null, \"Explore All\")\n], -1)\nconst _hoisted_11 = [\"disabled\"]\nconst _hoisted_12 = /*#__PURE__*/_createElementVNode(\"svg\", {\n  xmlns: \"http://www.w3.org/2000/svg\",\n  width: \"24\",\n  height: \"24\",\n  viewBox: \"0 0 24 24\"\n}, [\n  /*#__PURE__*/_createElementVNode(\"path\", {\n    fill: \"none\",\n    stroke: \"#fff\",\n    \"stroke-width\": \"1.5\",\n    \"stroke-linecap\": \"round\",\n    \"stroke-linejoin\": \"round\",\n    \"stroke-miterlimit\": \"10\",\n    d: \"M6.1 23.2L17.9 12 6.1.8\"\n  })\n], -1)\nconst _hoisted_13 = [\n  _hoisted_12\n]\n\nfunction _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {\n  const _component_nuxt_link = _resolveComponent(\"nuxt-link\")\n  const _component_Card = _resolveComponent(\"Card\")\n\n  return (_openBlock(), _createElementBlock(\"div\", _hoisted_1, [\n    ($props.title || $props.viewAllUrl)\n      ? (_openBlock(), _createElementBlock(\"div\", _hoisted_2, [\n          ($props.title)\n            ? (_openBlock(), _createElementBlock(\"h2\", _hoisted_3, _toDisplayString($props.title), 1))\n            : _createCommentVNode(\"\", true),\n          ($props.viewAllUrl)\n            ? (_openBlock(), _createBlock(_component_nuxt_link, {\n                key: 1,\n                to: $props.viewAllUrl,\n                class: \"listing__explore\"\n              }, {\n                default: _withCtx(() => [\n                  _hoisted_4\n                ]),\n                _: 1\n              }, 8, [\"to\"]))\n            : _createCommentVNode(\"\", true)\n        ]))\n      : _createCommentVNode(\"\", true),\n    _createElementVNode(\"div\", _hoisted_5, [\n      _createElementVNode(\"button\", {\n        class: \"carousel__nav carousel__nav--left\",\n        \"aria-label\": \"Previous\",\n        type: \"button\",\n        disabled: $data.disableLeftButton,\n        onClick: _cache[0] || (_cache[0] = $event => ($options.moveToClickEvent('left')))\n      }, _hoisted_8, 8, _hoisted_6),\n      _createElementVNode(\"div\", {\n        ref: \"carouselElement\",\n        class: \"carousel__items\",\n        onScroll: _cache[1] || (_cache[1] = (...args) => ($options.scrollEvent && $options.scrollEvent(...args)))\n      }, [\n        (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($props.items, (item) => {\n          return (_openBlock(), _createBlock(_component_Card, {\n            key: `card-${item.id}`,\n            item: item\n          }, null, 8, [\"item\"]))\n        }), 128)),\n        ($props.viewAllUrl)\n          ? (_openBlock(), _createElementBlock(\"div\", _hoisted_9, [\n              _createVNode(_component_nuxt_link, {\n                to: $props.viewAllUrl,\n                class: \"card__link\"\n              }, {\n                default: _withCtx(() => [\n                  _hoisted_10\n                ]),\n                _: 1\n              }, 8, [\"to\"])\n            ]))\n          : _createCommentVNode(\"\", true)\n      ], 544),\n      _createElementVNode(\"button\", {\n        class: \"carousel__nav carousel__nav--right\",\n        \"aria-label\": \"Next\",\n        type: \"button\",\n        disabled: $data.disableRightButton,\n        onClick: _cache[2] || (_cache[2] = $event => ($options.moveToClickEvent('right')))\n      }, _hoisted_13, 8, _hoisted_11)\n    ])\n  ]))\n}\n\n\nimport _export_sfc from '\u0000plugin-vue:export-helper'\nexport default /*#__PURE__*/_export_sfc(_sfc_main, [['render',_sfc_render]])",
+      "start": 1708426961556,
+      "end": 1708426961563,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1708426961563,
+      "end": 1708426961563,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426961563,
+      "end": 1708426961563,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426961563,
+      "end": 1708426961563,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:chunk-error",
+      "start": 1708426961563,
+      "end": 1708426961563,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:components:imports",
+      "start": 1708426961563,
+      "end": 1708426961563,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426961563,
+      "end": 1708426961563,
+      "order": "normal"
+    },
+    {
+      "name": "ssr-styles",
+      "start": 1708426961563,
+      "end": 1708426961563,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1708426961563,
+      "end": 1708426961563,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1708426961563,
+      "end": 1708426961563,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1708426961563,
+      "end": 1708426961563,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1708426961563,
+      "end": 1708426961563,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1708426961563,
+      "end": 1708426961563,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1708426961563,
+      "end": 1708426961563,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1708426961563,
+      "end": 1708426961563,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1708426961563,
+      "end": 1708426961563,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426961563,
+      "end": 1708426961563,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426961563,
+      "end": 1708426961566,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426961566,
+      "end": 1708426961566,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426961566,
+      "end": 1708426961566,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:runtime-paths-dep",
+      "start": 1708426961566,
+      "end": 1708426961567,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:route-injection-plugin",
+      "start": 1708426961567,
+      "end": 1708426961567,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:components-loader",
+      "result": "import { default as __nuxt_component_0 } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/node_modules/nuxt/dist/app/components/nuxt-link\";\nimport { default as __nuxt_component_1 } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/Card.vue\";\n\nimport smoothscroll from 'smoothscroll-polyfill';\nimport Card from \"~/components/Card\";\nimport { useBackendStore } from \"~/store/backend\";\n\nconst _sfc_main = {\n\tcomponents: {\n\t\tCard,\n\t},\n\n\tmixins: [],\n\n    data() {\n        return {\n            elementWidth: 0,\n            carouselWidth: 0,\n            visibleWidth: 0,\n            maximumPosition: 0,\n            unusableVisibleWidth: 0,\n            disableLeftButton: true,\n            disableRightButton: false,\n\t\t\tfavorites: [],\n        };\n    },\n\n\tprops: {\n\t\ttitle: {\n\t\t\ttype: String,\n\t\t\trequired: false,\n\t\t\tdefault: \"\",\n\t\t},\n\n\t\tviewAllUrl: {\n\t\t\ttype: Object,\n\t\t\trequired: false,\n\t\t\tdefault: function () {\n\t\t\t\treturn null;\n\t\t\t},\n\t\t},\n\n\t\titems: {\n\t\t\ttype: Object,\n\t\t\trequired: true,\n\t\t},\n\t},\n\n\tmounted() {\n        smoothscroll.polyfill();\n        window.addEventListener('resize', this.resizeEvent);\n\n\t\tconst count = this.viewAllUrl\n\t\t\t? this.items.length + 1\n\t\t\t: this.items.length;\n\t\tthis.calculateState(count);\n\t},\n\n\n    beforeDestroy() {\n        window.removeEventListener('resize', this.resizeEvent);\n    },\n\n    constructor() {\n        this.$refs = {\n        carouselElement: document.createElement('div'),\n        };\n    },\n\n\tmethods: {\n        calculateState(numberOfItems) {\n\n            if (!(this.$refs.carouselElement instanceof HTMLElement)) {\n                return;\n            }\n            let unusableVisibleWidth = 72;\n            const firstChild = this.$refs.carouselElement.querySelector(\":first-child\");\n            const elementWidth = firstChild ? firstChild.getBoundingClientRect().width : 0;\n            const carouselWidth = numberOfItems * elementWidth;\n            const maximumPosition = this.$refs.carouselElement.scrollWidth;\n\n            if (window.innerWidth >= 1200) {\n            unusableVisibleWidth = 92;\n            }\n\n            const visibleWidth = this.$refs.carouselElement.offsetWidth - unusableVisibleWidth;\n\n            this.unusableVisibleWidth = unusableVisibleWidth;\n            this.elementWidth = elementWidth;\n            this.carouselWidth = carouselWidth;\n            this.visibleWidth = visibleWidth;\n            this.maximumPosition = maximumPosition;\n            this.disableLeftButton = !this.$refs.carouselElement.scrollLeft;\n            this.disableRightButton = visibleWidth >= carouselWidth;\n        },\n\n        moveTo(width) {\n            this.$refs.carouselElement.scrollTo({\n                left: width,\n                behavior: 'smooth',\n            });\n        },\n\n        moveToClickEvent(direction = 'left' | 'right') {\n            const invisible =\n                this.$refs.carouselElement.scrollLeft + (direction === 'left' ? -this.visibleWidth + 1 : this.visibleWidth);\n            const remainder = invisible - (invisible % this.elementWidth);\n\n            this.moveTo(remainder);\n        },\n\n        scrollEvent() {\n            const scrollLeft = this.$refs.carouselElement.scrollLeft;\n            const end = this.maximumPosition - this.visibleWidth - this.elementWidth;\n\n            this.disableLeftButton = scrollLeft < 3;\n            this.disableRightButton = scrollLeft > end;\n        },\n\n\t\tresizeEvent() {\n\t\t\tconst count = this.viewAllUrl\n\t\t\t\t? this.items.length + 1\n\t\t\t\t: this.items.length;\n\n\t\t\tthis.calculateState(count);\n\t\t},\n\t},\n};\n\nimport { toDisplayString as _toDisplayString, openBlock as _openBlock, createElementBlock as _createElementBlock, createCommentVNode as _createCommentVNode, createElementVNode as _createElementVNode, resolveComponent as _resolveComponent, withCtx as _withCtx, createBlock as _createBlock, renderList as _renderList, Fragment as _Fragment, createVNode as _createVNode } from \"vue\"\n\nconst _hoisted_1 = { class: \"listing listing--carousel\" }\nconst _hoisted_2 = {\n  key: 0,\n  class: \"listing__head\"\n}\nconst _hoisted_3 = {\n  key: 0,\n  class: \"listing__title\"\n}\nconst _hoisted_4 = /*#__PURE__*/_createElementVNode(\"strong\", null, \"Explore All\", -1)\nconst _hoisted_5 = { class: \"carousel\" }\nconst _hoisted_6 = [\"disabled\"]\nconst _hoisted_7 = /*#__PURE__*/_createElementVNode(\"svg\", {\n  xmlns: \"http://www.w3.org/2000/svg\",\n  width: \"24\",\n  height: \"24\",\n  viewBox: \"0 0 24 24\"\n}, [\n  /*#__PURE__*/_createElementVNode(\"path\", {\n    fill: \"none\",\n    stroke: \"#fff\",\n    \"stroke-width\": \"1.5\",\n    \"stroke-linecap\": \"round\",\n    \"stroke-linejoin\": \"round\",\n    \"stroke-miterlimit\": \"10\",\n    d: \"M17.9 23.2L6.1 12 17.9.8\"\n  })\n], -1)\nconst _hoisted_8 = [\n  _hoisted_7\n]\nconst _hoisted_9 = {\n  key: 0,\n  class: \"card\"\n}\nconst _hoisted_10 = /*#__PURE__*/_createElementVNode(\"div\", { class: \"card__img\" }, [\n  /*#__PURE__*/_createElementVNode(\"span\", null, \"Explore All\")\n], -1)\nconst _hoisted_11 = [\"disabled\"]\nconst _hoisted_12 = /*#__PURE__*/_createElementVNode(\"svg\", {\n  xmlns: \"http://www.w3.org/2000/svg\",\n  width: \"24\",\n  height: \"24\",\n  viewBox: \"0 0 24 24\"\n}, [\n  /*#__PURE__*/_createElementVNode(\"path\", {\n    fill: \"none\",\n    stroke: \"#fff\",\n    \"stroke-width\": \"1.5\",\n    \"stroke-linecap\": \"round\",\n    \"stroke-linejoin\": \"round\",\n    \"stroke-miterlimit\": \"10\",\n    d: \"M6.1 23.2L17.9 12 6.1.8\"\n  })\n], -1)\nconst _hoisted_13 = [\n  _hoisted_12\n]\n\nfunction _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {\n  const _component_nuxt_link = __nuxt_component_0\n  const _component_Card = __nuxt_component_1\n\n  return (_openBlock(), _createElementBlock(\"div\", _hoisted_1, [\n    ($props.title || $props.viewAllUrl)\n      ? (_openBlock(), _createElementBlock(\"div\", _hoisted_2, [\n          ($props.title)\n            ? (_openBlock(), _createElementBlock(\"h2\", _hoisted_3, _toDisplayString($props.title), 1))\n            : _createCommentVNode(\"\", true),\n          ($props.viewAllUrl)\n            ? (_openBlock(), _createBlock(_component_nuxt_link, {\n                key: 1,\n                to: $props.viewAllUrl,\n                class: \"listing__explore\"\n              }, {\n                default: _withCtx(() => [\n                  _hoisted_4\n                ]),\n                _: 1\n              }, 8, [\"to\"]))\n            : _createCommentVNode(\"\", true)\n        ]))\n      : _createCommentVNode(\"\", true),\n    _createElementVNode(\"div\", _hoisted_5, [\n      _createElementVNode(\"button\", {\n        class: \"carousel__nav carousel__nav--left\",\n        \"aria-label\": \"Previous\",\n        type: \"button\",\n        disabled: $data.disableLeftButton,\n        onClick: _cache[0] || (_cache[0] = $event => ($options.moveToClickEvent('left')))\n      }, _hoisted_8, 8, _hoisted_6),\n      _createElementVNode(\"div\", {\n        ref: \"carouselElement\",\n        class: \"carousel__items\",\n        onScroll: _cache[1] || (_cache[1] = (...args) => ($options.scrollEvent && $options.scrollEvent(...args)))\n      }, [\n        (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($props.items, (item) => {\n          return (_openBlock(), _createBlock(_component_Card, {\n            key: `card-${item.id}`,\n            item: item\n          }, null, 8, [\"item\"]))\n        }), 128)),\n        ($props.viewAllUrl)\n          ? (_openBlock(), _createElementBlock(\"div\", _hoisted_9, [\n              _createVNode(_component_nuxt_link, {\n                to: $props.viewAllUrl,\n                class: \"card__link\"\n              }, {\n                default: _withCtx(() => [\n                  _hoisted_10\n                ]),\n                _: 1\n              }, 8, [\"to\"])\n            ]))\n          : _createCommentVNode(\"\", true)\n      ], 544),\n      _createElementVNode(\"button\", {\n        class: \"carousel__nav carousel__nav--right\",\n        \"aria-label\": \"Next\",\n        type: \"button\",\n        disabled: $data.disableRightButton,\n        onClick: _cache[2] || (_cache[2] = $event => ($options.moveToClickEvent('right')))\n      }, _hoisted_13, 8, _hoisted_11)\n    ])\n  ]))\n}\n\n\nimport _export_sfc from '\u0000plugin-vue:export-helper'\nexport default /*#__PURE__*/_export_sfc(_sfc_main, [['render',_sfc_render]])",
+      "start": 1708426961567,
+      "end": 1708426961567,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-composables:transform",
+      "start": 1708426961567,
+      "end": 1708426961567,
+      "order": "post"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1708426961567,
+      "end": 1708426961567,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1708426961567,
+      "end": 1708426961567,
+      "order": "normal"
+    }
+  ]
+}

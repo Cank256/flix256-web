@@ -1,0 +1,290 @@
+{
+  "resolvedId": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/tv/Episodes.vue?vue&type=style&index=0&lang.module.scss",
+  "transforms": [
+    {
+      "name": "vite:vue",
+      "result": "\n@import '~/assets/css/utilities/_variables.scss';\n\n.head {\n  display: flex;\n  align-items: center;\n  margin-bottom: 1.5rem;\n\n  @media (min-width: $breakpoint-large) {\n    margin-bottom: 2rem;\n  }\n\n  select {\n    margin-right: 1rem;\n  }\n}\n\n.count {\n  font-size: 1.2rem;\n  color: $text-color-grey;\n  letter-spacing: $letter-spacing;\n\n  @media (min-width: $breakpoint-large) {\n    font-size: 1.4rem;\n  }\n}\n\n.items {\n  display: flex;\n  flex-wrap: wrap;\n  margin-right: -0.4rem;\n  margin-left: -0.4rem;\n}\n",
+      "start": 1708426968691,
+      "end": 1708426968691,
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/tv/Episodes.vue"
+        ],
+        "names": [],
+        "mappings": "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",
+        "file": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/tv/Episodes.vue",
+        "sourceRoot": "",
+        "sourcesContent": [
+          "<template>\n  <div class=\"spacing\">\n    <div :class=\"$style.head\">\n      <select\n        v-if=\"seasons.length > 1\"\n        v-model=\"activeSeason\"\n        @change=\"getEpisodes(this.tvShowId)\">\n        <option\n          v-for=\"season in seasons\"\n          :key=\"`season-${season.season}`\"\n          :value=\"season.season\">\n          Season {{ season.season }}\n        </option>\n      </select>\n\n      <strong\n        v-if=\"activeEpisodes\"\n        :class=\"$style.count\">\n        {{ episodeCount }}\n      </strong>\n    </div>\n\n    <div\n      v-if=\"activeEpisodes\"\n      :class=\"$style.items\">\n      <EpisodesItem\n        v-for=\"episode in activeEpisodes\"\n        :key=\"`episode-${episode.id}`\"\n        :episode=\"episode\" />\n    </div>\n  </div>\n</template>\n\n<script>\nimport { useBackendStore } from \"~/store/backend\";\nimport EpisodesItem from '~/components/tv/EpisodesItem';\n\nexport default {\n  components: {\n    EpisodesItem,\n  },\n\n  props: {\n    numberOfSeasons: {\n      type: Number,\n      required: true,\n    },\n    tvShowId: {\n      type: Number,\n      required: true,\n    },\n  },\n\n  data () {\n    return {\n      activeSeason: this.numberOfSeasons,\n      activeEpisodes: null,\n    };\n  },\n\n  computed: {\n    episodeCount () {\n      return `${this.activeEpisodes.length} ${this.activeEpisodes.length > 1 ? 'Episodes' : 'Episode'}`;\n    },\n\n    seasons () {\n      const seasons = [];\n\n      for (let index = 0; index < this.numberOfSeasons; index++) {\n        seasons.push({\n          season: index + 1,\n          episodes: null,\n        });\n      }\n\n      seasons.sort((a, b) => a.season > b.season ? -1 : 1);\n\n      return seasons;\n    },\n  },\n\n  mounted () {\n    this.getEpisodes(this.tvShowId);\n  },\n\n  methods: {\n    async getEpisodes (tv_show_id) {\n      const store = useBackendStore();\n      const season = this.seasons.find(season => season.season === this.activeSeason);\n\n      // if we already have the episodes, just show them\n      // else do api call\n      if (season.episodes) {\n        this.activeEpisodes = season.episodes;\n      } else {\n        // get episodes for a certain season\n        try {\n          const response = await store.getTvShowEpisodes({ tv_show_id, season: this.activeSeason });\n          season.episodes = response.data.episodes;\n          this.activeEpisodes = season.episodes;\n        } catch (error) {\n          console.error(\"Error fetching episodes:\", error);\n        }\n      }\n    },\n  }\n};\n</script>\n\n<style lang=\"scss\" module>\n@import '~/assets/css/utilities/_variables.scss';\n\n.head {\n  display: flex;\n  align-items: center;\n  margin-bottom: 1.5rem;\n\n  @media (min-width: $breakpoint-large) {\n    margin-bottom: 2rem;\n  }\n\n  select {\n    margin-right: 1rem;\n  }\n}\n\n.count {\n  font-size: 1.2rem;\n  color: $text-color-grey;\n  letter-spacing: $letter-spacing;\n\n  @media (min-width: $breakpoint-large) {\n    font-size: 1.4rem;\n  }\n}\n\n.items {\n  display: flex;\n  flex-wrap: wrap;\n  margin-right: -0.4rem;\n  margin-left: -0.4rem;\n}\n</style>\n"
+        ]
+      }
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426968691,
+      "end": 1708426968691,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426968691,
+      "end": 1708426968691,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426968691,
+      "end": 1708426968691,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426968691,
+      "end": 1708426968691,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:client-fallback-auto-id",
+      "start": 1708426968691,
+      "end": 1708426968691,
+      "order": "pre"
+    },
+    {
+      "name": "vite:css",
+      "result": "._head_11yay_1{align-items:center;display:flex;margin-bottom:1.5rem}@media (min-width:1200px){._head_11yay_1{margin-bottom:2rem}}._head_11yay_1 select{margin-right:1rem}._count_11yay_15{color:#80868b;font-size:1.2rem;letter-spacing:.4px}@media (min-width:1200px){._count_11yay_15{font-size:1.4rem}}._items_11yay_26{display:flex;flex-wrap:wrap;margin-left:-.4rem;margin-right:-.4rem}",
+      "start": 1708426968691,
+      "end": 1708426969001,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "file": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/tv/Episodes.vue",
+        "mappings": "AAGA,eAEE,mBADA,aAEA,qBAEA,0BALF,eAMI,oBAGF,sBACE,kBAIJ,iBAEE,aCFgB,CDChB,iBAEA,oBAEA,0BALF,iBAMI,kBAIJ,iBACE,aACA,eAEA,mBADA",
+        "names": [],
+        "sources": [
+          "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/tv/Episodes.vue",
+          "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/assets/css/utilities/_variables.scss"
+        ],
+        "sourcesContent": [
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1708426969003,
+      "end": 1708426969003,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1708426969004,
+      "end": 1708426969004,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1708426969004,
+      "end": 1708426969004,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "._head_11yay_1{align-items:center;display:flex;margin-bottom:1.5rem}@media (min-width:1200px){._head_11yay_1{margin-bottom:2rem}}._head_11yay_1 select{margin-right:1rem}._count_11yay_15{color:#80868b;font-size:1.2rem;letter-spacing:.4px}@media (min-width:1200px){._count_11yay_15{font-size:1.4rem}}._items_11yay_26{display:flex;flex-wrap:wrap;margin-left:-.4rem;margin-right:-.4rem}",
+      "start": 1708426969004,
+      "end": 1708426969006,
+      "order": "normal",
+      "sourcemaps": {
+        "file": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/tv/Episodes.vue",
+        "mappings": "AAAA,eAAe,kBAAkB,CAAC,YAAY,CAAC,oBAAoB,CAAC,0BAA0B,eAAe,kBAAkB,CAAC,CAAC,sBAAsB,iBAAiB,CAAC,iBAAiB,aAAa,CAAC,gBAAgB,CAAC,mBAAmB,CAAC,0BAA0B,iBAAiB,gBAAgB,CAAC,CAAC,iBAAiB,YAAY,CAAC,cAAc,CAAC,kBAAkB,CAAC,mBAAmB",
+        "names": [],
+        "sources": [
+          "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/tv/Episodes.vue"
+        ],
+        "sourcesContent": [
+          null
+        ],
+        "version": 3
+      }
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1708426969006,
+      "end": 1708426969006,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426969007,
+      "end": 1708426969007,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426969007,
+      "end": 1708426969007,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426969007,
+      "end": 1708426969007,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426969007,
+      "end": 1708426969007,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:components:imports",
+      "start": 1708426969007,
+      "end": 1708426969008,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "normal"
+    },
+    {
+      "name": "ssr-styles",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "export const head = \"_head_11yay_1\";\nexport const count = \"_count_11yay_15\";\nexport const items = \"_items_11yay_26\";\nexport default {\n\thead: head,\n\tcount: count,\n\titems: items\n};\n",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426969008,
+      "end": 1708426969009,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426969009,
+      "end": 1708426969009,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426969009,
+      "end": 1708426969009,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426969009,
+      "end": 1708426969009,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426969009,
+      "end": 1708426969009,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-template",
+      "start": 1708426969009,
+      "end": 1708426969009,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:components-loader",
+      "start": 1708426969009,
+      "end": 1708426969009,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-composables:transform",
+      "start": 1708426969009,
+      "end": 1708426969009,
+      "order": "post"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1708426969009,
+      "end": 1708426969009,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1708426969009,
+      "end": 1708426969009,
+      "order": "normal"
+    }
+  ]
+}

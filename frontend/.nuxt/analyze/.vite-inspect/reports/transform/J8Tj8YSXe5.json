@@ -1,0 +1,214 @@
+{
+  "resolvedId": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/global/MobileTopNav.vue",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "<template>\n    <nav class=\"mobile_top_nav\">\n        <div class=\"top-nav\">\n            <div class=\"logo\">\n                <img src=\"~/assets/img/icons/flix256-512.png\" alt=\"Flix256\" width=\"30\" height=\"30\" />\n            </div>\n            <div class=\"search-icon\" @click=\"goToSearch\">\n                <svg fill=\"#fff\" width=\"20\" height=\"20\" viewBox=\"0 0 16 16\" xmlns=\"http://www.w3.org/2000/svg\">\n                    <path d=\"M12.027 9.92L16 13.95 14 16l-4.075-3.976A6.465 6.465 0 0 1 6.5 13C2.91 13 0 10.083 0 6.5 0 2.91 2.917 0 6.5 0 10.09 0 13 2.917 13 6.5a6.463 6.463 0 0 1-.973 3.42zM1.997 6.452c0 2.48 2.014 4.5 4.5 4.5 2.48 0 4.5-2.015 4.5-4.5 0-2.48-2.015-4.5-4.5-4.5-2.48 0-4.5 2.014-4.5 4.5z\" fill-rule=\"evenodd\"/>\n                </svg>\n            </div>\n        </div>\n    </nav>\n</template>\n\n<script>\n    export default {\n        methods: {\n            goToSearch() {\n                this.$router.push('/search');\n            },\n        },\n    };\n</script>\n\n<style>\n    .mobile_top_nav {\n        display: flex;\n        position: fixed;\n        justify-content: space-between;\n        align-items: center;\n        top: 0;\n        left: 23px;\n        right: 23px;\n        z-index: 5;\n        height: 5rem;\n        background-color: rgba(0,0,0,0);\n    }\n\n    .top-nav {\n        display: flex;\n        justify-content: space-between;\n        align-items: center;\n        width: 100%;\n        height: 100%;\n    }\n\n</style>\n",
+      "start": 1708426961262,
+      "end": 1708426961355,
+      "sourcemaps": null
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426961356,
+      "end": 1708426961356,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426961356,
+      "end": 1708426961356,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:client-fallback-auto-id",
+      "start": 1708426961356,
+      "end": 1708426961356,
+      "order": "pre"
+    },
+    {
+      "name": "vite:css",
+      "start": 1708426961356,
+      "end": 1708426961356,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1708426961356,
+      "end": 1708426961356,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1708426961356,
+      "end": 1708426961356,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1708426961356,
+      "end": 1708426961356,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "\n    const _sfc_main = {\n        methods: {\n            goToSearch() {\n                this.$router.push('/search');\n            },\n        },\n    };\n\nimport { createElementVNode as _createElementVNode, openBlock as _openBlock, createElementBlock as _createElementBlock } from \"vue\"\nimport _imports_0 from 'assets/img/icons/flix256-512.png'\n\n\nconst _hoisted_1 = { class: \"mobile_top_nav\" }\nconst _hoisted_2 = { class: \"top-nav\" }\nconst _hoisted_3 = /*#__PURE__*/_createElementVNode(\"div\", { class: \"logo\" }, [\n  /*#__PURE__*/_createElementVNode(\"img\", {\n    src: _imports_0,\n    alt: \"Flix256\",\n    width: \"30\",\n    height: \"30\"\n  })\n], -1)\nconst _hoisted_4 = /*#__PURE__*/_createElementVNode(\"svg\", {\n  fill: \"#fff\",\n  width: \"20\",\n  height: \"20\",\n  viewBox: \"0 0 16 16\",\n  xmlns: \"http://www.w3.org/2000/svg\"\n}, [\n  /*#__PURE__*/_createElementVNode(\"path\", {\n    d: \"M12.027 9.92L16 13.95 14 16l-4.075-3.976A6.465 6.465 0 0 1 6.5 13C2.91 13 0 10.083 0 6.5 0 2.91 2.917 0 6.5 0 10.09 0 13 2.917 13 6.5a6.463 6.463 0 0 1-.973 3.42zM1.997 6.452c0 2.48 2.014 4.5 4.5 4.5 2.48 0 4.5-2.015 4.5-4.5 0-2.48-2.015-4.5-4.5-4.5-2.48 0-4.5 2.014-4.5 4.5z\",\n    \"fill-rule\": \"evenodd\"\n  })\n], -1)\nconst _hoisted_5 = [\n  _hoisted_4\n]\n\nfunction _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {\n  return (_openBlock(), _createElementBlock(\"nav\", _hoisted_1, [\n    _createElementVNode(\"div\", _hoisted_2, [\n      _hoisted_3,\n      _createElementVNode(\"div\", {\n        class: \"search-icon\",\n        onClick: _cache[0] || (_cache[0] = (...args) => ($options.goToSearch && $options.goToSearch(...args)))\n      }, _hoisted_5)\n    ])\n  ]))\n}\n\nimport \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/global/MobileTopNav.vue?vue&type=style&index=0&lang.css\"\n\nimport _export_sfc from '\u0000plugin-vue:export-helper'\nexport default /*#__PURE__*/_export_sfc(_sfc_main, [['render',_sfc_render]])",
+      "start": 1708426961356,
+      "end": 1708426961357,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1708426961357,
+      "end": 1708426961357,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426961357,
+      "end": 1708426961357,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426961357,
+      "end": 1708426961357,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:chunk-error",
+      "start": 1708426961357,
+      "end": 1708426961357,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:components:imports",
+      "start": 1708426961357,
+      "end": 1708426961357,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426961357,
+      "end": 1708426961357,
+      "order": "normal"
+    },
+    {
+      "name": "ssr-styles",
+      "start": 1708426961357,
+      "end": 1708426961357,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1708426961357,
+      "end": 1708426961357,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1708426961357,
+      "end": 1708426961358,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1708426961358,
+      "end": 1708426961358,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1708426961358,
+      "end": 1708426961358,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1708426961358,
+      "end": 1708426961358,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1708426961358,
+      "end": 1708426961358,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1708426961358,
+      "end": 1708426961358,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1708426961358,
+      "end": 1708426961358,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426961358,
+      "end": 1708426961358,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426961358,
+      "end": 1708426961359,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426961359,
+      "end": 1708426961359,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426961359,
+      "end": 1708426961359,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:runtime-paths-dep",
+      "start": 1708426961359,
+      "end": 1708426961359,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:route-injection-plugin",
+      "start": 1708426961359,
+      "end": 1708426961359,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:components-loader",
+      "start": 1708426961359,
+      "end": 1708426961359,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-composables:transform",
+      "start": 1708426961359,
+      "end": 1708426961359,
+      "order": "post"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1708426961359,
+      "end": 1708426961359,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1708426961359,
+      "end": 1708426961359,
+      "order": "normal"
+    }
+  ]
+}

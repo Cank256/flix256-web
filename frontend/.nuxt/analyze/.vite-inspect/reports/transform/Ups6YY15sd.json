@@ -1,0 +1,214 @@
+{
+  "resolvedId": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/MediaNav.vue",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "<template>\n  <div :class=\"$style.nav\">\n    <button\n      v-for=\"(item, index) in menu\"\n      :key=\"`tab-${index}`\"\n      :class=\"[$style.button, { [$style.buttonActive] : active === index }]\"\n      type=\"button\"\n      @click=\"clicked(index, item)\">\n      {{ item }}\n    </button>\n  </div>\n</template>\n\n<script>\nexport default {\n  props: {\n    menu: {\n      type: Array,\n      required: true,\n    },\n  },\n\n  data () {\n    return {\n      active: 0,\n    };\n  },\n\n  methods: {\n    clicked (index, item) {\n      this.active = index;\n      this.$emit('clicked', item.replace(/\\s+/g, '-').toLowerCase());\n    },\n  },\n};\n</script>\n\n<style lang=\"scss\" module>\n@import '~/assets/css/utilities/_variables.scss';\n\n.nav {\n  display: flex;\n  height: 4.8rem;\n  background-color: #1b1b1b;\n\n  @media (min-width: $breakpoint-large) {\n    justify-content: center;\n    margin-top: 2.5rem;\n    background: none;\n  }\n}\n\n.button {\n  display: block;\n  width: 100%;\n  padding: 0;\n  margin: 0 0 -0.2rem;\n  font-size: 1.4rem;\n  font-weight: 500;\n  color: #585858;\n  text-transform: uppercase;\n  letter-spacing: $letter-spacing;\n  background: none;\n  border-right: 1px solid $base-bg;\n  outline: 0;\n  transition: color 0.2s ease;\n\n  @media (min-width: $breakpoint-large) {\n    width: auto;\n    margin: 0 3rem;\n    font-size: 2rem;\n    border-bottom: 2px solid transparent;\n  }\n\n  &:last-child {\n    border-right: 0;\n  }\n\n  &:hover,\n  &:focus {\n    color: #fff;\n  }\n}\n\n.buttonActive {\n  color: #fff;\n  background-color: $base-bg;\n\n  @media (min-width: $breakpoint-large) {\n    background: none;\n    border-bottom-color: #fff;\n  }\n}\n</style>\n",
+      "start": 1708426962671,
+      "end": 1708426962743,
+      "sourcemaps": null
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426962743,
+      "end": 1708426962743,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426962743,
+      "end": 1708426962743,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:client-fallback-auto-id",
+      "start": 1708426962743,
+      "end": 1708426962744,
+      "order": "pre"
+    },
+    {
+      "name": "vite:css",
+      "start": 1708426962744,
+      "end": 1708426962744,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1708426962744,
+      "end": 1708426962744,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1708426962744,
+      "end": 1708426962744,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1708426962744,
+      "end": 1708426962744,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "\nconst _sfc_main = {\n  props: {\n    menu: {\n      type: Array,\n      required: true,\n    },\n  },\n\n  data () {\n    return {\n      active: 0,\n    };\n  },\n\n  methods: {\n    clicked (index, item) {\n      this.active = index;\n      this.$emit('clicked', item.replace(/\\s+/g, '-').toLowerCase());\n    },\n  },\n};\n\nimport { renderList as _renderList, Fragment as _Fragment, openBlock as _openBlock, createElementBlock as _createElementBlock, toDisplayString as _toDisplayString, normalizeClass as _normalizeClass } from \"vue\"\n\nconst _hoisted_1 = [\"onClick\"]\n\nfunction _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {\n  return (_openBlock(), _createElementBlock(\"div\", {\n    class: _normalizeClass(_ctx.$style.nav)\n  }, [\n    (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($props.menu, (item, index) => {\n      return (_openBlock(), _createElementBlock(\"button\", {\n        key: `tab-${index}`,\n        class: _normalizeClass([_ctx.$style.button, { [_ctx.$style.buttonActive] : $data.active === index }]),\n        type: \"button\",\n        onClick: $event => ($options.clicked(index, item))\n      }, _toDisplayString(item), 11, _hoisted_1))\n    }), 128))\n  ], 2))\n}\n\nimport style0 from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/MediaNav.vue?vue&type=style&index=0&lang.module.scss\"\nconst cssModules = {\n\"$style\":style0,\n}\n\nimport _export_sfc from '\u0000plugin-vue:export-helper'\nexport default /*#__PURE__*/_export_sfc(_sfc_main, [['render',_sfc_render],['__cssModules',cssModules]])",
+      "start": 1708426962744,
+      "end": 1708426962746,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1708426962746,
+      "end": 1708426962746,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426962746,
+      "end": 1708426962746,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426962746,
+      "end": 1708426962746,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:chunk-error",
+      "start": 1708426962746,
+      "end": 1708426962746,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:components:imports",
+      "start": 1708426962746,
+      "end": 1708426962747,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426962747,
+      "end": 1708426962747,
+      "order": "normal"
+    },
+    {
+      "name": "ssr-styles",
+      "start": 1708426962747,
+      "end": 1708426962747,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1708426962747,
+      "end": 1708426962747,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1708426962747,
+      "end": 1708426962747,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1708426962747,
+      "end": 1708426962747,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1708426962747,
+      "end": 1708426962747,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1708426962747,
+      "end": 1708426962747,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1708426962747,
+      "end": 1708426962747,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1708426962747,
+      "end": 1708426962747,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1708426962747,
+      "end": 1708426962747,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426962747,
+      "end": 1708426962747,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426962747,
+      "end": 1708426962748,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426962748,
+      "end": 1708426962748,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426962748,
+      "end": 1708426962748,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:runtime-paths-dep",
+      "start": 1708426962748,
+      "end": 1708426962749,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:route-injection-plugin",
+      "start": 1708426962749,
+      "end": 1708426962749,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:components-loader",
+      "start": 1708426962749,
+      "end": 1708426962749,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-composables:transform",
+      "start": 1708426962749,
+      "end": 1708426962749,
+      "order": "post"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1708426962749,
+      "end": 1708426962749,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1708426962749,
+      "end": 1708426962749,
+      "order": "normal"
+    }
+  ]
+}

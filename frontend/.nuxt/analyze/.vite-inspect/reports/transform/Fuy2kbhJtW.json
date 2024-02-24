@@ -1,0 +1,215 @@
+{
+  "resolvedId": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/layouts/default.vue",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "<template>\n    <div  class=\"container\">\n        <NavBar v-if=\"!$device.isMobileOrTablet\" />\n        <MobileTopNav v-if=\"$device.isMobileOrTablet\" />\n        <MobileNav v-if=\"$device.isMobileOrTablet\" />\n        <slot />\n        <Footer />\n    </div>\n</template>\n\n<script>\n    import NavBar from '~/components/global/NavBar';\n    import MobileTopNav from '~/components/global/MobileTopNav';\n    import MobileNav from '~/components/global/MobileNav';\n    import Footer from '~/components/global/Footer';\n    \n    export default {\n        components: {\n            NavBar,\n            MobileTopNav,\n            MobileNav,\n            Footer,\n        },\n    };\n</script>\n",
+      "start": 1708426961099,
+      "end": 1708426961216,
+      "sourcemaps": null
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426961216,
+      "end": 1708426961216,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426961216,
+      "end": 1708426961216,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:client-fallback-auto-id",
+      "start": 1708426961216,
+      "end": 1708426961216,
+      "order": "pre"
+    },
+    {
+      "name": "vite:css",
+      "start": 1708426961216,
+      "end": 1708426961216,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1708426961216,
+      "end": 1708426961216,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1708426961216,
+      "end": 1708426961216,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1708426961216,
+      "end": 1708426961216,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "\n    import NavBar from '~/components/global/NavBar';\n    import MobileTopNav from '~/components/global/MobileTopNav';\n    import MobileNav from '~/components/global/MobileNav';\n    import Footer from '~/components/global/Footer';\n    \n    const _sfc_main = {\n        components: {\n            NavBar,\n            MobileTopNav,\n            MobileNav,\n            Footer,\n        },\n    };\n\nimport { resolveComponent as _resolveComponent, openBlock as _openBlock, createBlock as _createBlock, createCommentVNode as _createCommentVNode, renderSlot as _renderSlot, createVNode as _createVNode, createElementBlock as _createElementBlock } from \"vue\"\n\nconst _hoisted_1 = { class: \"container\" }\n\nfunction _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {\n  const _component_NavBar = _resolveComponent(\"NavBar\")\n  const _component_MobileTopNav = _resolveComponent(\"MobileTopNav\")\n  const _component_MobileNav = _resolveComponent(\"MobileNav\")\n  const _component_Footer = _resolveComponent(\"Footer\")\n\n  return (_openBlock(), _createElementBlock(\"div\", _hoisted_1, [\n    (!_ctx.$device.isMobileOrTablet)\n      ? (_openBlock(), _createBlock(_component_NavBar, { key: 0 }))\n      : _createCommentVNode(\"\", true),\n    (_ctx.$device.isMobileOrTablet)\n      ? (_openBlock(), _createBlock(_component_MobileTopNav, { key: 1 }))\n      : _createCommentVNode(\"\", true),\n    (_ctx.$device.isMobileOrTablet)\n      ? (_openBlock(), _createBlock(_component_MobileNav, { key: 2 }))\n      : _createCommentVNode(\"\", true),\n    _renderSlot(_ctx.$slots, \"default\"),\n    _createVNode(_component_Footer)\n  ]))\n}\n\n\nimport _export_sfc from '\u0000plugin-vue:export-helper'\nexport default /*#__PURE__*/_export_sfc(_sfc_main, [['render',_sfc_render]])",
+      "start": 1708426961216,
+      "end": 1708426961219,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1708426961219,
+      "end": 1708426961219,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426961219,
+      "end": 1708426961219,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426961219,
+      "end": 1708426961219,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:chunk-error",
+      "start": 1708426961219,
+      "end": 1708426961219,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:components:imports",
+      "start": 1708426961219,
+      "end": 1708426961219,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426961219,
+      "end": 1708426961219,
+      "order": "normal"
+    },
+    {
+      "name": "ssr-styles",
+      "start": 1708426961219,
+      "end": 1708426961219,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1708426961219,
+      "end": 1708426961219,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1708426961219,
+      "end": 1708426961219,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1708426961219,
+      "end": 1708426961219,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1708426961219,
+      "end": 1708426961219,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1708426961219,
+      "end": 1708426961219,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1708426961219,
+      "end": 1708426961219,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1708426961219,
+      "end": 1708426961219,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1708426961219,
+      "end": 1708426961219,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426961219,
+      "end": 1708426961219,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426961219,
+      "end": 1708426961220,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426961220,
+      "end": 1708426961220,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426961220,
+      "end": 1708426961220,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:runtime-paths-dep",
+      "start": 1708426961220,
+      "end": 1708426961220,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:route-injection-plugin",
+      "start": 1708426961220,
+      "end": 1708426961221,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:components-loader",
+      "result": "import { default as __nuxt_component_0 } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/global/NavBar.vue\";\nimport { default as __nuxt_component_1 } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/global/MobileTopNav.vue\";\nimport { default as __nuxt_component_2 } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/global/MobileNav.vue\";\nimport { default as __nuxt_component_3 } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/global/Footer.vue\";\n\n    import NavBar from '~/components/global/NavBar';\n    import MobileTopNav from '~/components/global/MobileTopNav';\n    import MobileNav from '~/components/global/MobileNav';\n    import Footer from '~/components/global/Footer';\n    \n    const _sfc_main = {\n        components: {\n            NavBar,\n            MobileTopNav,\n            MobileNav,\n            Footer,\n        },\n    };\n\nimport { resolveComponent as _resolveComponent, openBlock as _openBlock, createBlock as _createBlock, createCommentVNode as _createCommentVNode, renderSlot as _renderSlot, createVNode as _createVNode, createElementBlock as _createElementBlock } from \"vue\"\n\nconst _hoisted_1 = { class: \"container\" }\n\nfunction _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {\n  const _component_NavBar = __nuxt_component_0\n  const _component_MobileTopNav = __nuxt_component_1\n  const _component_MobileNav = __nuxt_component_2\n  const _component_Footer = __nuxt_component_3\n\n  return (_openBlock(), _createElementBlock(\"div\", _hoisted_1, [\n    (!_ctx.$device.isMobileOrTablet)\n      ? (_openBlock(), _createBlock(_component_NavBar, { key: 0 }))\n      : _createCommentVNode(\"\", true),\n    (_ctx.$device.isMobileOrTablet)\n      ? (_openBlock(), _createBlock(_component_MobileTopNav, { key: 1 }))\n      : _createCommentVNode(\"\", true),\n    (_ctx.$device.isMobileOrTablet)\n      ? (_openBlock(), _createBlock(_component_MobileNav, { key: 2 }))\n      : _createCommentVNode(\"\", true),\n    _renderSlot(_ctx.$slots, \"default\"),\n    _createVNode(_component_Footer)\n  ]))\n}\n\n\nimport _export_sfc from '\u0000plugin-vue:export-helper'\nexport default /*#__PURE__*/_export_sfc(_sfc_main, [['render',_sfc_render]])",
+      "start": 1708426961221,
+      "end": 1708426961221,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-composables:transform",
+      "start": 1708426961221,
+      "end": 1708426961221,
+      "order": "post"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1708426961221,
+      "end": 1708426961221,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1708426961221,
+      "end": 1708426961221,
+      "order": "normal"
+    }
+  ]
+}

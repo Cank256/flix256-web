@@ -1,0 +1,222 @@
+{
+  "resolvedId": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/store/auth.ts",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import { defineStore } from \"pinia\";\nimport axios from \"~/store/axios\";\n\ninterface User {\n    userId: string;\n    username: string;\n    email: string;\n    lang: string;\n}\n\nexport const useAuthStore = defineStore(\"auth\", {\n    state: () => ({\n        userId: null as string | null,\n        username: null as string | null,\n        email: null as string | null,\n        lang: null as string | null,\n        isLoggedInState: false,\n    }),\n    getters: {\n        isAuthenticated: (state) => !!state.userId,\n        isLoggedIn: (state) => state.isLoggedInState,\n    },\n    actions: {\n        async register(user: User) {\n            try {\n                const response = await axios.post(\"/auth/signup\", user);\n\n                if (response.status !== 201) {\n                    throw new Error(`Registration failed: ${response.data}`);\n                }\n\n                const userData = response.data;\n                const favorites = await axios.get(`/favorite/${userData.user._id}`);\n                this.setUserData(userData, favorites.data.results);\n            } catch (error) {\n                console.error(\"Registration error:\", error);\n            }\n        },\n        async login(username: string) {\n            try {\n                const response = await axios.post(\"/auth/login\", { username });\n\n                if (response.status !== 200) {\n                    throw new Error(`Login failed: ${response.data}`);\n                }\n\n                const userData = response.data;\n                const favorites = await axios.get(`/favorite/${userData.user._id}`);\n                this.setUserData(userData, favorites.data.results);\n            } catch (error) {\n                console.error(\"Login error:\", error);\n            }\n        },\n        async delete(user_id: string) {\n            try {\n                const response = await axios.delete(`/users/${user_id}`);\n\n                if (response.status >= 300) {\n                    throw new Error(`Account deletion failed: ${response.data}`);\n                }\n\n                this.resetState();\n            } catch (error) {\n                console.error(\"Login error:\", error);\n            }\n        },\n        async logout() {\n            this.resetState();\n        },\n        setUserData(user: User, favorites: any) {\n            this.userId = user.userId;\n            this.username = user.username;\n            this.email = user.email;\n            this.lang = user.lang;\n            this.isLoggedInState = true;\n            localStorage.setItem('isLoggedIn', 'true');\n            localStorage.setItem('user', JSON.stringify(user));\n            localStorage.setItem('favorites', JSON.stringify(favorites));\n        },\n        resetState() {\n            this.userId = null;\n            this.username = null;\n            this.email = null;\n            this.lang = null;\n            this.isLoggedInState = false;\n            localStorage.setItem('isLoggedIn', 'false');\n            localStorage.removeItem('user');\n            localStorage.removeItem('favorites');\n        },\n    },\n});\n",
+      "start": 1708426961425,
+      "end": 1708426961753,
+      "sourcemaps": null
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426961753,
+      "end": 1708426961753,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426961753,
+      "end": 1708426961753,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:client-fallback-auto-id",
+      "start": 1708426961753,
+      "end": 1708426961753,
+      "order": "pre"
+    },
+    {
+      "name": "vite:css",
+      "start": 1708426961753,
+      "end": 1708426961753,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "result": "import { defineStore } from \"pinia\";\nimport axios from \"~/store/axios\";\nexport const useAuthStore = defineStore(\"auth\", {\n  state: () => ({\n    userId: null,\n    username: null,\n    email: null,\n    lang: null,\n    isLoggedInState: false\n  }),\n  getters: {\n    isAuthenticated: (state) => !!state.userId,\n    isLoggedIn: (state) => state.isLoggedInState\n  },\n  actions: {\n    async register(user) {\n      try {\n        const response = await axios.post(\"/auth/signup\", user);\n        if (response.status !== 201) {\n          throw new Error(`Registration failed: ${response.data}`);\n        }\n        const userData = response.data;\n        const favorites = await axios.get(`/favorite/${userData.user._id}`);\n        this.setUserData(userData, favorites.data.results);\n      } catch (error) {\n        console.error(\"Registration error:\", error);\n      }\n    },\n    async login(username) {\n      try {\n        const response = await axios.post(\"/auth/login\", { username });\n        if (response.status !== 200) {\n          throw new Error(`Login failed: ${response.data}`);\n        }\n        const userData = response.data;\n        const favorites = await axios.get(`/favorite/${userData.user._id}`);\n        this.setUserData(userData, favorites.data.results);\n      } catch (error) {\n        console.error(\"Login error:\", error);\n      }\n    },\n    async delete(user_id) {\n      try {\n        const response = await axios.delete(`/users/${user_id}`);\n        if (response.status >= 300) {\n          throw new Error(`Account deletion failed: ${response.data}`);\n        }\n        this.resetState();\n      } catch (error) {\n        console.error(\"Login error:\", error);\n      }\n    },\n    async logout() {\n      this.resetState();\n    },\n    setUserData(user, favorites) {\n      this.userId = user.userId;\n      this.username = user.username;\n      this.email = user.email;\n      this.lang = user.lang;\n      this.isLoggedInState = true;\n      localStorage.setItem(\"isLoggedIn\", \"true\");\n      localStorage.setItem(\"user\", JSON.stringify(user));\n      localStorage.setItem(\"favorites\", JSON.stringify(favorites));\n    },\n    resetState() {\n      this.userId = null;\n      this.username = null;\n      this.email = null;\n      this.lang = null;\n      this.isLoggedInState = false;\n      localStorage.setItem(\"isLoggedIn\", \"false\");\n      localStorage.removeItem(\"user\");\n      localStorage.removeItem(\"favorites\");\n    }\n  }\n});\n",
+      "start": 1708426961753,
+      "end": 1708426963014,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/store/auth.ts"
+        ],
+        "sourcesContent": [
+          "import { defineStore } from \"pinia\";\nimport axios from \"~/store/axios\";\n\ninterface User {\n    userId: string;\n    username: string;\n    email: string;\n    lang: string;\n}\n\nexport const useAuthStore = defineStore(\"auth\", {\n    state: () => ({\n        userId: null as string | null,\n        username: null as string | null,\n        email: null as string | null,\n        lang: null as string | null,\n        isLoggedInState: false,\n    }),\n    getters: {\n        isAuthenticated: (state) => !!state.userId,\n        isLoggedIn: (state) => state.isLoggedInState,\n    },\n    actions: {\n        async register(user: User) {\n            try {\n                const response = await axios.post(\"/auth/signup\", user);\n\n                if (response.status !== 201) {\n                    throw new Error(`Registration failed: ${response.data}`);\n                }\n\n                const userData = response.data;\n                const favorites = await axios.get(`/favorite/${userData.user._id}`);\n                this.setUserData(userData, favorites.data.results);\n            } catch (error) {\n                console.error(\"Registration error:\", error);\n            }\n        },\n        async login(username: string) {\n            try {\n                const response = await axios.post(\"/auth/login\", { username });\n\n                if (response.status !== 200) {\n                    throw new Error(`Login failed: ${response.data}`);\n                }\n\n                const userData = response.data;\n                const favorites = await axios.get(`/favorite/${userData.user._id}`);\n                this.setUserData(userData, favorites.data.results);\n            } catch (error) {\n                console.error(\"Login error:\", error);\n            }\n        },\n        async delete(user_id: string) {\n            try {\n                const response = await axios.delete(`/users/${user_id}`);\n\n                if (response.status >= 300) {\n                    throw new Error(`Account deletion failed: ${response.data}`);\n                }\n\n                this.resetState();\n            } catch (error) {\n                console.error(\"Login error:\", error);\n            }\n        },\n        async logout() {\n            this.resetState();\n        },\n        setUserData(user: User, favorites: any) {\n            this.userId = user.userId;\n            this.username = user.username;\n            this.email = user.email;\n            this.lang = user.lang;\n            this.isLoggedInState = true;\n            localStorage.setItem('isLoggedIn', 'true');\n            localStorage.setItem('user', JSON.stringify(user));\n            localStorage.setItem('favorites', JSON.stringify(favorites));\n        },\n        resetState() {\n            this.userId = null;\n            this.username = null;\n            this.email = null;\n            this.lang = null;\n            this.isLoggedInState = false;\n            localStorage.setItem('isLoggedIn', 'false');\n            localStorage.removeItem('user');\n            localStorage.removeItem('favorites');\n        },\n    },\n});\n"
+        ],
+        "mappings": "AAAA,SAAS,mBAAmB;AAC5B,OAAO,WAAW;AASX,aAAM,eAAe,YAAY,QAAQ;AAAA,EAC5C,OAAO,OAAO;AAAA,IACV,QAAQ;AAAA,IACR,UAAU;AAAA,IACV,OAAO;AAAA,IACP,MAAM;AAAA,IACN,iBAAiB;AAAA,EACrB;AAAA,EACA,SAAS;AAAA,IACL,iBAAiB,CAAC,UAAU,CAAC,CAAC,MAAM;AAAA,IACpC,YAAY,CAAC,UAAU,MAAM;AAAA,EACjC;AAAA,EACA,SAAS;AAAA,IACL,MAAM,SAAS,MAAY;AACvB,UAAI;AACA,cAAM,WAAW,MAAM,MAAM,KAAK,gBAAgB,IAAI;AAEtD,YAAI,SAAS,WAAW,KAAK;AACzB,gBAAM,IAAI,MAAM,wBAAwB,SAAS,IAAI,EAAE;AAAA,QAC3D;AAEA,cAAM,WAAW,SAAS;AAC1B,cAAM,YAAY,MAAM,MAAM,IAAI,aAAa,SAAS,KAAK,GAAG,EAAE;AAClE,aAAK,YAAY,UAAU,UAAU,KAAK,OAAO;AAAA,MACrD,SAAS,OAAO;AACZ,gBAAQ,MAAM,uBAAuB,KAAK;AAAA,MAC9C;AAAA,IACJ;AAAA,IACA,MAAM,MAAM,UAAkB;AAC1B,UAAI;AACA,cAAM,WAAW,MAAM,MAAM,KAAK,eAAe,EAAE,SAAS,CAAC;AAE7D,YAAI,SAAS,WAAW,KAAK;AACzB,gBAAM,IAAI,MAAM,iBAAiB,SAAS,IAAI,EAAE;AAAA,QACpD;AAEA,cAAM,WAAW,SAAS;AAC1B,cAAM,YAAY,MAAM,MAAM,IAAI,aAAa,SAAS,KAAK,GAAG,EAAE;AAClE,aAAK,YAAY,UAAU,UAAU,KAAK,OAAO;AAAA,MACrD,SAAS,OAAO;AACZ,gBAAQ,MAAM,gBAAgB,KAAK;AAAA,MACvC;AAAA,IACJ;AAAA,IACA,MAAM,OAAO,SAAiB;AAC1B,UAAI;AACA,cAAM,WAAW,MAAM,MAAM,OAAO,UAAU,OAAO,EAAE;AAEvD,YAAI,SAAS,UAAU,KAAK;AACxB,gBAAM,IAAI,MAAM,4BAA4B,SAAS,IAAI,EAAE;AAAA,QAC/D;AAEA,aAAK,WAAW;AAAA,MACpB,SAAS,OAAO;AACZ,gBAAQ,MAAM,gBAAgB,KAAK;AAAA,MACvC;AAAA,IACJ;AAAA,IACA,MAAM,SAAS;AACX,WAAK,WAAW;AAAA,IACpB;AAAA,IACA,YAAY,MAAY,WAAgB;AACpC,WAAK,SAAS,KAAK;AACnB,WAAK,WAAW,KAAK;AACrB,WAAK,QAAQ,KAAK;AAClB,WAAK,OAAO,KAAK;AACjB,WAAK,kBAAkB;AACvB,mBAAa,QAAQ,cAAc,MAAM;AACzC,mBAAa,QAAQ,QAAQ,KAAK,UAAU,IAAI,CAAC;AACjD,mBAAa,QAAQ,aAAa,KAAK,UAAU,SAAS,CAAC;AAAA,IAC/D;AAAA,IACA,aAAa;AACT,WAAK,SAAS;AACd,WAAK,WAAW;AAChB,WAAK,QAAQ;AACb,WAAK,OAAO;AACZ,WAAK,kBAAkB;AACvB,mBAAa,QAAQ,cAAc,OAAO;AAC1C,mBAAa,WAAW,MAAM;AAC9B,mBAAa,WAAW,WAAW;AAAA,IACvC;AAAA,EACJ;AACJ,CAAC;",
+        "names": []
+      }
+    },
+    {
+      "name": "vite:json",
+      "start": 1708426963014,
+      "end": 1708426963014,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1708426963014,
+      "end": 1708426963014,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1708426963014,
+      "end": 1708426963014,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1708426963014,
+      "end": 1708426963014,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426963014,
+      "end": 1708426963014,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426963014,
+      "end": 1708426963015,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:chunk-error",
+      "start": 1708426963015,
+      "end": 1708426963015,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:components:imports",
+      "start": 1708426963015,
+      "end": 1708426963015,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426963015,
+      "end": 1708426963015,
+      "order": "normal"
+    },
+    {
+      "name": "ssr-styles",
+      "start": 1708426963017,
+      "end": 1708426963017,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1708426963018,
+      "end": 1708426963018,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1708426963019,
+      "end": 1708426963019,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1708426963019,
+      "end": 1708426963019,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1708426963019,
+      "end": 1708426963019,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1708426963019,
+      "end": 1708426963019,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1708426963019,
+      "end": 1708426963019,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1708426963019,
+      "end": 1708426963019,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1708426963019,
+      "end": 1708426963019,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426963019,
+      "end": 1708426963019,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426963019,
+      "end": 1708426963021,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426963021,
+      "end": 1708426963021,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426963021,
+      "end": 1708426963021,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:runtime-paths-dep",
+      "start": 1708426963021,
+      "end": 1708426963021,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:route-injection-plugin",
+      "start": 1708426963021,
+      "end": 1708426963021,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:components-loader",
+      "start": 1708426963021,
+      "end": 1708426963021,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-composables:transform",
+      "start": 1708426963021,
+      "end": 1708426963021,
+      "order": "post"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1708426963021,
+      "end": 1708426963021,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1708426963021,
+      "end": 1708426963021,
+      "order": "normal"
+    }
+  ]
+}

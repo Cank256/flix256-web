@@ -1,0 +1,260 @@
+{
+  "resolvedId": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/mixins/Details.ts",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import { useBackendStore } from \"~/store/backend\";\n\n// Define Image url\nexport const apiImgUrl: string | undefined = process.env.tmdbImageUrl || 'https://image.tmdb.org/t/p';\n\ninterface Item {\n  id: number;\n  title?: string;\n  name?: string;\n  runtime?: number;\n  vote_average?: number;\n  release_date?: string;\n  first_air_date?: string;\n  last_air_date?: string;\n  backdrop_path?: string;\n  release_dates?: { results: { iso_3166_1: string; release_dates: { certification: string }[] }[] };\n  content_ratings?: { results: { iso_3166_1: string; rating: string }[] };\n  videos?: { results: { type: string; name: string; key: string }[] };\n  credits?: { crew: { job: string; name: string; id: number }[] };\n  created_by?: { name: string; id: number }[];\n}\n\n/**\n * Name\n */\nexport const name = {\n  computed: {\n    name(this: { item: Item }) {\n      return this.item.title ? this.item.title : this.item.name;\n    },\n  },\n};\n\n/**\n * Star rating\n */\nexport const stars = {\n  computed: {\n    stars(this: { item: Item }) {\n      if (this.item.vote_average) {\n        return this.item.vote_average * 10;\n      }\n    },\n  },\n};\n\n/**\n * Rating\n */\nexport const rating = {\n  computed: {\n    rating(this: { item: Item }) {\n      if (this.item.vote_average) {\n        return this.item.vote_average / 2;\n      }\n    },\n  },\n};\n\n/**\n * Runtime in Hours and Minutes\n */\nexport const runtime = {\n  computed: {\n    runtime(this: { item: Item }) {\n      if (this.item.runtime) {\n        const hours = Math.floor(this.item.runtime / 60);\n        const minutes = this.item.runtime % 60;\n\n        return `${hours}h ${minutes}m`;\n      }\n    },\n  },\n};\n\n/**\n * Year started\n */\nexport const yearStart = {\n  computed: {\n    yearStart(this: { item: Item }) {\n      const date = this.item.release_date ? this.item.release_date : this.item.first_air_date;\n\n      if (date) {\n        return date.split('-')[0];\n      }\n    },\n  },\n};\n\n/**\n * Year ended\n */\nexport const yearEnd = {\n  computed: {\n    yearEnd(this: { item: Item }) {\n      const date = this.item.last_air_date;\n\n      if (date) {\n        return date.split('-')[0];\n      }\n    },\n  },\n};\n\n/**\n * Backdrop\n */\nexport const backdrop = {\n  computed: {\n    backdrop(this: { item: Item }) {\n      if (this.item.backdrop_path) {\n        return `${apiImgUrl}/original${this.item.backdrop_path}`;\n      }\n    },\n  },\n};\n\n/**\n * Certification\n */\nexport const cert = {\n  computed: {\n    cert(this: { item: Item }) {\n      // movie\n      if (this.item.release_dates) {\n        const releases = this.item.release_dates.results.find(\n          release => release.iso_3166_1 === process.env.API_COUNTRY || release.iso_3166_1 === 'US'\n        );\n\n        if (!releases) return null;\n\n        const item = releases.release_dates.find(date => date.certification !== '');\n\n        if (item) return item.certification;\n        // tv\n      } else if (this.item.content_ratings) {\n        const releases = this.item.content_ratings.results.find(\n          release => release.iso_3166_1 === process.env.API_COUNTRY || release.iso_3166_1 === 'US'\n        );\n\n        if (!releases) return null;\n\n        return releases.rating;\n      }\n    },\n  },\n};\n\n/**\n * Trailer\n */\nexport const trailer = {\n  computed: {\n    trailer(this: { item: Item }) {\n      let videos = this.item.videos?.results ?? [];\n\n      // if no videos, do nothing\n      if (!videos.length) return null;\n\n      // filter by type of video\n      videos = videos.filter(video => video.type === 'Trailer');\n\n      // if no trailer found, do nothing\n      if (!videos.length) return null;\n\n      return [\n        {\n          name: videos[0].name,\n          src: `https://www.youtube.com/embed/${videos[0].key}?rel=0&showinfo=0&autoplay=1`,\n        },\n      ];\n    },\n  },\n};\n\n/**\n * Directors\n */\nexport const directors = {\n  computed: {\n    directors(this: { item: Item }) {\n      const people = this.item.credits?.crew ?? [];\n\n      if (people) {\n        return people\n          // .filter(person => person.job === 'Director')\n          // .map(person => `<a href=\"/person/${person.id}\">${person.name}</a>`)\n          // .join(', ');\n          .filter(person => person.job === 'Director')\n          .map(person => person.name)\n          .join(', ');\n      }\n    },\n  },\n};\n\n/**\n * Creators\n */\nexport const creators = {\n  computed: {\n    creators(this: { item: Item }) {\n      const people = this.item.created_by;\n\n      if (people) {\n        // return people.map(person => `<a href=\"/person/${person.id}\">${person.name}</a>`).join(', ');\n        return people.map(person => person.name).join('| ');\n      }\n    },\n  },\n};\n\nexport const checkIfIsFavorite = {\n  computed: {\n    async checkIfIsFavorite(this: { item: Item }) {\n      const itemId = this.item.id;\n      const store = useBackendStore();\n\n      const userData = JSON.parse(window.localStorage.getItem(\"user\") || \"{}\");\n\n      try {\n        const favItems = await store.getFavorites(userData.user._id, { page: 1 });\n\n        // Check if favItems.data is an array before calling some\n        if (Array.isArray(favItems.data)) {\n          // Use some to check if itemId exists in favItems.data\n          return favItems.data.some((favItem: any) => favItem.id === itemId);\n        }\n      } catch (error) {\n        console.error(\"Error fetching favorites:\", error);\n      }\n\n      return false; // Return false if there was an error or favItems.data is not an array\n    }\n  }\n};\n\n",
+      "start": 1708426968246,
+      "end": 1708426968514,
+      "sourcemaps": null
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426968514,
+      "end": 1708426968514,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426968514,
+      "end": 1708426968514,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426968514,
+      "end": 1708426968514,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426968514,
+      "end": 1708426968514,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:client-fallback-auto-id",
+      "start": 1708426968515,
+      "end": 1708426968515,
+      "order": "pre"
+    },
+    {
+      "name": "vite:css",
+      "start": 1708426968515,
+      "end": 1708426968515,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "result": "import { useBackendStore } from \"~/store/backend\";\nexport const apiImgUrl = process.env.tmdbImageUrl || \"https://image.tmdb.org/t/p\";\nexport const name = {\n  computed: {\n    name() {\n      return this.item.title ? this.item.title : this.item.name;\n    }\n  }\n};\nexport const stars = {\n  computed: {\n    stars() {\n      if (this.item.vote_average) {\n        return this.item.vote_average * 10;\n      }\n    }\n  }\n};\nexport const rating = {\n  computed: {\n    rating() {\n      if (this.item.vote_average) {\n        return this.item.vote_average / 2;\n      }\n    }\n  }\n};\nexport const runtime = {\n  computed: {\n    runtime() {\n      if (this.item.runtime) {\n        const hours = Math.floor(this.item.runtime / 60);\n        const minutes = this.item.runtime % 60;\n        return `${hours}h ${minutes}m`;\n      }\n    }\n  }\n};\nexport const yearStart = {\n  computed: {\n    yearStart() {\n      const date = this.item.release_date ? this.item.release_date : this.item.first_air_date;\n      if (date) {\n        return date.split(\"-\")[0];\n      }\n    }\n  }\n};\nexport const yearEnd = {\n  computed: {\n    yearEnd() {\n      const date = this.item.last_air_date;\n      if (date) {\n        return date.split(\"-\")[0];\n      }\n    }\n  }\n};\nexport const backdrop = {\n  computed: {\n    backdrop() {\n      if (this.item.backdrop_path) {\n        return `${apiImgUrl}/original${this.item.backdrop_path}`;\n      }\n    }\n  }\n};\nexport const cert = {\n  computed: {\n    cert() {\n      if (this.item.release_dates) {\n        const releases = this.item.release_dates.results.find(\n          (release) => release.iso_3166_1 === process.env.API_COUNTRY || release.iso_3166_1 === \"US\"\n        );\n        if (!releases)\n          return null;\n        const item = releases.release_dates.find((date) => date.certification !== \"\");\n        if (item)\n          return item.certification;\n      } else if (this.item.content_ratings) {\n        const releases = this.item.content_ratings.results.find(\n          (release) => release.iso_3166_1 === process.env.API_COUNTRY || release.iso_3166_1 === \"US\"\n        );\n        if (!releases)\n          return null;\n        return releases.rating;\n      }\n    }\n  }\n};\nexport const trailer = {\n  computed: {\n    trailer() {\n      let videos = this.item.videos?.results ?? [];\n      if (!videos.length)\n        return null;\n      videos = videos.filter((video) => video.type === \"Trailer\");\n      if (!videos.length)\n        return null;\n      return [\n        {\n          name: videos[0].name,\n          src: `https://www.youtube.com/embed/${videos[0].key}?rel=0&showinfo=0&autoplay=1`\n        }\n      ];\n    }\n  }\n};\nexport const directors = {\n  computed: {\n    directors() {\n      const people = this.item.credits?.crew ?? [];\n      if (people) {\n        return people.filter((person) => person.job === \"Director\").map((person) => person.name).join(\", \");\n      }\n    }\n  }\n};\nexport const creators = {\n  computed: {\n    creators() {\n      const people = this.item.created_by;\n      if (people) {\n        return people.map((person) => person.name).join(\"| \");\n      }\n    }\n  }\n};\nexport const checkIfIsFavorite = {\n  computed: {\n    async checkIfIsFavorite() {\n      const itemId = this.item.id;\n      const store = useBackendStore();\n      const userData = JSON.parse(window.localStorage.getItem(\"user\") || \"{}\");\n      try {\n        const favItems = await store.getFavorites(userData.user._id, { page: 1 });\n        if (Array.isArray(favItems.data)) {\n          return favItems.data.some((favItem) => favItem.id === itemId);\n        }\n      } catch (error) {\n        console.error(\"Error fetching favorites:\", error);\n      }\n      return false;\n    }\n  }\n};\n",
+      "start": 1708426968515,
+      "end": 1708426969415,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/mixins/Details.ts"
+        ],
+        "sourcesContent": [
+          "import { useBackendStore } from \"~/store/backend\";\n\n// Define Image url\nexport const apiImgUrl: string | undefined = process.env.tmdbImageUrl || 'https://image.tmdb.org/t/p';\n\ninterface Item {\n  id: number;\n  title?: string;\n  name?: string;\n  runtime?: number;\n  vote_average?: number;\n  release_date?: string;\n  first_air_date?: string;\n  last_air_date?: string;\n  backdrop_path?: string;\n  release_dates?: { results: { iso_3166_1: string; release_dates: { certification: string }[] }[] };\n  content_ratings?: { results: { iso_3166_1: string; rating: string }[] };\n  videos?: { results: { type: string; name: string; key: string }[] };\n  credits?: { crew: { job: string; name: string; id: number }[] };\n  created_by?: { name: string; id: number }[];\n}\n\n/**\n * Name\n */\nexport const name = {\n  computed: {\n    name(this: { item: Item }) {\n      return this.item.title ? this.item.title : this.item.name;\n    },\n  },\n};\n\n/**\n * Star rating\n */\nexport const stars = {\n  computed: {\n    stars(this: { item: Item }) {\n      if (this.item.vote_average) {\n        return this.item.vote_average * 10;\n      }\n    },\n  },\n};\n\n/**\n * Rating\n */\nexport const rating = {\n  computed: {\n    rating(this: { item: Item }) {\n      if (this.item.vote_average) {\n        return this.item.vote_average / 2;\n      }\n    },\n  },\n};\n\n/**\n * Runtime in Hours and Minutes\n */\nexport const runtime = {\n  computed: {\n    runtime(this: { item: Item }) {\n      if (this.item.runtime) {\n        const hours = Math.floor(this.item.runtime / 60);\n        const minutes = this.item.runtime % 60;\n\n        return `${hours}h ${minutes}m`;\n      }\n    },\n  },\n};\n\n/**\n * Year started\n */\nexport const yearStart = {\n  computed: {\n    yearStart(this: { item: Item }) {\n      const date = this.item.release_date ? this.item.release_date : this.item.first_air_date;\n\n      if (date) {\n        return date.split('-')[0];\n      }\n    },\n  },\n};\n\n/**\n * Year ended\n */\nexport const yearEnd = {\n  computed: {\n    yearEnd(this: { item: Item }) {\n      const date = this.item.last_air_date;\n\n      if (date) {\n        return date.split('-')[0];\n      }\n    },\n  },\n};\n\n/**\n * Backdrop\n */\nexport const backdrop = {\n  computed: {\n    backdrop(this: { item: Item }) {\n      if (this.item.backdrop_path) {\n        return `${apiImgUrl}/original${this.item.backdrop_path}`;\n      }\n    },\n  },\n};\n\n/**\n * Certification\n */\nexport const cert = {\n  computed: {\n    cert(this: { item: Item }) {\n      // movie\n      if (this.item.release_dates) {\n        const releases = this.item.release_dates.results.find(\n          release => release.iso_3166_1 === process.env.API_COUNTRY || release.iso_3166_1 === 'US'\n        );\n\n        if (!releases) return null;\n\n        const item = releases.release_dates.find(date => date.certification !== '');\n\n        if (item) return item.certification;\n        // tv\n      } else if (this.item.content_ratings) {\n        const releases = this.item.content_ratings.results.find(\n          release => release.iso_3166_1 === process.env.API_COUNTRY || release.iso_3166_1 === 'US'\n        );\n\n        if (!releases) return null;\n\n        return releases.rating;\n      }\n    },\n  },\n};\n\n/**\n * Trailer\n */\nexport const trailer = {\n  computed: {\n    trailer(this: { item: Item }) {\n      let videos = this.item.videos?.results ?? [];\n\n      // if no videos, do nothing\n      if (!videos.length) return null;\n\n      // filter by type of video\n      videos = videos.filter(video => video.type === 'Trailer');\n\n      // if no trailer found, do nothing\n      if (!videos.length) return null;\n\n      return [\n        {\n          name: videos[0].name,\n          src: `https://www.youtube.com/embed/${videos[0].key}?rel=0&showinfo=0&autoplay=1`,\n        },\n      ];\n    },\n  },\n};\n\n/**\n * Directors\n */\nexport const directors = {\n  computed: {\n    directors(this: { item: Item }) {\n      const people = this.item.credits?.crew ?? [];\n\n      if (people) {\n        return people\n          // .filter(person => person.job === 'Director')\n          // .map(person => `<a href=\"/person/${person.id}\">${person.name}</a>`)\n          // .join(', ');\n          .filter(person => person.job === 'Director')\n          .map(person => person.name)\n          .join(', ');\n      }\n    },\n  },\n};\n\n/**\n * Creators\n */\nexport const creators = {\n  computed: {\n    creators(this: { item: Item }) {\n      const people = this.item.created_by;\n\n      if (people) {\n        // return people.map(person => `<a href=\"/person/${person.id}\">${person.name}</a>`).join(', ');\n        return people.map(person => person.name).join('| ');\n      }\n    },\n  },\n};\n\nexport const checkIfIsFavorite = {\n  computed: {\n    async checkIfIsFavorite(this: { item: Item }) {\n      const itemId = this.item.id;\n      const store = useBackendStore();\n\n      const userData = JSON.parse(window.localStorage.getItem(\"user\") || \"{}\");\n\n      try {\n        const favItems = await store.getFavorites(userData.user._id, { page: 1 });\n\n        // Check if favItems.data is an array before calling some\n        if (Array.isArray(favItems.data)) {\n          // Use some to check if itemId exists in favItems.data\n          return favItems.data.some((favItem: any) => favItem.id === itemId);\n        }\n      } catch (error) {\n        console.error(\"Error fetching favorites:\", error);\n      }\n\n      return false; // Return false if there was an error or favItems.data is not an array\n    }\n  }\n};\n\n"
+        ],
+        "mappings": "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",
+        "names": []
+      }
+    },
+    {
+      "name": "vite:json",
+      "start": 1708426969415,
+      "end": 1708426969416,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1708426969416,
+      "end": 1708426969416,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1708426969416,
+      "end": 1708426969416,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1708426969416,
+      "end": 1708426969416,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426969416,
+      "end": 1708426969416,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426969416,
+      "end": 1708426969416,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426969416,
+      "end": 1708426969416,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426969416,
+      "end": 1708426969416,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:components:imports",
+      "start": 1708426969416,
+      "end": 1708426969416,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426969416,
+      "end": 1708426969416,
+      "order": "normal"
+    },
+    {
+      "name": "ssr-styles",
+      "start": 1708426969416,
+      "end": 1708426969416,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "result": "import { useBackendStore } from \"~/store/backend\";\nexport const apiImgUrl = process.env.tmdbImageUrl || \"https://image.tmdb.org/t/p\";\nexport const name = {\n  computed: {\n    name() {\n      return this.item.title ? this.item.title : this.item.name;\n    }\n  }\n};\nexport const stars = {\n  computed: {\n    stars() {\n      if (this.item.vote_average) {\n        return this.item.vote_average * 10;\n      }\n    }\n  }\n};\nexport const rating = {\n  computed: {\n    rating() {\n      if (this.item.vote_average) {\n        return this.item.vote_average / 2;\n      }\n    }\n  }\n};\nexport const runtime = {\n  computed: {\n    runtime() {\n      if (this.item.runtime) {\n        const hours = Math.floor(this.item.runtime / 60);\n        const minutes = this.item.runtime % 60;\n        return `${hours}h ${minutes}m`;\n      }\n    }\n  }\n};\nexport const yearStart = {\n  computed: {\n    yearStart() {\n      const date = this.item.release_date ? this.item.release_date : this.item.first_air_date;\n      if (date) {\n        return date.split(\"-\")[0];\n      }\n    }\n  }\n};\nexport const yearEnd = {\n  computed: {\n    yearEnd() {\n      const date = this.item.last_air_date;\n      if (date) {\n        return date.split(\"-\")[0];\n      }\n    }\n  }\n};\nexport const backdrop = {\n  computed: {\n    backdrop() {\n      if (this.item.backdrop_path) {\n        return `${apiImgUrl}/original${this.item.backdrop_path}`;\n      }\n    }\n  }\n};\nexport const cert = {\n  computed: {\n    cert() {\n      if (this.item.release_dates) {\n        const releases = this.item.release_dates.results.find(\n          (release) => release.iso_3166_1 === process.env.API_COUNTRY || release.iso_3166_1 === \"US\"\n        );\n        if (!releases)\n          return null;\n        const item = releases.release_dates.find((date) => date.certification !== \"\");\n        if (item)\n          return item.certification;\n      } else if (this.item.content_ratings) {\n        const releases = this.item.content_ratings.results.find(\n          (release) => release.iso_3166_1 === process.env.API_COUNTRY || release.iso_3166_1 === \"US\"\n        );\n        if (!releases)\n          return null;\n        return releases.rating;\n      }\n    }\n  }\n};\nexport const trailer = {\n  computed: {\n    trailer() {\n      let videos = this.item.videos?.results ?? [];\n      if (!videos.length)\n        return null;\n      videos = videos.filter((video) => video.type === \"Trailer\");\n      if (!videos.length)\n        return null;\n      return [\n        {\n          name: videos[0].name,\n          src: `https://www.youtube.com/embed/${videos[0].key}?rel=0&showinfo=0&autoplay=1`\n        }\n      ];\n    }\n  }\n};\nexport const directors = {\n  computed: {\n    directors() {\n      const people = this.item.credits?.crew ?? [];\n      if (people) {\n        return people.filter((person) => person.job === \"Director\").map((person) => person.name).join(\", \");\n      }\n    }\n  }\n};\nexport const creators = {\n  computed: {\n    creators() {\n      const people = this.item.created_by;\n      if (people) {\n        return people.map((person) => person.name).join(\"| \");\n      }\n    }\n  }\n};\nexport const checkIfIsFavorite = {\n  computed: {\n    async checkIfIsFavorite() {\n      const itemId = this.item.id;\n      const store = useBackendStore();\n      const userData = JSON.parse((void 0).localStorage.getItem(\"user\") || \"{}\");\n      try {\n        const favItems = await store.getFavorites(userData.user._id, { page: 1 });\n        if (Array.isArray(favItems.data)) {\n          return favItems.data.some((favItem) => favItem.id === itemId);\n        }\n      } catch (error) {\n        console.error(\"Error fetching favorites:\", error);\n      }\n      return false;\n    }\n  }\n};\n",
+      "start": 1708426969416,
+      "end": 1708426969527,
+      "order": "normal",
+      "sourcemaps": "{\n  \"version\": 3,\n  \"sources\": [\"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/mixins/Details.ts\"],\n  \"sourcesContent\": [\"import { useBackendStore } from \\\"~/store/backend\\\";\\nexport const apiImgUrl = process.env.tmdbImageUrl || \\\"https://image.tmdb.org/t/p\\\";\\nexport const name = {\\n  computed: {\\n    name() {\\n      return this.item.title ? this.item.title : this.item.name;\\n    }\\n  }\\n};\\nexport const stars = {\\n  computed: {\\n    stars() {\\n      if (this.item.vote_average) {\\n        return this.item.vote_average * 10;\\n      }\\n    }\\n  }\\n};\\nexport const rating = {\\n  computed: {\\n    rating() {\\n      if (this.item.vote_average) {\\n        return this.item.vote_average / 2;\\n      }\\n    }\\n  }\\n};\\nexport const runtime = {\\n  computed: {\\n    runtime() {\\n      if (this.item.runtime) {\\n        const hours = Math.floor(this.item.runtime / 60);\\n        const minutes = this.item.runtime % 60;\\n        return `${hours}h ${minutes}m`;\\n      }\\n    }\\n  }\\n};\\nexport const yearStart = {\\n  computed: {\\n    yearStart() {\\n      const date = this.item.release_date ? this.item.release_date : this.item.first_air_date;\\n      if (date) {\\n        return date.split(\\\"-\\\")[0];\\n      }\\n    }\\n  }\\n};\\nexport const yearEnd = {\\n  computed: {\\n    yearEnd() {\\n      const date = this.item.last_air_date;\\n      if (date) {\\n        return date.split(\\\"-\\\")[0];\\n      }\\n    }\\n  }\\n};\\nexport const backdrop = {\\n  computed: {\\n    backdrop() {\\n      if (this.item.backdrop_path) {\\n        return `${apiImgUrl}/original${this.item.backdrop_path}`;\\n      }\\n    }\\n  }\\n};\\nexport const cert = {\\n  computed: {\\n    cert() {\\n      if (this.item.release_dates) {\\n        const releases = this.item.release_dates.results.find(\\n          (release) => release.iso_3166_1 === process.env.API_COUNTRY || release.iso_3166_1 === \\\"US\\\"\\n        );\\n        if (!releases)\\n          return null;\\n        const item = releases.release_dates.find((date) => date.certification !== \\\"\\\");\\n        if (item)\\n          return item.certification;\\n      } else if (this.item.content_ratings) {\\n        const releases = this.item.content_ratings.results.find(\\n          (release) => release.iso_3166_1 === process.env.API_COUNTRY || release.iso_3166_1 === \\\"US\\\"\\n        );\\n        if (!releases)\\n          return null;\\n        return releases.rating;\\n      }\\n    }\\n  }\\n};\\nexport const trailer = {\\n  computed: {\\n    trailer() {\\n      let videos = this.item.videos?.results ?? [];\\n      if (!videos.length)\\n        return null;\\n      videos = videos.filter((video) => video.type === \\\"Trailer\\\");\\n      if (!videos.length)\\n        return null;\\n      return [\\n        {\\n          name: videos[0].name,\\n          src: `https://www.youtube.com/embed/${videos[0].key}?rel=0&showinfo=0&autoplay=1`\\n        }\\n      ];\\n    }\\n  }\\n};\\nexport const directors = {\\n  computed: {\\n    directors() {\\n      const people = this.item.credits?.crew ?? [];\\n      if (people) {\\n        return people.filter((person) => person.job === \\\"Director\\\").map((person) => person.name).join(\\\", \\\");\\n      }\\n    }\\n  }\\n};\\nexport const creators = {\\n  computed: {\\n    creators() {\\n      const people = this.item.created_by;\\n      if (people) {\\n        return people.map((person) => person.name).join(\\\"| \\\");\\n      }\\n    }\\n  }\\n};\\nexport const checkIfIsFavorite = {\\n  computed: {\\n    async checkIfIsFavorite() {\\n      const itemId = this.item.id;\\n      const store = useBackendStore();\\n      const userData = JSON.parse(window.localStorage.getItem(\\\"user\\\") || \\\"{}\\\");\\n      try {\\n        const favItems = await store.getFavorites(userData.user._id, { page: 1 });\\n        if (Array.isArray(favItems.data)) {\\n          return favItems.data.some((favItem) => favItem.id === itemId);\\n        }\\n      } catch (error) {\\n        console.error(\\\"Error fetching favorites:\\\", error);\\n      }\\n      return false;\\n    }\\n  }\\n};\\n\"],\n  \"mappings\": \"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\",\n  \"names\": []\n}\n"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1708426969527,
+      "end": 1708426969527,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1708426969527,
+      "end": 1708426969527,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1708426969527,
+      "end": 1708426969527,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1708426969527,
+      "end": 1708426969527,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1708426969527,
+      "end": 1708426969527,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1708426969527,
+      "end": 1708426969527,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1708426969527,
+      "end": 1708426969527,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426969527,
+      "end": 1708426969527,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426969527,
+      "end": 1708426969527,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426969527,
+      "end": 1708426969529,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426969527,
+      "end": 1708426969529,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426969529,
+      "end": 1708426969529,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426969529,
+      "end": 1708426969529,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426969529,
+      "end": 1708426969529,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426969529,
+      "end": 1708426969529,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-template",
+      "start": 1708426969529,
+      "end": 1708426969529,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:components-loader",
+      "start": 1708426969529,
+      "end": 1708426969529,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-composables:transform",
+      "start": 1708426969529,
+      "end": 1708426969529,
+      "order": "post"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1708426969529,
+      "end": 1708426969530,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1708426969530,
+      "end": 1708426969530,
+      "order": "normal"
+    }
+  ]
+}

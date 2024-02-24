@@ -1,0 +1,223 @@
+{
+  "resolvedId": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/index.vue?macro=true",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "<template>\n\t<main class=\"main\">\n\t\t<Hero v-if=\"featuredItem\" :item=\"featuredItem\" id=\"hero\" />\n\n\t\t<ListingCarousel\n\t\t\tv-if=\"trendingMovies && trendingMovies.length\"\n\t\t\t:title=\"trendingMoviesTitle\"\n\t\t\t:view-all-url=\"trendingMoviesUrl\"\n\t\t\t:items=\"trendingMovies\"\n\t\t/>\n\n\t\t<ListingCarousel\n\t\t\tv-if=\"trendingTv && trendingTv.length\"\n\t\t\t:title=\"trendingTvTitle\"\n\t\t\t:view-all-url=\"trendingTvUrl\"\n\t\t\t:items=\"trendingTv\"\n\t\t/>\n\t</main>\n</template>\n\n<script>\nimport { ref } from \"vue\";\nimport Hero from \"~/components/Hero\";\nimport ListingCarousel from \"~/components/ListingCarousel\";\nimport { useBackendStore } from \"~/store/backend\";\n\nexport default {\n\tcomponents: {\n\t\tHero,\n\t\tListingCarousel,\n\t},\n\n\tsetup() {\n\t\tconst store = useBackendStore();\n\n\t\tconst trendingMovies = ref(null);\n\t\tconst trendingTv = ref(null);\n\t\tconst featuredItem = ref(null);\n\t\tconst trendingMoviesTitle = store.getListItem('movie', 'trending').title;\n\t\tconst trendingTvTitle = store.getListItem('tv', 'trending').title;\n\n\t\tasync function fetchData() {\n\t\t\ttry {\n\t\t\t\tconst trendingMoviesData = await store.getMovies(\"trending\");\n\t\t\t\tconst trendingTvData = await store.getTvShows(\"trending\");\n\t\t\t\tlet featured;\n\n\t\t\t\tconst items = [...trendingMoviesData.data.results, ...trendingTvData.data.results];\n\t\t\t\tconst randomItem = items[Math.floor(Math.random() * items.length)];\n\t\t\t\tconst media = randomItem.title ? \"movie\" : \"tv\";\n\n\t\t\t\tif (media === \"movie\") {\n\t\t\t\t\tfeatured = await store.getMovie(randomItem.id);\n\t\t\t\t} else {\n\t\t\t\t\tfeatured = await store.getTvShow(randomItem.id);\n\t\t\t\t}\n\n\t\t\t\tfeaturedItem.value = featured.data;\n\t\t\t\ttrendingMovies.value = trendingMoviesData.data.results;\n\t\t\t\ttrendingTv.value = trendingTvData.data.results;\n\t\t\t} catch (error) {\n\t\t\t\tconsole.error(\"There was an error in fetching data\", error);\n\t\t\t}\n\t\t}\n\n\t\tfetchData();\n\n\t\treturn {\n\t\t\ttrendingMovies,\n\t\t\ttrendingTv,\n\t\t\tfeaturedItem,\n\t\t\ttrendingMoviesTitle,\n\t\t\ttrendingTvTitle\n\t\t};\n\t},\n\n\tcomputed: {\n\t\ttrendingMoviesUrl() {\n\t\t\treturn this.trendingMovies ? { name: 'movie-category-name', params: { name: 'trending' } } : \"\";\n\t\t},\n\t\t\n\t\ttrendingTvUrl() {\n\t\t\treturn this.trendingTv ? { name: \"tv-category-name\",  params: { name: 'trending' } } : \"\";\n\t\t},\n\t},\n};\n</script>\n",
+      "start": 1708426961104,
+      "end": 1708426961228,
+      "sourcemaps": null
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426961228,
+      "end": 1708426961228,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426961228,
+      "end": 1708426961228,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:client-fallback-auto-id",
+      "start": 1708426961228,
+      "end": 1708426961228,
+      "order": "pre"
+    },
+    {
+      "name": "vite:css",
+      "start": 1708426961228,
+      "end": 1708426961228,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1708426961228,
+      "end": 1708426961228,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1708426961228,
+      "end": 1708426961228,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1708426961228,
+      "end": 1708426961228,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "\nimport { ref } from \"vue\";\nimport Hero from \"~/components/Hero\";\nimport ListingCarousel from \"~/components/ListingCarousel\";\nimport { useBackendStore } from \"~/store/backend\";\n\nconst _sfc_main = {\n\tcomponents: {\n\t\tHero,\n\t\tListingCarousel,\n\t},\n\n\tsetup() {\n\t\tconst store = useBackendStore();\n\n\t\tconst trendingMovies = ref(null);\n\t\tconst trendingTv = ref(null);\n\t\tconst featuredItem = ref(null);\n\t\tconst trendingMoviesTitle = store.getListItem('movie', 'trending').title;\n\t\tconst trendingTvTitle = store.getListItem('tv', 'trending').title;\n\n\t\tasync function fetchData() {\n\t\t\ttry {\n\t\t\t\tconst trendingMoviesData = await store.getMovies(\"trending\");\n\t\t\t\tconst trendingTvData = await store.getTvShows(\"trending\");\n\t\t\t\tlet featured;\n\n\t\t\t\tconst items = [...trendingMoviesData.data.results, ...trendingTvData.data.results];\n\t\t\t\tconst randomItem = items[Math.floor(Math.random() * items.length)];\n\t\t\t\tconst media = randomItem.title ? \"movie\" : \"tv\";\n\n\t\t\t\tif (media === \"movie\") {\n\t\t\t\t\tfeatured = await store.getMovie(randomItem.id);\n\t\t\t\t} else {\n\t\t\t\t\tfeatured = await store.getTvShow(randomItem.id);\n\t\t\t\t}\n\n\t\t\t\tfeaturedItem.value = featured.data;\n\t\t\t\ttrendingMovies.value = trendingMoviesData.data.results;\n\t\t\t\ttrendingTv.value = trendingTvData.data.results;\n\t\t\t} catch (error) {\n\t\t\t\tconsole.error(\"There was an error in fetching data\", error);\n\t\t\t}\n\t\t}\n\n\t\tfetchData();\n\n\t\treturn {\n\t\t\ttrendingMovies,\n\t\t\ttrendingTv,\n\t\t\tfeaturedItem,\n\t\t\ttrendingMoviesTitle,\n\t\t\ttrendingTvTitle\n\t\t};\n\t},\n\n\tcomputed: {\n\t\ttrendingMoviesUrl() {\n\t\t\treturn this.trendingMovies ? { name: 'movie-category-name', params: { name: 'trending' } } : \"\";\n\t\t},\n\t\t\n\t\ttrendingTvUrl() {\n\t\t\treturn this.trendingTv ? { name: \"tv-category-name\",  params: { name: 'trending' } } : \"\";\n\t\t},\n\t},\n};\n\nimport { resolveComponent as _resolveComponent, openBlock as _openBlock, createBlock as _createBlock, createCommentVNode as _createCommentVNode, createElementBlock as _createElementBlock } from \"vue\"\n\nconst _hoisted_1 = { class: \"main\" }\n\nfunction _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {\n  const _component_Hero = _resolveComponent(\"Hero\")\n  const _component_ListingCarousel = _resolveComponent(\"ListingCarousel\")\n\n  return (_openBlock(), _createElementBlock(\"main\", _hoisted_1, [\n    ($setup.featuredItem)\n      ? (_openBlock(), _createBlock(_component_Hero, {\n          key: 0,\n          item: $setup.featuredItem,\n          id: \"hero\"\n        }, null, 8, [\"item\"]))\n      : _createCommentVNode(\"\", true),\n    ($setup.trendingMovies && $setup.trendingMovies.length)\n      ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n          key: 1,\n          title: $setup.trendingMoviesTitle,\n          \"view-all-url\": $options.trendingMoviesUrl,\n          items: $setup.trendingMovies\n        }, null, 8, [\"title\", \"view-all-url\", \"items\"]))\n      : _createCommentVNode(\"\", true),\n    ($setup.trendingTv && $setup.trendingTv.length)\n      ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n          key: 2,\n          title: $setup.trendingTvTitle,\n          \"view-all-url\": $options.trendingTvUrl,\n          items: $setup.trendingTv\n        }, null, 8, [\"title\", \"view-all-url\", \"items\"]))\n      : _createCommentVNode(\"\", true)\n  ]))\n}\n\n\nimport _export_sfc from '\u0000plugin-vue:export-helper'\nexport default /*#__PURE__*/_export_sfc(_sfc_main, [['render',_sfc_render]])",
+      "start": 1708426961228,
+      "end": 1708426961232,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1708426961232,
+      "end": 1708426961232,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426961232,
+      "end": 1708426961232,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426961232,
+      "end": 1708426961233,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:chunk-error",
+      "start": 1708426961233,
+      "end": 1708426961233,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:components:imports",
+      "start": 1708426961233,
+      "end": 1708426961233,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426961233,
+      "end": 1708426961233,
+      "order": "normal"
+    },
+    {
+      "name": "ssr-styles",
+      "start": 1708426961233,
+      "end": 1708426961233,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1708426961233,
+      "end": 1708426961233,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1708426961233,
+      "end": 1708426961233,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1708426961233,
+      "end": 1708426961233,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1708426961233,
+      "end": 1708426961233,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1708426961233,
+      "end": 1708426961233,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1708426961233,
+      "end": 1708426961233,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1708426961233,
+      "end": 1708426961233,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1708426961233,
+      "end": 1708426961233,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426961233,
+      "end": 1708426961233,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426961233,
+      "end": 1708426961236,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426961236,
+      "end": 1708426961237,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "result": "\nconst __nuxt_page_meta = null\nexport default __nuxt_page_meta\n",
+      "start": 1708426961237,
+      "end": 1708426961241,
+      "order": "post",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          ""
+        ],
+        "names": [],
+        "mappings": "AAAA;AAAA;AAAA;AAAA"
+      }
+    },
+    {
+      "name": "nuxt:runtime-paths-dep",
+      "start": 1708426961242,
+      "end": 1708426961242,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:route-injection-plugin",
+      "start": 1708426961242,
+      "end": 1708426961242,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:components-loader",
+      "start": 1708426961242,
+      "end": 1708426961242,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-composables:transform",
+      "start": 1708426961242,
+      "end": 1708426961242,
+      "order": "post"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1708426961242,
+      "end": 1708426961242,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1708426961242,
+      "end": 1708426961242,
+      "order": "normal"
+    }
+  ]
+}

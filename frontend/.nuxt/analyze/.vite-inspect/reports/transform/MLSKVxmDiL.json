@@ -1,0 +1,225 @@
+{
+  "resolvedId": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/tv/[id].vue?macro=true",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "<template>\n\t<main class=\"main\">\n\t\t<TopNav v-if=\"item\" :title=\"metaTitle\" />\n\n\t\t<Hero v-if=\"item\" :item=\"item\" />\n\n\t\t<MediaNav :menu=\"menu\" @clicked=\"navClicked\" />\n\n\t\t<template v-if=\"activeMenu === 'overview'\">\n\t\t\t<TvShowInfo v-if=\"item\" :item=\"item\" />\n\n\t\t\t<Credits v-if=\"item && showCredits\" :people=\"item.credits.cast\" />\n\t\t</template>\n\n\t\t<template v-if=\"activeMenu === 'episodes' && showEpisodes\">\n\t\t\t<Episodes v-if=\"item\" :tv-show-id=\"item.id\" :number-of-seasons=\"item.number_of_seasons\" />\n\t\t</template>\n\n\t\t<ListingCarousel\n\t\t\tv-if=\"recommended && recommended.length\"\n\t\t\ttitle=\"More Like This\"\n\t\t\t:items=\"recommended\"\n\t\t/>\n\t</main>\n</template>\n\n<script>\nimport { ref, onMounted } from \"vue\";\nimport { useRoute } from \"vue-router\";\nimport { apiImgUrl, useBackendStore } from \"~/store/backend\";\nimport { name, yearStart, yearEnd } from \"~/mixins/Details\";\nimport TopNav from \"~/components/global/TopNav\";\nimport Hero from \"~/components/Hero\";\nimport MediaNav from \"~/components/MediaNav\";\nimport TvShowInfo from \"~/components/tv/TvShowInfo\";\nimport Credits from \"~/components/Credits\";\nimport Episodes from \"~/components/tv/Episodes\";\nimport ListingCarousel from \"~/components/ListingCarousel\";\n\nexport default {\n\tcomponents: {\n\t\tTopNav,\n\t\tHero,\n\t\tMediaNav,\n\t\tTvShowInfo,\n\t\tCredits,\n\t\tEpisodes,\n\t\tListingCarousel,\n\t},\n\n\tmixins: [name, yearStart, yearEnd],\n\n\tdata() {\n\t\treturn {\n\t\t\tmenu: [],\n\t\t\tactiveMenu: \"overview\",\n\t\t\trecommended: null,\n\t\t};\n\t},\n\n\tsetup() {\n\t\tconst store = useBackendStore();\n\t\tconst route = useRoute();\n\t\tconst item = ref(null);\n\n\t\tonMounted(async () => {\n\t\t\ttry {\n\t\t\t\tconst itemData = await store.getTvShow(route.params.id);\n\t\t\t\titem.value = itemData.data;\n\t\t\t} catch (error) {\n\t\t\t\tconsole.error({ status: error.code, error: error.message });\n\t\t\t}\n\t\t});\n\n\t\treturn { item };\n\t},\n\n\tcomputed: {\n\t\tmetaTitle() {\n\t\t\tif (!this.item) return \"\";\n\n\t\t\tif (this.item.status === \"Ended\" && this.yearStart && this.yearEnd) {\n\t\t\t\treturn `${this.name} (TV Series ${this.yearStart}-${this.yearEnd})`;\n\t\t\t} else if (this.yearStart) {\n\t\t\t\treturn `${this.name} (TV Series ${this.yearStart}-)`;\n\t\t\t} else {\n\t\t\t\treturn `${this.name} (TV Series)`;\n\t\t\t}\n\t\t},\n\n\t\tmetaDescription() {\n\t\t\tif (this.item && this.item.overview) {\n\t\t\t\treturn this.truncate(this.item.overview, 200);\n\t\t\t} else {\n\t\t\t\treturn \"\";\n\t\t\t}\n\t\t},\n\n\t\tmetaImage() {\n\t\t\tif (this.item && this.item.poster_path) {\n\t\t\t\treturn `${apiImgUrl}/w500${this.item.poster_path}`;\n\t\t\t} else {\n\t\t\t\treturn \"\";\n\t\t\t}\n\t\t},\n\n\t\tshowCredits() {\n\t\t\tconst credits = this.item && this.item.credits;\n\t\t\treturn credits && credits.cast && credits.cast.length;\n\t\t},\n\n\t\tshowEpisodes() {\n\t\t\treturn this.item && this.item.number_of_seasons > 0;\n\t\t},\n\t},\n\n\thead() {\n\t\treturn {\n\t\t\ttitle: this.metaTitle,\n\t\t\tmeta: [\n\t\t\t\t{ hid: \"og:title\", property: \"og:title\", content: this.metaTitle },\n\t\t\t\t{\n\t\t\t\t\thid: \"og:description\",\n\t\t\t\t\tproperty: \"og:description\",\n\t\t\t\t\tcontent: this.metaDescription,\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\thid: \"description\",\n\t\t\t\t\tname: \"description\",\n\t\t\t\t\tcontent: this.metaDescription,\n\t\t\t\t},\n\t\t\t\t{ hid: \"og:image\", property: \"og:image\", content: this.metaImage },\n\t\t\t\t{\n\t\t\t\t\thid: \"og:url\",\n\t\t\t\t\tproperty: \"og:url\",\n\t\t\t\t\tcontent: `${process.env.FRONTEND_URL}${this.$route.path}`,\n\t\t\t\t},\n\t\t\t],\n\t\t\tbodyAttrs: {\n\t\t\t\tclass: \"topnav-active\",\n\t\t\t},\n\t\t};\n\t},\n\n\tcreated() {\n\t\tthis.createMenu();\n\t\tthis.initRecommended();\n\t},\n\n\tmethods: {\n\t\ttruncate(string, length) {\n\t\t\treturn this.$options.filters.truncate(string, length);\n\t\t},\n\n\t\tcreateMenu() {\n\t\t\tconst menu = [];\n\n\t\t\t// overview\n\t\t\tmenu.push(\"Overview\");\n\n\t\t\t// episodes\n\t\t\tif (!this.showEpisodes) menu.push(\"Episodes\");\n\n\t\t\tthis.menu = menu;\n\t\t},\n\n\t\tnavClicked(label) {\n\t\t\tthis.activeMenu = label;\n\t\t},\n\n\t\tinitRecommended() {\n\t\t\t// If recommended doesn't exist, retrieve it\n\t\t\tif (!this.recommended) {\n\t\t\t\tconst store = useBackendStore(); // Moved inside the function\n\t\t\t\tstore\n\t\t\t\t\t.getTvsShowRecommended({ tv_show_id: this.$route.params.id })\n\t\t\t\t\t.then((response) => {\n\t\t\t\t\t\tthis.recommended = response.data;\n\t\t\t\t\t});\n\t\t\t}\n\t\t},\n\t},\n};\n</script>\n",
+      "start": 1708426961114,
+      "end": 1708426961288,
+      "sourcemaps": null
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426961288,
+      "end": 1708426961288,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426961288,
+      "end": 1708426961288,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:client-fallback-auto-id",
+      "start": 1708426961288,
+      "end": 1708426961288,
+      "order": "pre"
+    },
+    {
+      "name": "vite:css",
+      "start": 1708426961288,
+      "end": 1708426961288,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1708426961288,
+      "end": 1708426961288,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1708426961288,
+      "end": 1708426961288,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1708426961288,
+      "end": 1708426961288,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "\nimport { ref, onMounted } from \"vue\";\nimport { useRoute } from \"vue-router\";\nimport { apiImgUrl, useBackendStore } from \"~/store/backend\";\nimport { name, yearStart, yearEnd } from \"~/mixins/Details\";\nimport TopNav from \"~/components/global/TopNav\";\nimport Hero from \"~/components/Hero\";\nimport MediaNav from \"~/components/MediaNav\";\nimport TvShowInfo from \"~/components/tv/TvShowInfo\";\nimport Credits from \"~/components/Credits\";\nimport Episodes from \"~/components/tv/Episodes\";\nimport ListingCarousel from \"~/components/ListingCarousel\";\n\nconst _sfc_main = {\n\tcomponents: {\n\t\tTopNav,\n\t\tHero,\n\t\tMediaNav,\n\t\tTvShowInfo,\n\t\tCredits,\n\t\tEpisodes,\n\t\tListingCarousel,\n\t},\n\n\tmixins: [name, yearStart, yearEnd],\n\n\tdata() {\n\t\treturn {\n\t\t\tmenu: [],\n\t\t\tactiveMenu: \"overview\",\n\t\t\trecommended: null,\n\t\t};\n\t},\n\n\tsetup() {\n\t\tconst store = useBackendStore();\n\t\tconst route = useRoute();\n\t\tconst item = ref(null);\n\n\t\tonMounted(async () => {\n\t\t\ttry {\n\t\t\t\tconst itemData = await store.getTvShow(route.params.id);\n\t\t\t\titem.value = itemData.data;\n\t\t\t} catch (error) {\n\t\t\t\tconsole.error({ status: error.code, error: error.message });\n\t\t\t}\n\t\t});\n\n\t\treturn { item };\n\t},\n\n\tcomputed: {\n\t\tmetaTitle() {\n\t\t\tif (!this.item) return \"\";\n\n\t\t\tif (this.item.status === \"Ended\" && this.yearStart && this.yearEnd) {\n\t\t\t\treturn `${this.name} (TV Series ${this.yearStart}-${this.yearEnd})`;\n\t\t\t} else if (this.yearStart) {\n\t\t\t\treturn `${this.name} (TV Series ${this.yearStart}-)`;\n\t\t\t} else {\n\t\t\t\treturn `${this.name} (TV Series)`;\n\t\t\t}\n\t\t},\n\n\t\tmetaDescription() {\n\t\t\tif (this.item && this.item.overview) {\n\t\t\t\treturn this.truncate(this.item.overview, 200);\n\t\t\t} else {\n\t\t\t\treturn \"\";\n\t\t\t}\n\t\t},\n\n\t\tmetaImage() {\n\t\t\tif (this.item && this.item.poster_path) {\n\t\t\t\treturn `${apiImgUrl}/w500${this.item.poster_path}`;\n\t\t\t} else {\n\t\t\t\treturn \"\";\n\t\t\t}\n\t\t},\n\n\t\tshowCredits() {\n\t\t\tconst credits = this.item && this.item.credits;\n\t\t\treturn credits && credits.cast && credits.cast.length;\n\t\t},\n\n\t\tshowEpisodes() {\n\t\t\treturn this.item && this.item.number_of_seasons > 0;\n\t\t},\n\t},\n\n\thead() {\n\t\treturn {\n\t\t\ttitle: this.metaTitle,\n\t\t\tmeta: [\n\t\t\t\t{ hid: \"og:title\", property: \"og:title\", content: this.metaTitle },\n\t\t\t\t{\n\t\t\t\t\thid: \"og:description\",\n\t\t\t\t\tproperty: \"og:description\",\n\t\t\t\t\tcontent: this.metaDescription,\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\thid: \"description\",\n\t\t\t\t\tname: \"description\",\n\t\t\t\t\tcontent: this.metaDescription,\n\t\t\t\t},\n\t\t\t\t{ hid: \"og:image\", property: \"og:image\", content: this.metaImage },\n\t\t\t\t{\n\t\t\t\t\thid: \"og:url\",\n\t\t\t\t\tproperty: \"og:url\",\n\t\t\t\t\tcontent: `${process.env.FRONTEND_URL}${this.$route.path}`,\n\t\t\t\t},\n\t\t\t],\n\t\t\tbodyAttrs: {\n\t\t\t\tclass: \"topnav-active\",\n\t\t\t},\n\t\t};\n\t},\n\n\tcreated() {\n\t\tthis.createMenu();\n\t\tthis.initRecommended();\n\t},\n\n\tmethods: {\n\t\ttruncate(string, length) {\n\t\t\treturn this.$options.filters.truncate(string, length);\n\t\t},\n\n\t\tcreateMenu() {\n\t\t\tconst menu = [];\n\n\t\t\t// overview\n\t\t\tmenu.push(\"Overview\");\n\n\t\t\t// episodes\n\t\t\tif (!this.showEpisodes) menu.push(\"Episodes\");\n\n\t\t\tthis.menu = menu;\n\t\t},\n\n\t\tnavClicked(label) {\n\t\t\tthis.activeMenu = label;\n\t\t},\n\n\t\tinitRecommended() {\n\t\t\t// If recommended doesn't exist, retrieve it\n\t\t\tif (!this.recommended) {\n\t\t\t\tconst store = useBackendStore(); // Moved inside the function\n\t\t\t\tstore\n\t\t\t\t\t.getTvsShowRecommended({ tv_show_id: this.$route.params.id })\n\t\t\t\t\t.then((response) => {\n\t\t\t\t\t\tthis.recommended = response.data;\n\t\t\t\t\t});\n\t\t\t}\n\t\t},\n\t},\n};\n\nimport { resolveComponent as _resolveComponent, openBlock as _openBlock, createBlock as _createBlock, createCommentVNode as _createCommentVNode, createVNode as _createVNode, Fragment as _Fragment, createElementBlock as _createElementBlock } from \"vue\"\n\nconst _hoisted_1 = { class: \"main\" }\n\nfunction _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {\n  const _component_TopNav = _resolveComponent(\"TopNav\")\n  const _component_Hero = _resolveComponent(\"Hero\")\n  const _component_MediaNav = _resolveComponent(\"MediaNav\")\n  const _component_TvShowInfo = _resolveComponent(\"TvShowInfo\")\n  const _component_Credits = _resolveComponent(\"Credits\")\n  const _component_Episodes = _resolveComponent(\"Episodes\")\n  const _component_ListingCarousel = _resolveComponent(\"ListingCarousel\")\n\n  return (_openBlock(), _createElementBlock(\"main\", _hoisted_1, [\n    ($setup.item)\n      ? (_openBlock(), _createBlock(_component_TopNav, {\n          key: 0,\n          title: $options.metaTitle\n        }, null, 8, [\"title\"]))\n      : _createCommentVNode(\"\", true),\n    ($setup.item)\n      ? (_openBlock(), _createBlock(_component_Hero, {\n          key: 1,\n          item: $setup.item\n        }, null, 8, [\"item\"]))\n      : _createCommentVNode(\"\", true),\n    _createVNode(_component_MediaNav, {\n      menu: $data.menu,\n      onClicked: $options.navClicked\n    }, null, 8, [\"menu\", \"onClicked\"]),\n    ($data.activeMenu === 'overview')\n      ? (_openBlock(), _createElementBlock(_Fragment, { key: 2 }, [\n          ($setup.item)\n            ? (_openBlock(), _createBlock(_component_TvShowInfo, {\n                key: 0,\n                item: $setup.item\n              }, null, 8, [\"item\"]))\n            : _createCommentVNode(\"\", true),\n          ($setup.item && $options.showCredits)\n            ? (_openBlock(), _createBlock(_component_Credits, {\n                key: 1,\n                people: $setup.item.credits.cast\n              }, null, 8, [\"people\"]))\n            : _createCommentVNode(\"\", true)\n        ], 64))\n      : _createCommentVNode(\"\", true),\n    ($data.activeMenu === 'episodes' && $options.showEpisodes)\n      ? (_openBlock(), _createElementBlock(_Fragment, { key: 3 }, [\n          ($setup.item)\n            ? (_openBlock(), _createBlock(_component_Episodes, {\n                key: 0,\n                \"tv-show-id\": $setup.item.id,\n                \"number-of-seasons\": $setup.item.number_of_seasons\n              }, null, 8, [\"tv-show-id\", \"number-of-seasons\"]))\n            : _createCommentVNode(\"\", true)\n        ], 64))\n      : _createCommentVNode(\"\", true),\n    ($data.recommended && $data.recommended.length)\n      ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n          key: 4,\n          title: \"More Like This\",\n          items: $data.recommended\n        }, null, 8, [\"items\"]))\n      : _createCommentVNode(\"\", true)\n  ]))\n}\n\n\nimport _export_sfc from '\u0000plugin-vue:export-helper'\nexport default /*#__PURE__*/_export_sfc(_sfc_main, [['render',_sfc_render]])",
+      "start": 1708426961288,
+      "end": 1708426961293,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1708426961293,
+      "end": 1708426961293,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426961293,
+      "end": 1708426961293,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426961293,
+      "end": 1708426961293,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:chunk-error",
+      "start": 1708426961293,
+      "end": 1708426961293,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:components:imports",
+      "start": 1708426961293,
+      "end": 1708426961293,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426961293,
+      "end": 1708426961293,
+      "order": "normal"
+    },
+    {
+      "name": "ssr-styles",
+      "start": 1708426961293,
+      "end": 1708426961293,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "result": "var define_process_env_default = {};\nimport { ref, onMounted } from \"vue\";\nimport { useRoute } from \"vue-router\";\nimport { apiImgUrl, useBackendStore } from \"~/store/backend\";\nimport { name, yearStart, yearEnd } from \"~/mixins/Details\";\nimport TopNav from \"~/components/global/TopNav\";\nimport Hero from \"~/components/Hero\";\nimport MediaNav from \"~/components/MediaNav\";\nimport TvShowInfo from \"~/components/tv/TvShowInfo\";\nimport Credits from \"~/components/Credits\";\nimport Episodes from \"~/components/tv/Episodes\";\nimport ListingCarousel from \"~/components/ListingCarousel\";\nconst _sfc_main = {\n  components: {\n    TopNav,\n    Hero,\n    MediaNav,\n    TvShowInfo,\n    Credits,\n    Episodes,\n    ListingCarousel\n  },\n  mixins: [name, yearStart, yearEnd],\n  data() {\n    return {\n      menu: [],\n      activeMenu: \"overview\",\n      recommended: null\n    };\n  },\n  setup() {\n    const store = useBackendStore();\n    const route = useRoute();\n    const item = ref(null);\n    onMounted(async () => {\n      try {\n        const itemData = await store.getTvShow(route.params.id);\n        item.value = itemData.data;\n      } catch (error) {\n        console.error({ status: error.code, error: error.message });\n      }\n    });\n    return { item };\n  },\n  computed: {\n    metaTitle() {\n      if (!this.item)\n        return \"\";\n      if (this.item.status === \"Ended\" && this.yearStart && this.yearEnd) {\n        return `${this.name} (TV Series ${this.yearStart}-${this.yearEnd})`;\n      } else if (this.yearStart) {\n        return `${this.name} (TV Series ${this.yearStart}-)`;\n      } else {\n        return `${this.name} (TV Series)`;\n      }\n    },\n    metaDescription() {\n      if (this.item && this.item.overview) {\n        return this.truncate(this.item.overview, 200);\n      } else {\n        return \"\";\n      }\n    },\n    metaImage() {\n      if (this.item && this.item.poster_path) {\n        return `${apiImgUrl}/w500${this.item.poster_path}`;\n      } else {\n        return \"\";\n      }\n    },\n    showCredits() {\n      const credits = this.item && this.item.credits;\n      return credits && credits.cast && credits.cast.length;\n    },\n    showEpisodes() {\n      return this.item && this.item.number_of_seasons > 0;\n    }\n  },\n  head() {\n    return {\n      title: this.metaTitle,\n      meta: [\n        { hid: \"og:title\", property: \"og:title\", content: this.metaTitle },\n        {\n          hid: \"og:description\",\n          property: \"og:description\",\n          content: this.metaDescription\n        },\n        {\n          hid: \"description\",\n          name: \"description\",\n          content: this.metaDescription\n        },\n        { hid: \"og:image\", property: \"og:image\", content: this.metaImage },\n        {\n          hid: \"og:url\",\n          property: \"og:url\",\n          content: `${define_process_env_default.FRONTEND_URL}${this.$route.path}`\n        }\n      ],\n      bodyAttrs: {\n        class: \"topnav-active\"\n      }\n    };\n  },\n  created() {\n    this.createMenu();\n    this.initRecommended();\n  },\n  methods: {\n    truncate(string, length) {\n      return this.$options.filters.truncate(string, length);\n    },\n    createMenu() {\n      const menu = [];\n      menu.push(\"Overview\");\n      if (!this.showEpisodes)\n        menu.push(\"Episodes\");\n      this.menu = menu;\n    },\n    navClicked(label) {\n      this.activeMenu = label;\n    },\n    initRecommended() {\n      if (!this.recommended) {\n        const store = useBackendStore();\n        store.getTvsShowRecommended({ tv_show_id: this.$route.params.id }).then((response) => {\n          this.recommended = response.data;\n        });\n      }\n    }\n  }\n};\nimport { resolveComponent as _resolveComponent, openBlock as _openBlock, createBlock as _createBlock, createCommentVNode as _createCommentVNode, createVNode as _createVNode, Fragment as _Fragment, createElementBlock as _createElementBlock } from \"vue\";\nconst _hoisted_1 = { class: \"main\" };\nfunction _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {\n  const _component_TopNav = _resolveComponent(\"TopNav\");\n  const _component_Hero = _resolveComponent(\"Hero\");\n  const _component_MediaNav = _resolveComponent(\"MediaNav\");\n  const _component_TvShowInfo = _resolveComponent(\"TvShowInfo\");\n  const _component_Credits = _resolveComponent(\"Credits\");\n  const _component_Episodes = _resolveComponent(\"Episodes\");\n  const _component_ListingCarousel = _resolveComponent(\"ListingCarousel\");\n  return _openBlock(), _createElementBlock(\"main\", _hoisted_1, [\n    $setup.item ? (_openBlock(), _createBlock(_component_TopNav, {\n      key: 0,\n      title: $options.metaTitle\n    }, null, 8, [\"title\"])) : _createCommentVNode(\"\", true),\n    $setup.item ? (_openBlock(), _createBlock(_component_Hero, {\n      key: 1,\n      item: $setup.item\n    }, null, 8, [\"item\"])) : _createCommentVNode(\"\", true),\n    _createVNode(_component_MediaNav, {\n      menu: $data.menu,\n      onClicked: $options.navClicked\n    }, null, 8, [\"menu\", \"onClicked\"]),\n    $data.activeMenu === \"overview\" ? (_openBlock(), _createElementBlock(_Fragment, { key: 2 }, [\n      $setup.item ? (_openBlock(), _createBlock(_component_TvShowInfo, {\n        key: 0,\n        item: $setup.item\n      }, null, 8, [\"item\"])) : _createCommentVNode(\"\", true),\n      $setup.item && $options.showCredits ? (_openBlock(), _createBlock(_component_Credits, {\n        key: 1,\n        people: $setup.item.credits.cast\n      }, null, 8, [\"people\"])) : _createCommentVNode(\"\", true)\n    ], 64)) : _createCommentVNode(\"\", true),\n    $data.activeMenu === \"episodes\" && $options.showEpisodes ? (_openBlock(), _createElementBlock(_Fragment, { key: 3 }, [\n      $setup.item ? (_openBlock(), _createBlock(_component_Episodes, {\n        key: 0,\n        \"tv-show-id\": $setup.item.id,\n        \"number-of-seasons\": $setup.item.number_of_seasons\n      }, null, 8, [\"tv-show-id\", \"number-of-seasons\"])) : _createCommentVNode(\"\", true)\n    ], 64)) : _createCommentVNode(\"\", true),\n    $data.recommended && $data.recommended.length ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n      key: 4,\n      title: \"More Like This\",\n      items: $data.recommended\n    }, null, 8, [\"items\"])) : _createCommentVNode(\"\", true)\n  ]);\n}\nimport _export_sfc from \"\\0plugin-vue:export-helper\";\nexport default /* @__PURE__ */ _export_sfc(_sfc_main, [[\"render\", _sfc_render]]);\n",
+      "start": 1708426961293,
+      "end": 1708426962598,
+      "order": "normal",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1708426962598,
+      "end": 1708426962598,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1708426962598,
+      "end": 1708426962598,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1708426962598,
+      "end": 1708426962598,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1708426962598,
+      "end": 1708426962598,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1708426962598,
+      "end": 1708426962598,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1708426962598,
+      "end": 1708426962598,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1708426962598,
+      "end": 1708426962598,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426962598,
+      "end": 1708426962598,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426962598,
+      "end": 1708426962601,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426962601,
+      "end": 1708426962601,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "result": "\nconst __nuxt_page_meta = null\nexport default __nuxt_page_meta\n",
+      "start": 1708426962601,
+      "end": 1708426962603,
+      "order": "post",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          ""
+        ],
+        "names": [],
+        "mappings": "AAAA;AAAA;AAAA;AAAA"
+      }
+    },
+    {
+      "name": "nuxt:runtime-paths-dep",
+      "start": 1708426962603,
+      "end": 1708426962603,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:route-injection-plugin",
+      "start": 1708426962603,
+      "end": 1708426962603,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:components-loader",
+      "start": 1708426962603,
+      "end": 1708426962603,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-composables:transform",
+      "start": 1708426962603,
+      "end": 1708426962603,
+      "order": "post"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1708426962603,
+      "end": 1708426962603,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1708426962603,
+      "end": 1708426962603,
+      "order": "normal"
+    }
+  ]
+}

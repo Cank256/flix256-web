@@ -1,0 +1,218 @@
+{
+  "resolvedId": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/global/TopNav.vue?nuxt_component=async&nuxt_component_name=TopNav",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "<template>\n  <nav :class=\"$style.nav\">\n    <button\n      type=\"button\"\n      aria-label=\"Go Back\"\n      :class=\"$style.button\"\n      @click=\"$router.go(-1)\">\n      <!-- eslint-disable-next-line -->\n      <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><path fill=\"none\" stroke=\"#fff\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" d=\"M16.5 20.5l-9-8.5 9-8.5\"/></svg>\n    </button>\n    <p\n      :class=\"$style.text\">\n      {{ title }}\n    </p>\n  </nav>\n</template>\n\n<script>\nexport default {\n  props: {\n    title: {\n      type: String,\n      required: true,\n    },\n  },\n};\n</script>\n\n<style lang=\"scss\">\n@import '~/assets/css/utilities/_variables.scss';\n\n@media (max-width: $breakpoint-large) {\n  .topnav-active {\n    padding-top: 4.5rem;\n  }\n}\n</style>\n\n<style lang=\"scss\" module>\n@import '~/assets/css/utilities/_variables.scss';\n\n.nav {\n  position: fixed;\n  top: 0;\n  right: 0;\n  left: 0;\n  z-index: 5;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  height: 4.5rem;\n  padding: 0 5.5rem;\n  background-color: #000;\n\n  @media (min-width: $breakpoint-large) {\n    display: none;\n  }\n}\n\n.text {\n  margin: 0;\n  overflow: hidden;\n  font-size: 1.4rem;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.button {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 4.5rem;\n  height: 100%;\n  padding: 0;\n  margin: 0;\n  background: none;\n  outline: 0;\n  transition: all 0.2s;\n\n  &:hover,\n  &:focus {\n    opacity: 0.8;\n  }\n}\n</style>\n",
+      "start": 1708426960326,
+      "end": 1708426961072,
+      "sourcemaps": null
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426961072,
+      "end": 1708426961072,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426961072,
+      "end": 1708426961073,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:client-fallback-auto-id",
+      "start": 1708426961073,
+      "end": 1708426961073,
+      "order": "pre"
+    },
+    {
+      "name": "vite:css",
+      "start": 1708426961073,
+      "end": 1708426961073,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1708426961073,
+      "end": 1708426961073,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1708426961073,
+      "end": 1708426961073,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1708426961073,
+      "end": 1708426961073,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "\nconst _sfc_main = {\n  props: {\n    title: {\n      type: String,\n      required: true,\n    },\n  },\n};\n\nimport { createElementVNode as _createElementVNode, normalizeClass as _normalizeClass, toDisplayString as _toDisplayString, openBlock as _openBlock, createElementBlock as _createElementBlock } from \"vue\"\n\nconst _hoisted_1 = /*#__PURE__*/_createElementVNode(\"svg\", {\n  xmlns: \"http://www.w3.org/2000/svg\",\n  width: \"24\",\n  height: \"24\",\n  viewBox: \"0 0 24 24\"\n}, [\n  /*#__PURE__*/_createElementVNode(\"path\", {\n    fill: \"none\",\n    stroke: \"#fff\",\n    \"stroke-width\": \"1.5\",\n    \"stroke-linecap\": \"round\",\n    \"stroke-linejoin\": \"round\",\n    \"stroke-miterlimit\": \"10\",\n    d: \"M16.5 20.5l-9-8.5 9-8.5\"\n  })\n], -1)\nconst _hoisted_2 = [\n  _hoisted_1\n]\n\nfunction _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {\n  return (_openBlock(), _createElementBlock(\"nav\", {\n    class: _normalizeClass(_ctx.$style.nav)\n  }, [\n    _createElementVNode(\"button\", {\n      type: \"button\",\n      \"aria-label\": \"Go Back\",\n      class: _normalizeClass(_ctx.$style.button),\n      onClick: _cache[0] || (_cache[0] = $event => (_ctx.$router.go(-1)))\n    }, _hoisted_2, 2),\n    _createElementVNode(\"p\", {\n      class: _normalizeClass(_ctx.$style.text)\n    }, _toDisplayString($props.title), 3)\n  ], 2))\n}\n\nimport \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/global/TopNav.vue?vue&type=style&index=0&lang.scss\"\nimport style1 from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/global/TopNav.vue?vue&type=style&index=1&lang.module.scss\"\nconst cssModules = {\n\"$style\":style1,\n}\n\nimport _export_sfc from '\u0000plugin-vue:export-helper'\nexport default /*#__PURE__*/_export_sfc(_sfc_main, [['render',_sfc_render],['__cssModules',cssModules]])",
+      "start": 1708426961073,
+      "end": 1708426961076,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1708426961076,
+      "end": 1708426961076,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426961076,
+      "end": 1708426961076,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426961076,
+      "end": 1708426961076,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:chunk-error",
+      "start": 1708426961076,
+      "end": 1708426961076,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:components:imports",
+      "result": "import { defineAsyncComponent } from \"vue\"\nexport default defineAsyncComponent(() => import(\"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/global/TopNav.vue\").then(r => r.default))",
+      "start": 1708426961076,
+      "end": 1708426961077,
+      "order": "normal",
+      "sourcemaps": null
+    },
+    {
+      "name": "replace",
+      "start": 1708426961077,
+      "end": 1708426961077,
+      "order": "normal"
+    },
+    {
+      "name": "ssr-styles",
+      "start": 1708426961077,
+      "end": 1708426961077,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1708426961077,
+      "end": 1708426961077,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1708426961077,
+      "end": 1708426961077,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1708426961077,
+      "end": 1708426961077,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1708426961077,
+      "end": 1708426961077,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1708426961077,
+      "end": 1708426961077,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1708426961077,
+      "end": 1708426961077,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1708426961077,
+      "end": 1708426961077,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1708426961077,
+      "end": 1708426961077,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426961077,
+      "end": 1708426961077,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426961077,
+      "end": 1708426961077,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426961077,
+      "end": 1708426961077,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426961077,
+      "end": 1708426961077,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:runtime-paths-dep",
+      "start": 1708426961077,
+      "end": 1708426961077,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:route-injection-plugin",
+      "start": 1708426961077,
+      "end": 1708426961077,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:components-loader",
+      "start": 1708426961077,
+      "end": 1708426961077,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-composables:transform",
+      "start": 1708426961077,
+      "end": 1708426961077,
+      "order": "post"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "result": "import { __vitePreload } from \"\u0000vite/preload-helper.js\";import { defineAsyncComponent } from \"vue\"\nexport default defineAsyncComponent(() => __vitePreload(() => import(\"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/global/TopNav.vue\"),__VITE_IS_MODERN__?\"__VITE_PRELOAD__\":void 0,import.meta.url).then(r => r.default))",
+      "start": 1708426961077,
+      "end": 1708426961077,
+      "order": "normal",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1708426961077,
+      "end": 1708426961077,
+      "order": "normal"
+    }
+  ]
+}

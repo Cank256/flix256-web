@@ -1,0 +1,258 @@
+{
+  "resolvedId": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/store/backend.ts",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import { type AxiosResponse } from \"axios\";\nimport axios from '~/store/axios';\nimport { useAuthStore } from '~/store/auth';\nimport { defineStore } from \"pinia\";\n\n// Define types for different lists\ninterface List {\n    title: string;\n    query: string;\n}\n\ninterface Params {\n    [key: string]: any;\n}\n\ninterface Favorite {\n    user_id: string;\n    id: string;\n    media_type: string;\n    title: string;\n    poster_path: string;\n}\n\n// Define lists for movies and TV shows\nconst lists: Record<string, List[]> = {\n    movie: [\n        { title: 'Trending Movies', query: 'trending' },\n        { title: 'Popular Movies', query: 'popular' },\n        { title: 'Top Rated Movies', query: 'top_rated' },\n        { title: 'Upcoming Movies', query: 'upcoming' },\n        { title: 'Now Playing Movies', query: 'now_playing' },\n    ],\n    tv: [\n        { title: 'Trending TV Shows', query: 'trending' },\n        { title: 'Popular TV Shows', query: 'popular' },\n        { title: 'Top Rated TV Shows', query: 'top_rated' },\n        { title: 'Currently Airing TV Shows', query: 'on_air' },\n        { title: 'TV Shows Airing Today', query: 'airing_today' },\n    ],\n};\n\nexport const apiImgUrl: string | undefined = process.env.tmdbImageUrl || 'https://image.tmdb.org/t/p';\n\nexport const useBackendStore = defineStore(\"backendStore\", {\n    state: () => ({}),\n\n\tactions: {\n        getListItem(type: string, query: string): List | undefined {\n            const list = lists[type];\n            return list ? list.find((item) => item.query === query) : undefined;\n        },\n\n\t\tgetMovies(query: string, params: Params): Promise<AxiosResponse> {\n            return axios.get(`/movies/${query}`, { params });\n        },\n\n\t\tgetMovie(id: string): Promise<AxiosResponse> {\n            return axios.get(`/movies/${id}`);\n        },\n\n        // Function to get recommended movies for a user\n        getMoviesRecommended(params: Params): Promise<AxiosResponse> {\n            return axios.get(`/movies/recommended`, {params});\n        },\n        \n        // Function to get TV shows listing\n        getTvShows(query: string, params: Params): Promise<AxiosResponse> {\n            return axios.get(`/tv/${query}`, {params});\n        },\n        \n        // Function to get a single TV show\n        getTvShow(id: string): Promise<AxiosResponse> {\n            return axios.get(`/tv/${id}`);\n        },\n\n        // Function to get a single TV show episodes\n        getTvShowEpisodes(params: Params): Promise<AxiosResponse> {\n            return axios.get(`/tv/episodes`, {params});\n        },\n        \n        // Function to get recommended TV shows for a user\n        async addFavorite(favorite: Favorite): Promise<AxiosResponse> {\n            const response = await axios.post(`/favorite`, favorite);\n            const favData = await this.getFavorites(favorite.user_id, {});\n            localStorage.removeItem('favorites');\n            localStorage.setItem('favorites', JSON.stringify(favData.data.results));\n            return response;\n        },\n        \n        // Function to search for movies, TV shows, and people\n        getFavorites(query: string, params: Params): Promise<AxiosResponse> {\n            return axios.get(`/favorite/${query}`, {params});\n        },\n\n        async deleteFavorite(fav_id: string, user_id: string): Promise<AxiosResponse> {\n            const response = await axios.delete(`/favorite/${fav_id}/${user_id}`);\n            const favData = await this.getFavorites(user_id, {});\n            localStorage.removeItem('favorites');\n            localStorage.setItem('favorites', JSON.stringify(favData.data.results));\n            return response;\n        },\n        \n        // Function to search for movies, TV shows, and people\n        search(params: Params): Promise<AxiosResponse> {\n            return axios.get(`/search`, { params });\n        },\n    }\n});\n",
+      "start": 1708426968157,
+      "end": 1708426968331,
+      "sourcemaps": null
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426968331,
+      "end": 1708426968331,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426968331,
+      "end": 1708426968331,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426968331,
+      "end": 1708426968331,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426968331,
+      "end": 1708426968331,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:client-fallback-auto-id",
+      "start": 1708426968331,
+      "end": 1708426968331,
+      "order": "pre"
+    },
+    {
+      "name": "vite:css",
+      "start": 1708426968331,
+      "end": 1708426968331,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "result": "import axios from \"~/store/axios\";\nimport { defineStore } from \"pinia\";\nconst lists = {\n  movie: [\n    { title: \"Trending Movies\", query: \"trending\" },\n    { title: \"Popular Movies\", query: \"popular\" },\n    { title: \"Top Rated Movies\", query: \"top_rated\" },\n    { title: \"Upcoming Movies\", query: \"upcoming\" },\n    { title: \"Now Playing Movies\", query: \"now_playing\" }\n  ],\n  tv: [\n    { title: \"Trending TV Shows\", query: \"trending\" },\n    { title: \"Popular TV Shows\", query: \"popular\" },\n    { title: \"Top Rated TV Shows\", query: \"top_rated\" },\n    { title: \"Currently Airing TV Shows\", query: \"on_air\" },\n    { title: \"TV Shows Airing Today\", query: \"airing_today\" }\n  ]\n};\nexport const apiImgUrl = process.env.tmdbImageUrl || \"https://image.tmdb.org/t/p\";\nexport const useBackendStore = defineStore(\"backendStore\", {\n  state: () => ({}),\n  actions: {\n    getListItem(type, query) {\n      const list = lists[type];\n      return list ? list.find((item) => item.query === query) : void 0;\n    },\n    getMovies(query, params) {\n      return axios.get(`/movies/${query}`, { params });\n    },\n    getMovie(id) {\n      return axios.get(`/movies/${id}`);\n    },\n    // Function to get recommended movies for a user\n    getMoviesRecommended(params) {\n      return axios.get(`/movies/recommended`, { params });\n    },\n    // Function to get TV shows listing\n    getTvShows(query, params) {\n      return axios.get(`/tv/${query}`, { params });\n    },\n    // Function to get a single TV show\n    getTvShow(id) {\n      return axios.get(`/tv/${id}`);\n    },\n    // Function to get a single TV show episodes\n    getTvShowEpisodes(params) {\n      return axios.get(`/tv/episodes`, { params });\n    },\n    // Function to get recommended TV shows for a user\n    async addFavorite(favorite) {\n      const response = await axios.post(`/favorite`, favorite);\n      const favData = await this.getFavorites(favorite.user_id, {});\n      localStorage.removeItem(\"favorites\");\n      localStorage.setItem(\"favorites\", JSON.stringify(favData.data.results));\n      return response;\n    },\n    // Function to search for movies, TV shows, and people\n    getFavorites(query, params) {\n      return axios.get(`/favorite/${query}`, { params });\n    },\n    async deleteFavorite(fav_id, user_id) {\n      const response = await axios.delete(`/favorite/${fav_id}/${user_id}`);\n      const favData = await this.getFavorites(user_id, {});\n      localStorage.removeItem(\"favorites\");\n      localStorage.setItem(\"favorites\", JSON.stringify(favData.data.results));\n      return response;\n    },\n    // Function to search for movies, TV shows, and people\n    search(params) {\n      return axios.get(`/search`, { params });\n    }\n  }\n});\n",
+      "start": 1708426968331,
+      "end": 1708426969371,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/store/backend.ts"
+        ],
+        "sourcesContent": [
+          "import { type AxiosResponse } from \"axios\";\nimport axios from '~/store/axios';\nimport { useAuthStore } from '~/store/auth';\nimport { defineStore } from \"pinia\";\n\n// Define types for different lists\ninterface List {\n    title: string;\n    query: string;\n}\n\ninterface Params {\n    [key: string]: any;\n}\n\ninterface Favorite {\n    user_id: string;\n    id: string;\n    media_type: string;\n    title: string;\n    poster_path: string;\n}\n\n// Define lists for movies and TV shows\nconst lists: Record<string, List[]> = {\n    movie: [\n        { title: 'Trending Movies', query: 'trending' },\n        { title: 'Popular Movies', query: 'popular' },\n        { title: 'Top Rated Movies', query: 'top_rated' },\n        { title: 'Upcoming Movies', query: 'upcoming' },\n        { title: 'Now Playing Movies', query: 'now_playing' },\n    ],\n    tv: [\n        { title: 'Trending TV Shows', query: 'trending' },\n        { title: 'Popular TV Shows', query: 'popular' },\n        { title: 'Top Rated TV Shows', query: 'top_rated' },\n        { title: 'Currently Airing TV Shows', query: 'on_air' },\n        { title: 'TV Shows Airing Today', query: 'airing_today' },\n    ],\n};\n\nexport const apiImgUrl: string | undefined = process.env.tmdbImageUrl || 'https://image.tmdb.org/t/p';\n\nexport const useBackendStore = defineStore(\"backendStore\", {\n    state: () => ({}),\n\n\tactions: {\n        getListItem(type: string, query: string): List | undefined {\n            const list = lists[type];\n            return list ? list.find((item) => item.query === query) : undefined;\n        },\n\n\t\tgetMovies(query: string, params: Params): Promise<AxiosResponse> {\n            return axios.get(`/movies/${query}`, { params });\n        },\n\n\t\tgetMovie(id: string): Promise<AxiosResponse> {\n            return axios.get(`/movies/${id}`);\n        },\n\n        // Function to get recommended movies for a user\n        getMoviesRecommended(params: Params): Promise<AxiosResponse> {\n            return axios.get(`/movies/recommended`, {params});\n        },\n        \n        // Function to get TV shows listing\n        getTvShows(query: string, params: Params): Promise<AxiosResponse> {\n            return axios.get(`/tv/${query}`, {params});\n        },\n        \n        // Function to get a single TV show\n        getTvShow(id: string): Promise<AxiosResponse> {\n            return axios.get(`/tv/${id}`);\n        },\n\n        // Function to get a single TV show episodes\n        getTvShowEpisodes(params: Params): Promise<AxiosResponse> {\n            return axios.get(`/tv/episodes`, {params});\n        },\n        \n        // Function to get recommended TV shows for a user\n        async addFavorite(favorite: Favorite): Promise<AxiosResponse> {\n            const response = await axios.post(`/favorite`, favorite);\n            const favData = await this.getFavorites(favorite.user_id, {});\n            localStorage.removeItem('favorites');\n            localStorage.setItem('favorites', JSON.stringify(favData.data.results));\n            return response;\n        },\n        \n        // Function to search for movies, TV shows, and people\n        getFavorites(query: string, params: Params): Promise<AxiosResponse> {\n            return axios.get(`/favorite/${query}`, {params});\n        },\n\n        async deleteFavorite(fav_id: string, user_id: string): Promise<AxiosResponse> {\n            const response = await axios.delete(`/favorite/${fav_id}/${user_id}`);\n            const favData = await this.getFavorites(user_id, {});\n            localStorage.removeItem('favorites');\n            localStorage.setItem('favorites', JSON.stringify(favData.data.results));\n            return response;\n        },\n        \n        // Function to search for movies, TV shows, and people\n        search(params: Params): Promise<AxiosResponse> {\n            return axios.get(`/search`, { params });\n        },\n    }\n});\n"
+        ],
+        "mappings": "AACA,OAAO,WAAW;AAElB,SAAS,mBAAmB;AAqB5B,MAAM,QAAgC;AAAA,EAClC,OAAO;AAAA,IACH,EAAE,OAAO,mBAAmB,OAAO,WAAW;AAAA,IAC9C,EAAE,OAAO,kBAAkB,OAAO,UAAU;AAAA,IAC5C,EAAE,OAAO,oBAAoB,OAAO,YAAY;AAAA,IAChD,EAAE,OAAO,mBAAmB,OAAO,WAAW;AAAA,IAC9C,EAAE,OAAO,sBAAsB,OAAO,cAAc;AAAA,EACxD;AAAA,EACA,IAAI;AAAA,IACA,EAAE,OAAO,qBAAqB,OAAO,WAAW;AAAA,IAChD,EAAE,OAAO,oBAAoB,OAAO,UAAU;AAAA,IAC9C,EAAE,OAAO,sBAAsB,OAAO,YAAY;AAAA,IAClD,EAAE,OAAO,6BAA6B,OAAO,SAAS;AAAA,IACtD,EAAE,OAAO,yBAAyB,OAAO,eAAe;AAAA,EAC5D;AACJ;AAEO,aAAM,YAAgC,QAAQ,IAAI,gBAAgB;AAElE,aAAM,kBAAkB,YAAY,gBAAgB;AAAA,EACvD,OAAO,OAAO,CAAC;AAAA,EAElB,SAAS;AAAA,IACF,YAAY,MAAc,OAAiC;AACvD,YAAM,OAAO,MAAM,IAAI;AACvB,aAAO,OAAO,KAAK,KAAK,CAAC,SAAS,KAAK,UAAU,KAAK,IAAI;AAAA,IAC9D;AAAA,IAEN,UAAU,OAAe,QAAwC;AACvD,aAAO,MAAM,IAAI,WAAW,KAAK,IAAI,EAAE,OAAO,CAAC;AAAA,IACnD;AAAA,IAEN,SAAS,IAAoC;AACnC,aAAO,MAAM,IAAI,WAAW,EAAE,EAAE;AAAA,IACpC;AAAA;AAAA,IAGA,qBAAqB,QAAwC;AACzD,aAAO,MAAM,IAAI,uBAAuB,EAAC,OAAM,CAAC;AAAA,IACpD;AAAA;AAAA,IAGA,WAAW,OAAe,QAAwC;AAC9D,aAAO,MAAM,IAAI,OAAO,KAAK,IAAI,EAAC,OAAM,CAAC;AAAA,IAC7C;AAAA;AAAA,IAGA,UAAU,IAAoC;AAC1C,aAAO,MAAM,IAAI,OAAO,EAAE,EAAE;AAAA,IAChC;AAAA;AAAA,IAGA,kBAAkB,QAAwC;AACtD,aAAO,MAAM,IAAI,gBAAgB,EAAC,OAAM,CAAC;AAAA,IAC7C;AAAA;AAAA,IAGA,MAAM,YAAY,UAA4C;AAC1D,YAAM,WAAW,MAAM,MAAM,KAAK,aAAa,QAAQ;AACvD,YAAM,UAAU,MAAM,KAAK,aAAa,SAAS,SAAS,CAAC,CAAC;AAC5D,mBAAa,WAAW,WAAW;AACnC,mBAAa,QAAQ,aAAa,KAAK,UAAU,QAAQ,KAAK,OAAO,CAAC;AACtE,aAAO;AAAA,IACX;AAAA;AAAA,IAGA,aAAa,OAAe,QAAwC;AAChE,aAAO,MAAM,IAAI,aAAa,KAAK,IAAI,EAAC,OAAM,CAAC;AAAA,IACnD;AAAA,IAEA,MAAM,eAAe,QAAgB,SAAyC;AAC1E,YAAM,WAAW,MAAM,MAAM,OAAO,aAAa,MAAM,IAAI,OAAO,EAAE;AACpE,YAAM,UAAU,MAAM,KAAK,aAAa,SAAS,CAAC,CAAC;AACnD,mBAAa,WAAW,WAAW;AACnC,mBAAa,QAAQ,aAAa,KAAK,UAAU,QAAQ,KAAK,OAAO,CAAC;AACtE,aAAO;AAAA,IACX;AAAA;AAAA,IAGA,OAAO,QAAwC;AAC3C,aAAO,MAAM,IAAI,WAAW,EAAE,OAAO,CAAC;AAAA,IAC1C;AAAA,EACJ;AACJ,CAAC;",
+        "names": []
+      }
+    },
+    {
+      "name": "vite:json",
+      "start": 1708426969371,
+      "end": 1708426969371,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1708426969371,
+      "end": 1708426969371,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1708426969371,
+      "end": 1708426969371,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1708426969371,
+      "end": 1708426969371,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426969372,
+      "end": 1708426969372,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426969372,
+      "end": 1708426969372,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426969372,
+      "end": 1708426969372,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426969372,
+      "end": 1708426969372,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:components:imports",
+      "start": 1708426969372,
+      "end": 1708426969372,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426969372,
+      "end": 1708426969372,
+      "order": "normal"
+    },
+    {
+      "name": "ssr-styles",
+      "start": 1708426969372,
+      "end": 1708426969372,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1708426969372,
+      "end": 1708426969372,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1708426969372,
+      "end": 1708426969372,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1708426969372,
+      "end": 1708426969372,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1708426969372,
+      "end": 1708426969372,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1708426969372,
+      "end": 1708426969372,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1708426969372,
+      "end": 1708426969372,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1708426969372,
+      "end": 1708426969372,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1708426969372,
+      "end": 1708426969372,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426969372,
+      "end": 1708426969372,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426969372,
+      "end": 1708426969372,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426969372,
+      "end": 1708426969375,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426969372,
+      "end": 1708426969375,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426969375,
+      "end": 1708426969375,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426969375,
+      "end": 1708426969375,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426969375,
+      "end": 1708426969375,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426969375,
+      "end": 1708426969375,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-template",
+      "start": 1708426969375,
+      "end": 1708426969375,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:components-loader",
+      "start": 1708426969375,
+      "end": 1708426969375,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-composables:transform",
+      "start": 1708426969375,
+      "end": 1708426969375,
+      "order": "post"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1708426969375,
+      "end": 1708426969375,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1708426969375,
+      "end": 1708426969375,
+      "order": "normal"
+    }
+  ]
+}

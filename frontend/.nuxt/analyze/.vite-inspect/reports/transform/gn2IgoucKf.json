@@ -1,0 +1,225 @@
+{
+  "resolvedId": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/movie/index.vue?macro=true",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "<template>\n\t<main class=\"main\">\n\t\t<Hero v-if=\"featuredItem\" :item=\"featuredItem\" id=\"hero\" />\n\n\t\t<ListingCarousel\n\t\t\tv-if=\"upcomingMovies && upcomingMovies.length\"\n\t\t\t:title=\"upcomingMoviesTitle\"\n\t\t\t:view-all-url=\"upcomingUrl\"\n\t\t\t:items=\"upcomingMovies\"\n\t\t/>\n\n\t\t<ListingCarousel\n\t\t\tv-if=\"nowPlayingMovies && nowPlayingMovies.length\"\n\t\t\t:title=\"nowPlayingMoviesTitle\"\n\t\t\t:view-all-url=\"nowPlayingUrl\"\n\t\t\t:items=\"nowPlayingMovies\"\n\t\t/>\n\n        <ListingCarousel\n            v-if=\"popularMovies && popularMovies.length\"\n            :title=\"popularMoviesTitle\"\n            :view-all-url=\"popularUrl\"\n            :items=\"popularMovies\"\n        />\n\n        <ListingCarousel\n            v-if=\"topRatedMovies && topRatedMovies.length\"\n            :title=\"topRatedMoviesTitle\"\n            :view-all-url=\"topRatedUrl\"\n            :items=\"topRatedMovies\"\n        />\n\t</main>\n</template>\n\n<script>\nimport { ref } from \"vue\";\nimport Hero from \"~/components/Hero\";\nimport ListingCarousel from \"~/components/ListingCarousel\";\nimport { useBackendStore } from \"~/store/backend\";\n\nexport default {\n\tcomponents: {\n\t\tHero,\n\t\tListingCarousel,\n\t},\n\n\thead() {\n\t\treturn {\n\t\t\ttitle: \"Movies\",\n\t\t\tmeta: [\n\t\t\t\t{ hid: \"og:title\", property: \"og:title\", content: \"Movies\" },\n\t\t\t\t{\n\t\t\t\t\thid: \"og:url\",\n\t\t\t\t\tproperty: \"og:url\",\n\t\t\t\t\tcontent: `${process.env.FRONTEND_URL}${this.$route.path}`,\n\t\t\t\t},\n\t\t\t],\n\t\t};\n\t},\n\n\tsetup() {\n\t\tconst store = useBackendStore();\n\n\t\tconst upcomingMovies = ref(null);\n\t\tconst nowPlayingMovies = ref(null);\n\t\tconst popularMovies = ref(null);\n\t\tconst topRatedMovies = ref(null);\n\t\tconst featuredItem = ref(null);\n\n\t\tconst upcomingMoviesTitle = store.getListItem('movie', 'upcoming').title;\n\t\tconst nowPlayingMoviesTitle = store.getListItem('movie', 'now_playing').title;\n\t\tconst popularMoviesTitle = store.getListItem('movie', 'popular').title;\n\t\tconst topRatedMoviesTitle = store.getListItem('movie', 'top_rated').title;\n\n\t\tasync function fetchData() {\n\t\t\ttry {\n                const upcoming = await store.getMovies(\"upcoming\");\n                const nowPlaying = await store.getMovies(\"now_playing\");\n                const popular = await store.getMovies(\"popular\");\n                const topRated = await store.getMovies(\"top_rated\");\n                \n                const items = [...upcoming.data.results, ...nowPlaying.data.results];\n                const randomItem = items[Math.floor(Math.random() * items.length)];\n                const featured = await store.getMovie(randomItem.id);\n\n                upcomingMovies.value = upcoming.data.results;\n                nowPlayingMovies.value = nowPlaying.data.results;\n                popularMovies.value = popular.data.results;\n                topRatedMovies.value = topRated.data.results;\n                featuredItem.value = featured.data;\n\n            } catch(error) {\n                console.error({ statusCode:  error.code, error: error.message });\n            }\n\t\t}\n\n\t\tfetchData();\n\n        return { \n            upcomingMovies,\n            nowPlayingMovies,\n            popularMovies,\n            topRatedMovies,\n            featuredItem,\n            upcomingMoviesTitle,\n            nowPlayingMoviesTitle,\n            popularMoviesTitle,\n            topRatedMoviesTitle\n        };\n\t},\n\n\tcomputed: {\n\n        upcomingUrl() {\n            return { name: \"movie-category-name\", params: { name: \"upcoming\" } };\n\t\t},\n        \n\t\tnowPlayingUrl() {\n            return { name: \"movie-category-name\", params: { name: \"now_playing\" } };\n\t\t},\n\n        popularUrl() {\n        \treturn { name: \"movie-category-name\", params: { name: \"popular\" } };\n        },\n\n        topRatedUrl() {\n        \treturn { name: \"movie-category-name\", params: { name: \"top_rated\" } };\n        },\n\t},\n};\n</script>\n",
+      "start": 1708426961106,
+      "end": 1708426961249,
+      "sourcemaps": null
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426961249,
+      "end": 1708426961249,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426961249,
+      "end": 1708426961249,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:client-fallback-auto-id",
+      "start": 1708426961249,
+      "end": 1708426961249,
+      "order": "pre"
+    },
+    {
+      "name": "vite:css",
+      "start": 1708426961249,
+      "end": 1708426961249,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1708426961249,
+      "end": 1708426961249,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1708426961249,
+      "end": 1708426961249,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1708426961249,
+      "end": 1708426961249,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "\nimport { ref } from \"vue\";\nimport Hero from \"~/components/Hero\";\nimport ListingCarousel from \"~/components/ListingCarousel\";\nimport { useBackendStore } from \"~/store/backend\";\n\nconst _sfc_main = {\n\tcomponents: {\n\t\tHero,\n\t\tListingCarousel,\n\t},\n\n\thead() {\n\t\treturn {\n\t\t\ttitle: \"Movies\",\n\t\t\tmeta: [\n\t\t\t\t{ hid: \"og:title\", property: \"og:title\", content: \"Movies\" },\n\t\t\t\t{\n\t\t\t\t\thid: \"og:url\",\n\t\t\t\t\tproperty: \"og:url\",\n\t\t\t\t\tcontent: `${process.env.FRONTEND_URL}${this.$route.path}`,\n\t\t\t\t},\n\t\t\t],\n\t\t};\n\t},\n\n\tsetup() {\n\t\tconst store = useBackendStore();\n\n\t\tconst upcomingMovies = ref(null);\n\t\tconst nowPlayingMovies = ref(null);\n\t\tconst popularMovies = ref(null);\n\t\tconst topRatedMovies = ref(null);\n\t\tconst featuredItem = ref(null);\n\n\t\tconst upcomingMoviesTitle = store.getListItem('movie', 'upcoming').title;\n\t\tconst nowPlayingMoviesTitle = store.getListItem('movie', 'now_playing').title;\n\t\tconst popularMoviesTitle = store.getListItem('movie', 'popular').title;\n\t\tconst topRatedMoviesTitle = store.getListItem('movie', 'top_rated').title;\n\n\t\tasync function fetchData() {\n\t\t\ttry {\n                const upcoming = await store.getMovies(\"upcoming\");\n                const nowPlaying = await store.getMovies(\"now_playing\");\n                const popular = await store.getMovies(\"popular\");\n                const topRated = await store.getMovies(\"top_rated\");\n                \n                const items = [...upcoming.data.results, ...nowPlaying.data.results];\n                const randomItem = items[Math.floor(Math.random() * items.length)];\n                const featured = await store.getMovie(randomItem.id);\n\n                upcomingMovies.value = upcoming.data.results;\n                nowPlayingMovies.value = nowPlaying.data.results;\n                popularMovies.value = popular.data.results;\n                topRatedMovies.value = topRated.data.results;\n                featuredItem.value = featured.data;\n\n            } catch(error) {\n                console.error({ statusCode:  error.code, error: error.message });\n            }\n\t\t}\n\n\t\tfetchData();\n\n        return { \n            upcomingMovies,\n            nowPlayingMovies,\n            popularMovies,\n            topRatedMovies,\n            featuredItem,\n            upcomingMoviesTitle,\n            nowPlayingMoviesTitle,\n            popularMoviesTitle,\n            topRatedMoviesTitle\n        };\n\t},\n\n\tcomputed: {\n\n        upcomingUrl() {\n            return { name: \"movie-category-name\", params: { name: \"upcoming\" } };\n\t\t},\n        \n\t\tnowPlayingUrl() {\n            return { name: \"movie-category-name\", params: { name: \"now_playing\" } };\n\t\t},\n\n        popularUrl() {\n        \treturn { name: \"movie-category-name\", params: { name: \"popular\" } };\n        },\n\n        topRatedUrl() {\n        \treturn { name: \"movie-category-name\", params: { name: \"top_rated\" } };\n        },\n\t},\n};\n\nimport { resolveComponent as _resolveComponent, openBlock as _openBlock, createBlock as _createBlock, createCommentVNode as _createCommentVNode, createElementBlock as _createElementBlock } from \"vue\"\n\nconst _hoisted_1 = { class: \"main\" }\n\nfunction _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {\n  const _component_Hero = _resolveComponent(\"Hero\")\n  const _component_ListingCarousel = _resolveComponent(\"ListingCarousel\")\n\n  return (_openBlock(), _createElementBlock(\"main\", _hoisted_1, [\n    ($setup.featuredItem)\n      ? (_openBlock(), _createBlock(_component_Hero, {\n          key: 0,\n          item: $setup.featuredItem,\n          id: \"hero\"\n        }, null, 8, [\"item\"]))\n      : _createCommentVNode(\"\", true),\n    ($setup.upcomingMovies && $setup.upcomingMovies.length)\n      ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n          key: 1,\n          title: $setup.upcomingMoviesTitle,\n          \"view-all-url\": $options.upcomingUrl,\n          items: $setup.upcomingMovies\n        }, null, 8, [\"title\", \"view-all-url\", \"items\"]))\n      : _createCommentVNode(\"\", true),\n    ($setup.nowPlayingMovies && $setup.nowPlayingMovies.length)\n      ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n          key: 2,\n          title: $setup.nowPlayingMoviesTitle,\n          \"view-all-url\": $options.nowPlayingUrl,\n          items: $setup.nowPlayingMovies\n        }, null, 8, [\"title\", \"view-all-url\", \"items\"]))\n      : _createCommentVNode(\"\", true),\n    ($setup.popularMovies && $setup.popularMovies.length)\n      ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n          key: 3,\n          title: $setup.popularMoviesTitle,\n          \"view-all-url\": $options.popularUrl,\n          items: $setup.popularMovies\n        }, null, 8, [\"title\", \"view-all-url\", \"items\"]))\n      : _createCommentVNode(\"\", true),\n    ($setup.topRatedMovies && $setup.topRatedMovies.length)\n      ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n          key: 4,\n          title: $setup.topRatedMoviesTitle,\n          \"view-all-url\": $options.topRatedUrl,\n          items: $setup.topRatedMovies\n        }, null, 8, [\"title\", \"view-all-url\", \"items\"]))\n      : _createCommentVNode(\"\", true)\n  ]))\n}\n\n\nimport _export_sfc from '\u0000plugin-vue:export-helper'\nexport default /*#__PURE__*/_export_sfc(_sfc_main, [['render',_sfc_render]])",
+      "start": 1708426961249,
+      "end": 1708426961254,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1708426961254,
+      "end": 1708426961254,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426961254,
+      "end": 1708426961254,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426961254,
+      "end": 1708426961254,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:chunk-error",
+      "start": 1708426961255,
+      "end": 1708426961255,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:components:imports",
+      "start": 1708426961255,
+      "end": 1708426961255,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426961255,
+      "end": 1708426961255,
+      "order": "normal"
+    },
+    {
+      "name": "ssr-styles",
+      "start": 1708426961255,
+      "end": 1708426961255,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "result": "var define_process_env_default = {};\nimport { ref } from \"vue\";\nimport Hero from \"~/components/Hero\";\nimport ListingCarousel from \"~/components/ListingCarousel\";\nimport { useBackendStore } from \"~/store/backend\";\nconst _sfc_main = {\n  components: {\n    Hero,\n    ListingCarousel\n  },\n  head() {\n    return {\n      title: \"Movies\",\n      meta: [\n        { hid: \"og:title\", property: \"og:title\", content: \"Movies\" },\n        {\n          hid: \"og:url\",\n          property: \"og:url\",\n          content: `${define_process_env_default.FRONTEND_URL}${this.$route.path}`\n        }\n      ]\n    };\n  },\n  setup() {\n    const store = useBackendStore();\n    const upcomingMovies = ref(null);\n    const nowPlayingMovies = ref(null);\n    const popularMovies = ref(null);\n    const topRatedMovies = ref(null);\n    const featuredItem = ref(null);\n    const upcomingMoviesTitle = store.getListItem(\"movie\", \"upcoming\").title;\n    const nowPlayingMoviesTitle = store.getListItem(\"movie\", \"now_playing\").title;\n    const popularMoviesTitle = store.getListItem(\"movie\", \"popular\").title;\n    const topRatedMoviesTitle = store.getListItem(\"movie\", \"top_rated\").title;\n    async function fetchData() {\n      try {\n        const upcoming = await store.getMovies(\"upcoming\");\n        const nowPlaying = await store.getMovies(\"now_playing\");\n        const popular = await store.getMovies(\"popular\");\n        const topRated = await store.getMovies(\"top_rated\");\n        const items = [...upcoming.data.results, ...nowPlaying.data.results];\n        const randomItem = items[Math.floor(Math.random() * items.length)];\n        const featured = await store.getMovie(randomItem.id);\n        upcomingMovies.value = upcoming.data.results;\n        nowPlayingMovies.value = nowPlaying.data.results;\n        popularMovies.value = popular.data.results;\n        topRatedMovies.value = topRated.data.results;\n        featuredItem.value = featured.data;\n      } catch (error) {\n        console.error({ statusCode: error.code, error: error.message });\n      }\n    }\n    fetchData();\n    return {\n      upcomingMovies,\n      nowPlayingMovies,\n      popularMovies,\n      topRatedMovies,\n      featuredItem,\n      upcomingMoviesTitle,\n      nowPlayingMoviesTitle,\n      popularMoviesTitle,\n      topRatedMoviesTitle\n    };\n  },\n  computed: {\n    upcomingUrl() {\n      return { name: \"movie-category-name\", params: { name: \"upcoming\" } };\n    },\n    nowPlayingUrl() {\n      return { name: \"movie-category-name\", params: { name: \"now_playing\" } };\n    },\n    popularUrl() {\n      return { name: \"movie-category-name\", params: { name: \"popular\" } };\n    },\n    topRatedUrl() {\n      return { name: \"movie-category-name\", params: { name: \"top_rated\" } };\n    }\n  }\n};\nimport { resolveComponent as _resolveComponent, openBlock as _openBlock, createBlock as _createBlock, createCommentVNode as _createCommentVNode, createElementBlock as _createElementBlock } from \"vue\";\nconst _hoisted_1 = { class: \"main\" };\nfunction _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {\n  const _component_Hero = _resolveComponent(\"Hero\");\n  const _component_ListingCarousel = _resolveComponent(\"ListingCarousel\");\n  return _openBlock(), _createElementBlock(\"main\", _hoisted_1, [\n    $setup.featuredItem ? (_openBlock(), _createBlock(_component_Hero, {\n      key: 0,\n      item: $setup.featuredItem,\n      id: \"hero\"\n    }, null, 8, [\"item\"])) : _createCommentVNode(\"\", true),\n    $setup.upcomingMovies && $setup.upcomingMovies.length ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n      key: 1,\n      title: $setup.upcomingMoviesTitle,\n      \"view-all-url\": $options.upcomingUrl,\n      items: $setup.upcomingMovies\n    }, null, 8, [\"title\", \"view-all-url\", \"items\"])) : _createCommentVNode(\"\", true),\n    $setup.nowPlayingMovies && $setup.nowPlayingMovies.length ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n      key: 2,\n      title: $setup.nowPlayingMoviesTitle,\n      \"view-all-url\": $options.nowPlayingUrl,\n      items: $setup.nowPlayingMovies\n    }, null, 8, [\"title\", \"view-all-url\", \"items\"])) : _createCommentVNode(\"\", true),\n    $setup.popularMovies && $setup.popularMovies.length ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n      key: 3,\n      title: $setup.popularMoviesTitle,\n      \"view-all-url\": $options.popularUrl,\n      items: $setup.popularMovies\n    }, null, 8, [\"title\", \"view-all-url\", \"items\"])) : _createCommentVNode(\"\", true),\n    $setup.topRatedMovies && $setup.topRatedMovies.length ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n      key: 4,\n      title: $setup.topRatedMoviesTitle,\n      \"view-all-url\": $options.topRatedUrl,\n      items: $setup.topRatedMovies\n    }, null, 8, [\"title\", \"view-all-url\", \"items\"])) : _createCommentVNode(\"\", true)\n  ]);\n}\nimport _export_sfc from \"\\0plugin-vue:export-helper\";\nexport default /* @__PURE__ */ _export_sfc(_sfc_main, [[\"render\", _sfc_render]]);\n",
+      "start": 1708426961255,
+      "end": 1708426962346,
+      "order": "normal",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1708426962346,
+      "end": 1708426962346,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1708426962346,
+      "end": 1708426962346,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1708426962346,
+      "end": 1708426962346,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1708426962346,
+      "end": 1708426962346,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1708426962346,
+      "end": 1708426962346,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1708426962346,
+      "end": 1708426962346,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1708426962346,
+      "end": 1708426962346,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426962346,
+      "end": 1708426962346,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426962346,
+      "end": 1708426962350,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426962350,
+      "end": 1708426962350,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "result": "\nconst __nuxt_page_meta = null\nexport default __nuxt_page_meta\n",
+      "start": 1708426962350,
+      "end": 1708426962353,
+      "order": "post",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          ""
+        ],
+        "names": [],
+        "mappings": "AAAA;AAAA;AAAA;AAAA"
+      }
+    },
+    {
+      "name": "nuxt:runtime-paths-dep",
+      "start": 1708426962353,
+      "end": 1708426962353,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:route-injection-plugin",
+      "start": 1708426962353,
+      "end": 1708426962353,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:components-loader",
+      "start": 1708426962353,
+      "end": 1708426962353,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-composables:transform",
+      "start": 1708426962353,
+      "end": 1708426962353,
+      "order": "post"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1708426962353,
+      "end": 1708426962353,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1708426962354,
+      "end": 1708426962354,
+      "order": "normal"
+    }
+  ]
+}

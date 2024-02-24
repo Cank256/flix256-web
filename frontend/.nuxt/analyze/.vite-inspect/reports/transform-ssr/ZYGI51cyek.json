@@ -1,0 +1,288 @@
+{
+  "resolvedId": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/global/TopNav.vue?vue&type=style&index=0&lang.scss",
+  "transforms": [
+    {
+      "name": "vite:vue",
+      "result": "\n@import '~/assets/css/utilities/_variables.scss';\n\n@media (max-width: $breakpoint-large) {\n  .topnav-active {\n    padding-top: 4.5rem;\n  }\n}\n",
+      "start": 1708426967593,
+      "end": 1708426967593,
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/global/TopNav.vue"
+        ],
+        "names": [],
+        "mappings": ";AA6BA,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;;AAEhD,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EACpC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;IACb,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACrB;AACF",
+        "file": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/global/TopNav.vue",
+        "sourceRoot": "",
+        "sourcesContent": [
+          "<template>\n  <nav :class=\"$style.nav\">\n    <button\n      type=\"button\"\n      aria-label=\"Go Back\"\n      :class=\"$style.button\"\n      @click=\"$router.go(-1)\">\n      <!-- eslint-disable-next-line -->\n      <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><path fill=\"none\" stroke=\"#fff\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-miterlimit=\"10\" d=\"M16.5 20.5l-9-8.5 9-8.5\"/></svg>\n    </button>\n    <p\n      :class=\"$style.text\">\n      {{ title }}\n    </p>\n  </nav>\n</template>\n\n<script>\nexport default {\n  props: {\n    title: {\n      type: String,\n      required: true,\n    },\n  },\n};\n</script>\n\n<style lang=\"scss\">\n@import '~/assets/css/utilities/_variables.scss';\n\n@media (max-width: $breakpoint-large) {\n  .topnav-active {\n    padding-top: 4.5rem;\n  }\n}\n</style>\n\n<style lang=\"scss\" module>\n@import '~/assets/css/utilities/_variables.scss';\n\n.nav {\n  position: fixed;\n  top: 0;\n  right: 0;\n  left: 0;\n  z-index: 5;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  height: 4.5rem;\n  padding: 0 5.5rem;\n  background-color: #000;\n\n  @media (min-width: $breakpoint-large) {\n    display: none;\n  }\n}\n\n.text {\n  margin: 0;\n  overflow: hidden;\n  font-size: 1.4rem;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.button {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 4.5rem;\n  height: 100%;\n  padding: 0;\n  margin: 0;\n  background: none;\n  outline: 0;\n  transition: all 0.2s;\n\n  &:hover,\n  &:focus {\n    opacity: 0.8;\n  }\n}\n</style>\n"
+        ]
+      }
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426967593,
+      "end": 1708426967593,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426967593,
+      "end": 1708426967593,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426967593,
+      "end": 1708426967593,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426967593,
+      "end": 1708426967593,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:client-fallback-auto-id",
+      "start": 1708426967593,
+      "end": 1708426967593,
+      "order": "pre"
+    },
+    {
+      "name": "vite:css",
+      "result": "@media (max-width:1200px){.topnav-active{padding-top:4.5rem}}",
+      "start": 1708426967593,
+      "end": 1708426967977,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "file": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/global/TopNav.vue",
+        "mappings": "AAGA,0BACE,eACE",
+        "names": [],
+        "sources": [
+          "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/global/TopNav.vue"
+        ],
+        "sourcesContent": [
+          null
+        ]
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1708426967980,
+      "end": 1708426967980,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1708426967981,
+      "end": 1708426967981,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1708426967981,
+      "end": 1708426967981,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "@media (max-width:1200px){.topnav-active{padding-top:4.5rem}}",
+      "start": 1708426967981,
+      "end": 1708426967982,
+      "order": "normal",
+      "sourcemaps": {
+        "file": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/global/TopNav.vue",
+        "mappings": "AAAA,0BAA0B,eAAe,kBAAkB,CAAC",
+        "names": [],
+        "sources": [
+          "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/global/TopNav.vue"
+        ],
+        "sourcesContent": [
+          null
+        ],
+        "version": 3
+      }
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1708426967983,
+      "end": 1708426967983,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426967983,
+      "end": 1708426967983,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426967983,
+      "end": 1708426967983,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426967983,
+      "end": 1708426967983,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426967983,
+      "end": 1708426967983,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:components:imports",
+      "start": 1708426967983,
+      "end": 1708426967983,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426967983,
+      "end": 1708426967983,
+      "order": "normal"
+    },
+    {
+      "name": "ssr-styles",
+      "start": 1708426967983,
+      "end": 1708426967983,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1708426967984,
+      "end": 1708426967984,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "",
+      "start": 1708426967984,
+      "end": 1708426967984,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1708426967984,
+      "end": 1708426967984,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1708426967984,
+      "end": 1708426967984,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1708426967984,
+      "end": 1708426967984,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1708426967984,
+      "end": 1708426967984,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1708426967984,
+      "end": 1708426967984,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1708426967984,
+      "end": 1708426967984,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426967984,
+      "end": 1708426967984,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426967984,
+      "end": 1708426967984,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426967984,
+      "end": 1708426967984,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426967984,
+      "end": 1708426967984,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426967984,
+      "end": 1708426967985,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426967984,
+      "end": 1708426967985,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426967985,
+      "end": 1708426967985,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426967985,
+      "end": 1708426967985,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-template",
+      "start": 1708426967985,
+      "end": 1708426967985,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:components-loader",
+      "start": 1708426967985,
+      "end": 1708426967985,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-composables:transform",
+      "start": 1708426967985,
+      "end": 1708426967985,
+      "order": "post"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1708426967985,
+      "end": 1708426967985,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1708426967985,
+      "end": 1708426967985,
+      "order": "normal"
+    }
+  ]
+}

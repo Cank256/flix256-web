@@ -1,0 +1,217 @@
+{
+  "resolvedId": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/tv/index.vue",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "<template>\n\t<main class=\"main\">\n\t\t<Hero v-if=\"featuredItem\" :item=\"featuredItem\" id=\"hero\" />\n\n\t\t<ListingCarousel\n\t\t\tv-if=\"onAirTvShows && onAirTvShows.length\"\n\t\t\t:title=\"onAirTvShowsTitle\"\n\t\t\t:view-all-url=\"onAirTvShowsUrl\"\n\t\t\t:items=\"onAirTvShows\"\n\t\t/>\n\n\t\t<ListingCarousel\n\t\t\tv-if=\"airingTodayTvShows && airingTodayTvShows.length\"\n\t\t\t:title=\"airingTodayTvShowsTitle\"\n\t\t\t:view-all-url=\"airingTodayUrl\"\n\t\t\t:items=\"airingTodayTvShows\"\n\t\t/>\n\n        <ListingCarousel\n            v-if=\"popularTvShows && popularTvShows.length\"\n            :title=\"popularTvShowsTitle\"\n            :view-all-url=\"popularTvShowsUrl\"\n            :items=\"popularTvShows\"\n        />\n\n        <ListingCarousel\n            v-if=\"topRatedTvShows && topRatedTvShows.length\"\n            :title=\"topRatedTvShowsTitle\"\n            :view-all-url=\"topRatedTvShowsUrl\"\n            :items=\"topRatedTvShows\"\n        />\n\t</main>\n</template>\n\n<script>\nimport { ref } from \"vue\";\nimport Hero from \"~/components/Hero\";\nimport ListingCarousel from \"~/components/ListingCarousel\";\nimport { useBackendStore } from \"~/store/backend\";\n\nexport default {\n\tcomponents: {\n\t\tHero,\n\t\tListingCarousel,\n\t},\n\n\thead() {\n\t\treturn {\n\t\t\ttitle: \"Movies\",\n\t\t\tmeta: [\n\t\t\t\t{ hid: \"og:title\", property: \"og:title\", content: \"Movies\" },\n\t\t\t\t{\n\t\t\t\t\thid: \"og:url\",\n\t\t\t\t\tproperty: \"og:url\",\n\t\t\t\t\tcontent: `${process.env.FRONTEND_URL}${this.$route.path}`,\n\t\t\t\t},\n\t\t\t],\n\t\t};\n\t},\n\n\tsetup() {\n\t\tconst store = useBackendStore();\n\n\t\tconst onAirTvShows = ref(null);\n\t\tconst airingTodayTvShows = ref(null);\n\t\tconst popularTvShows = ref(null);\n\t\tconst topRatedTvShows = ref(null);\n\t\tconst featuredItem = ref(null);\n\n\t\tconst onAirTvShowsTitle = store.getListItem('tv', 'on_air').title;\n\t\tconst airingTodayTvShowsTitle = store.getListItem('tv', 'airing_today').title;\n\t\tconst popularTvShowsTitle = store.getListItem('tv', 'popular').title;\n\t\tconst topRatedTvShowsTitle = store.getListItem('movie', 'top_rated').title;\n\n\t\tasync function fetchData() {\n\t\t\ttry {\n                const onAir = await store.getTvShows(\"on_air\");\n                const airingToday = await store.getTvShows(\"airing_today\");\n                const popular = await store.getTvShows(\"popular\");\n                const topRated = await store.getTvShows(\"top_rated\");\n                \n                const items = [...onAir.data.results, ...airingToday.data.results];\n                const randomItem = items[Math.floor(Math.random() * items.length)];\n                const featured = await store.getTvShows(randomItem.id);\n\n                onAirTvShows.value = onAir.data.results;\n                airingTodayTvShows.value = airingToday.data.results;\n                popularTvShows.value = popular.data.results;\n                topRatedTvShows.value = topRated.data.results;\n                featuredItem.value = featured.data;\n\n            } catch (error) {\n                console.error({ statusCode:  error.code, error: error.message });\n            }\n\t\t}\n\n\t\tfetchData();\n\n        return { \n            onAirTvShows,\n            airingTodayTvShows,\n            popularTvShows,\n            topRatedTvShows,\n            featuredItem,\n            onAirTvShowsTitle,\n            airingTodayTvShowsTitle,\n            popularTvShowsTitle,\n            topRatedTvShowsTitle\n        };\n\t},\n\n\tcomputed: {\n\n        onAirTvShowsUrl() {\n            return { name: \"tv-category-name\", params: { name: \"on_air\" } };\n\t\t},\n        \n\t\tairingTodayUrl() {\n            return { name: \"tv-category-name\", params: { name: \"now_playing\" } };\n\t\t},\n\n        popularTvShowsUrl() {\n        \treturn { name: \"tv-category-name\", params: { name: \"popular\" } };\n        },\n\n        topRatedTvShowsUrl() {\n        \treturn { name: \"tv-category-name\", params: { name: \"top_rated\" } };\n        },\n\t},\n};\n</script>\n",
+      "start": 1708426961203,
+      "end": 1708426961306,
+      "sourcemaps": null
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426961306,
+      "end": 1708426961306,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426961306,
+      "end": 1708426961306,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:client-fallback-auto-id",
+      "start": 1708426961306,
+      "end": 1708426961306,
+      "order": "pre"
+    },
+    {
+      "name": "vite:css",
+      "start": 1708426961307,
+      "end": 1708426961307,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1708426961307,
+      "end": 1708426961307,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1708426961307,
+      "end": 1708426961307,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1708426961307,
+      "end": 1708426961307,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "\nimport { ref } from \"vue\";\nimport Hero from \"~/components/Hero\";\nimport ListingCarousel from \"~/components/ListingCarousel\";\nimport { useBackendStore } from \"~/store/backend\";\n\nconst _sfc_main = {\n\tcomponents: {\n\t\tHero,\n\t\tListingCarousel,\n\t},\n\n\thead() {\n\t\treturn {\n\t\t\ttitle: \"Movies\",\n\t\t\tmeta: [\n\t\t\t\t{ hid: \"og:title\", property: \"og:title\", content: \"Movies\" },\n\t\t\t\t{\n\t\t\t\t\thid: \"og:url\",\n\t\t\t\t\tproperty: \"og:url\",\n\t\t\t\t\tcontent: `${process.env.FRONTEND_URL}${this.$route.path}`,\n\t\t\t\t},\n\t\t\t],\n\t\t};\n\t},\n\n\tsetup() {\n\t\tconst store = useBackendStore();\n\n\t\tconst onAirTvShows = ref(null);\n\t\tconst airingTodayTvShows = ref(null);\n\t\tconst popularTvShows = ref(null);\n\t\tconst topRatedTvShows = ref(null);\n\t\tconst featuredItem = ref(null);\n\n\t\tconst onAirTvShowsTitle = store.getListItem('tv', 'on_air').title;\n\t\tconst airingTodayTvShowsTitle = store.getListItem('tv', 'airing_today').title;\n\t\tconst popularTvShowsTitle = store.getListItem('tv', 'popular').title;\n\t\tconst topRatedTvShowsTitle = store.getListItem('movie', 'top_rated').title;\n\n\t\tasync function fetchData() {\n\t\t\ttry {\n                const onAir = await store.getTvShows(\"on_air\");\n                const airingToday = await store.getTvShows(\"airing_today\");\n                const popular = await store.getTvShows(\"popular\");\n                const topRated = await store.getTvShows(\"top_rated\");\n                \n                const items = [...onAir.data.results, ...airingToday.data.results];\n                const randomItem = items[Math.floor(Math.random() * items.length)];\n                const featured = await store.getTvShows(randomItem.id);\n\n                onAirTvShows.value = onAir.data.results;\n                airingTodayTvShows.value = airingToday.data.results;\n                popularTvShows.value = popular.data.results;\n                topRatedTvShows.value = topRated.data.results;\n                featuredItem.value = featured.data;\n\n            } catch (error) {\n                console.error({ statusCode:  error.code, error: error.message });\n            }\n\t\t}\n\n\t\tfetchData();\n\n        return { \n            onAirTvShows,\n            airingTodayTvShows,\n            popularTvShows,\n            topRatedTvShows,\n            featuredItem,\n            onAirTvShowsTitle,\n            airingTodayTvShowsTitle,\n            popularTvShowsTitle,\n            topRatedTvShowsTitle\n        };\n\t},\n\n\tcomputed: {\n\n        onAirTvShowsUrl() {\n            return { name: \"tv-category-name\", params: { name: \"on_air\" } };\n\t\t},\n        \n\t\tairingTodayUrl() {\n            return { name: \"tv-category-name\", params: { name: \"now_playing\" } };\n\t\t},\n\n        popularTvShowsUrl() {\n        \treturn { name: \"tv-category-name\", params: { name: \"popular\" } };\n        },\n\n        topRatedTvShowsUrl() {\n        \treturn { name: \"tv-category-name\", params: { name: \"top_rated\" } };\n        },\n\t},\n};\n\nimport { resolveComponent as _resolveComponent, openBlock as _openBlock, createBlock as _createBlock, createCommentVNode as _createCommentVNode, createElementBlock as _createElementBlock } from \"vue\"\n\nconst _hoisted_1 = { class: \"main\" }\n\nfunction _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {\n  const _component_Hero = _resolveComponent(\"Hero\")\n  const _component_ListingCarousel = _resolveComponent(\"ListingCarousel\")\n\n  return (_openBlock(), _createElementBlock(\"main\", _hoisted_1, [\n    ($setup.featuredItem)\n      ? (_openBlock(), _createBlock(_component_Hero, {\n          key: 0,\n          item: $setup.featuredItem,\n          id: \"hero\"\n        }, null, 8, [\"item\"]))\n      : _createCommentVNode(\"\", true),\n    ($setup.onAirTvShows && $setup.onAirTvShows.length)\n      ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n          key: 1,\n          title: $setup.onAirTvShowsTitle,\n          \"view-all-url\": $options.onAirTvShowsUrl,\n          items: $setup.onAirTvShows\n        }, null, 8, [\"title\", \"view-all-url\", \"items\"]))\n      : _createCommentVNode(\"\", true),\n    ($setup.airingTodayTvShows && $setup.airingTodayTvShows.length)\n      ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n          key: 2,\n          title: $setup.airingTodayTvShowsTitle,\n          \"view-all-url\": $options.airingTodayUrl,\n          items: $setup.airingTodayTvShows\n        }, null, 8, [\"title\", \"view-all-url\", \"items\"]))\n      : _createCommentVNode(\"\", true),\n    ($setup.popularTvShows && $setup.popularTvShows.length)\n      ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n          key: 3,\n          title: $setup.popularTvShowsTitle,\n          \"view-all-url\": $options.popularTvShowsUrl,\n          items: $setup.popularTvShows\n        }, null, 8, [\"title\", \"view-all-url\", \"items\"]))\n      : _createCommentVNode(\"\", true),\n    ($setup.topRatedTvShows && $setup.topRatedTvShows.length)\n      ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n          key: 4,\n          title: $setup.topRatedTvShowsTitle,\n          \"view-all-url\": $options.topRatedTvShowsUrl,\n          items: $setup.topRatedTvShows\n        }, null, 8, [\"title\", \"view-all-url\", \"items\"]))\n      : _createCommentVNode(\"\", true)\n  ]))\n}\n\n\nimport _export_sfc from '\u0000plugin-vue:export-helper'\nexport default /*#__PURE__*/_export_sfc(_sfc_main, [['render',_sfc_render]])",
+      "start": 1708426961307,
+      "end": 1708426961309,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1708426961309,
+      "end": 1708426961309,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426961309,
+      "end": 1708426961309,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426961309,
+      "end": 1708426961309,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:chunk-error",
+      "start": 1708426961309,
+      "end": 1708426961309,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:components:imports",
+      "start": 1708426961309,
+      "end": 1708426961309,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426961309,
+      "end": 1708426961309,
+      "order": "normal"
+    },
+    {
+      "name": "ssr-styles",
+      "start": 1708426961309,
+      "end": 1708426961309,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "result": "var define_process_env_default = {};\nimport { ref } from \"vue\";\nimport Hero from \"~/components/Hero\";\nimport ListingCarousel from \"~/components/ListingCarousel\";\nimport { useBackendStore } from \"~/store/backend\";\nconst _sfc_main = {\n  components: {\n    Hero,\n    ListingCarousel\n  },\n  head() {\n    return {\n      title: \"Movies\",\n      meta: [\n        { hid: \"og:title\", property: \"og:title\", content: \"Movies\" },\n        {\n          hid: \"og:url\",\n          property: \"og:url\",\n          content: `${define_process_env_default.FRONTEND_URL}${this.$route.path}`\n        }\n      ]\n    };\n  },\n  setup() {\n    const store = useBackendStore();\n    const onAirTvShows = ref(null);\n    const airingTodayTvShows = ref(null);\n    const popularTvShows = ref(null);\n    const topRatedTvShows = ref(null);\n    const featuredItem = ref(null);\n    const onAirTvShowsTitle = store.getListItem(\"tv\", \"on_air\").title;\n    const airingTodayTvShowsTitle = store.getListItem(\"tv\", \"airing_today\").title;\n    const popularTvShowsTitle = store.getListItem(\"tv\", \"popular\").title;\n    const topRatedTvShowsTitle = store.getListItem(\"movie\", \"top_rated\").title;\n    async function fetchData() {\n      try {\n        const onAir = await store.getTvShows(\"on_air\");\n        const airingToday = await store.getTvShows(\"airing_today\");\n        const popular = await store.getTvShows(\"popular\");\n        const topRated = await store.getTvShows(\"top_rated\");\n        const items = [...onAir.data.results, ...airingToday.data.results];\n        const randomItem = items[Math.floor(Math.random() * items.length)];\n        const featured = await store.getTvShows(randomItem.id);\n        onAirTvShows.value = onAir.data.results;\n        airingTodayTvShows.value = airingToday.data.results;\n        popularTvShows.value = popular.data.results;\n        topRatedTvShows.value = topRated.data.results;\n        featuredItem.value = featured.data;\n      } catch (error) {\n        console.error({ statusCode: error.code, error: error.message });\n      }\n    }\n    fetchData();\n    return {\n      onAirTvShows,\n      airingTodayTvShows,\n      popularTvShows,\n      topRatedTvShows,\n      featuredItem,\n      onAirTvShowsTitle,\n      airingTodayTvShowsTitle,\n      popularTvShowsTitle,\n      topRatedTvShowsTitle\n    };\n  },\n  computed: {\n    onAirTvShowsUrl() {\n      return { name: \"tv-category-name\", params: { name: \"on_air\" } };\n    },\n    airingTodayUrl() {\n      return { name: \"tv-category-name\", params: { name: \"now_playing\" } };\n    },\n    popularTvShowsUrl() {\n      return { name: \"tv-category-name\", params: { name: \"popular\" } };\n    },\n    topRatedTvShowsUrl() {\n      return { name: \"tv-category-name\", params: { name: \"top_rated\" } };\n    }\n  }\n};\nimport { resolveComponent as _resolveComponent, openBlock as _openBlock, createBlock as _createBlock, createCommentVNode as _createCommentVNode, createElementBlock as _createElementBlock } from \"vue\";\nconst _hoisted_1 = { class: \"main\" };\nfunction _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {\n  const _component_Hero = _resolveComponent(\"Hero\");\n  const _component_ListingCarousel = _resolveComponent(\"ListingCarousel\");\n  return _openBlock(), _createElementBlock(\"main\", _hoisted_1, [\n    $setup.featuredItem ? (_openBlock(), _createBlock(_component_Hero, {\n      key: 0,\n      item: $setup.featuredItem,\n      id: \"hero\"\n    }, null, 8, [\"item\"])) : _createCommentVNode(\"\", true),\n    $setup.onAirTvShows && $setup.onAirTvShows.length ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n      key: 1,\n      title: $setup.onAirTvShowsTitle,\n      \"view-all-url\": $options.onAirTvShowsUrl,\n      items: $setup.onAirTvShows\n    }, null, 8, [\"title\", \"view-all-url\", \"items\"])) : _createCommentVNode(\"\", true),\n    $setup.airingTodayTvShows && $setup.airingTodayTvShows.length ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n      key: 2,\n      title: $setup.airingTodayTvShowsTitle,\n      \"view-all-url\": $options.airingTodayUrl,\n      items: $setup.airingTodayTvShows\n    }, null, 8, [\"title\", \"view-all-url\", \"items\"])) : _createCommentVNode(\"\", true),\n    $setup.popularTvShows && $setup.popularTvShows.length ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n      key: 3,\n      title: $setup.popularTvShowsTitle,\n      \"view-all-url\": $options.popularTvShowsUrl,\n      items: $setup.popularTvShows\n    }, null, 8, [\"title\", \"view-all-url\", \"items\"])) : _createCommentVNode(\"\", true),\n    $setup.topRatedTvShows && $setup.topRatedTvShows.length ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n      key: 4,\n      title: $setup.topRatedTvShowsTitle,\n      \"view-all-url\": $options.topRatedTvShowsUrl,\n      items: $setup.topRatedTvShows\n    }, null, 8, [\"title\", \"view-all-url\", \"items\"])) : _createCommentVNode(\"\", true)\n  ]);\n}\nimport _export_sfc from \"\\0plugin-vue:export-helper\";\nexport default /* @__PURE__ */ _export_sfc(_sfc_main, [[\"render\", _sfc_render]]);\n",
+      "start": 1708426961309,
+      "end": 1708426962661,
+      "order": "normal",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1708426962661,
+      "end": 1708426962661,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1708426962661,
+      "end": 1708426962661,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1708426962661,
+      "end": 1708426962661,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1708426962661,
+      "end": 1708426962661,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1708426962661,
+      "end": 1708426962661,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1708426962661,
+      "end": 1708426962661,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1708426962661,
+      "end": 1708426962661,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426962661,
+      "end": 1708426962661,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426962661,
+      "end": 1708426962663,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426962663,
+      "end": 1708426962663,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426962663,
+      "end": 1708426962663,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:runtime-paths-dep",
+      "start": 1708426962663,
+      "end": 1708426962663,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:route-injection-plugin",
+      "start": 1708426962663,
+      "end": 1708426962663,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:components-loader",
+      "result": "import { default as __nuxt_component_0 } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/Hero.vue\";\nimport { default as __nuxt_component_1 } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/ListingCarousel.vue\";\nvar define_process_env_default = {};\nimport { ref } from \"vue\";\nimport Hero from \"~/components/Hero\";\nimport ListingCarousel from \"~/components/ListingCarousel\";\nimport { useBackendStore } from \"~/store/backend\";\nconst _sfc_main = {\n  components: {\n    Hero,\n    ListingCarousel\n  },\n  head() {\n    return {\n      title: \"Movies\",\n      meta: [\n        { hid: \"og:title\", property: \"og:title\", content: \"Movies\" },\n        {\n          hid: \"og:url\",\n          property: \"og:url\",\n          content: `${define_process_env_default.FRONTEND_URL}${this.$route.path}`\n        }\n      ]\n    };\n  },\n  setup() {\n    const store = useBackendStore();\n    const onAirTvShows = ref(null);\n    const airingTodayTvShows = ref(null);\n    const popularTvShows = ref(null);\n    const topRatedTvShows = ref(null);\n    const featuredItem = ref(null);\n    const onAirTvShowsTitle = store.getListItem(\"tv\", \"on_air\").title;\n    const airingTodayTvShowsTitle = store.getListItem(\"tv\", \"airing_today\").title;\n    const popularTvShowsTitle = store.getListItem(\"tv\", \"popular\").title;\n    const topRatedTvShowsTitle = store.getListItem(\"movie\", \"top_rated\").title;\n    async function fetchData() {\n      try {\n        const onAir = await store.getTvShows(\"on_air\");\n        const airingToday = await store.getTvShows(\"airing_today\");\n        const popular = await store.getTvShows(\"popular\");\n        const topRated = await store.getTvShows(\"top_rated\");\n        const items = [...onAir.data.results, ...airingToday.data.results];\n        const randomItem = items[Math.floor(Math.random() * items.length)];\n        const featured = await store.getTvShows(randomItem.id);\n        onAirTvShows.value = onAir.data.results;\n        airingTodayTvShows.value = airingToday.data.results;\n        popularTvShows.value = popular.data.results;\n        topRatedTvShows.value = topRated.data.results;\n        featuredItem.value = featured.data;\n      } catch (error) {\n        console.error({ statusCode: error.code, error: error.message });\n      }\n    }\n    fetchData();\n    return {\n      onAirTvShows,\n      airingTodayTvShows,\n      popularTvShows,\n      topRatedTvShows,\n      featuredItem,\n      onAirTvShowsTitle,\n      airingTodayTvShowsTitle,\n      popularTvShowsTitle,\n      topRatedTvShowsTitle\n    };\n  },\n  computed: {\n    onAirTvShowsUrl() {\n      return { name: \"tv-category-name\", params: { name: \"on_air\" } };\n    },\n    airingTodayUrl() {\n      return { name: \"tv-category-name\", params: { name: \"now_playing\" } };\n    },\n    popularTvShowsUrl() {\n      return { name: \"tv-category-name\", params: { name: \"popular\" } };\n    },\n    topRatedTvShowsUrl() {\n      return { name: \"tv-category-name\", params: { name: \"top_rated\" } };\n    }\n  }\n};\nimport { resolveComponent as _resolveComponent, openBlock as _openBlock, createBlock as _createBlock, createCommentVNode as _createCommentVNode, createElementBlock as _createElementBlock } from \"vue\";\nconst _hoisted_1 = { class: \"main\" };\nfunction _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {\n  const _component_Hero = __nuxt_component_0;\n  const _component_ListingCarousel = __nuxt_component_1;\n  return _openBlock(), _createElementBlock(\"main\", _hoisted_1, [\n    $setup.featuredItem ? (_openBlock(), _createBlock(_component_Hero, {\n      key: 0,\n      item: $setup.featuredItem,\n      id: \"hero\"\n    }, null, 8, [\"item\"])) : _createCommentVNode(\"\", true),\n    $setup.onAirTvShows && $setup.onAirTvShows.length ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n      key: 1,\n      title: $setup.onAirTvShowsTitle,\n      \"view-all-url\": $options.onAirTvShowsUrl,\n      items: $setup.onAirTvShows\n    }, null, 8, [\"title\", \"view-all-url\", \"items\"])) : _createCommentVNode(\"\", true),\n    $setup.airingTodayTvShows && $setup.airingTodayTvShows.length ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n      key: 2,\n      title: $setup.airingTodayTvShowsTitle,\n      \"view-all-url\": $options.airingTodayUrl,\n      items: $setup.airingTodayTvShows\n    }, null, 8, [\"title\", \"view-all-url\", \"items\"])) : _createCommentVNode(\"\", true),\n    $setup.popularTvShows && $setup.popularTvShows.length ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n      key: 3,\n      title: $setup.popularTvShowsTitle,\n      \"view-all-url\": $options.popularTvShowsUrl,\n      items: $setup.popularTvShows\n    }, null, 8, [\"title\", \"view-all-url\", \"items\"])) : _createCommentVNode(\"\", true),\n    $setup.topRatedTvShows && $setup.topRatedTvShows.length ? (_openBlock(), _createBlock(_component_ListingCarousel, {\n      key: 4,\n      title: $setup.topRatedTvShowsTitle,\n      \"view-all-url\": $options.topRatedTvShowsUrl,\n      items: $setup.topRatedTvShows\n    }, null, 8, [\"title\", \"view-all-url\", \"items\"])) : _createCommentVNode(\"\", true)\n  ]);\n}\nimport _export_sfc from \"\\0plugin-vue:export-helper\";\nexport default /* @__PURE__ */ _export_sfc(_sfc_main, [[\"render\", _sfc_render]]);\n",
+      "start": 1708426962663,
+      "end": 1708426962663,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-composables:transform",
+      "start": 1708426962663,
+      "end": 1708426962663,
+      "order": "post"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1708426962663,
+      "end": 1708426962663,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1708426962663,
+      "end": 1708426962663,
+      "order": "normal"
+    }
+  ]
+}

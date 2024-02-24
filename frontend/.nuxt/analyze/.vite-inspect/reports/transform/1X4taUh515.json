@@ -1,0 +1,212 @@
+{
+  "resolvedId": "virtual:nuxt:/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/.nuxt/routes.mjs",
+  "transforms": [
+    {
+      "name": "virtual",
+      "result": "import { default as indexPPzpSYh3R5Meta } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/favorites/index.vue?macro=true\";\nimport { default as index1wrEgc3XwoMeta } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/index.vue?macro=true\";\nimport { default as _91id_93gBT7wUR5TGMeta } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/movie/[id].vue?macro=true\";\nimport { default as _91name_93aXRZ1mDeOHMeta } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/movie/category/[name].vue?macro=true\";\nimport { default as indexF2Ad0G4tZJMeta } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/movie/index.vue?macro=true\";\nimport { default as index2yXBi8H9zXMeta } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/search/index.vue?macro=true\";\nimport { default as _91id_935c2gGRJw8uMeta } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/tv/[id].vue?macro=true\";\nimport { default as _91name_93fyKXi5ngM2Meta } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/tv/category/[name].vue?macro=true\";\nimport { default as index8SkCtuVmmqMeta } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/tv/index.vue?macro=true\";\nexport default [\n  {\n    name: indexPPzpSYh3R5Meta?.name ?? \"favorites\",\n    path: indexPPzpSYh3R5Meta?.path ?? \"/favorites\",\n    meta: indexPPzpSYh3R5Meta || {},\n    alias: indexPPzpSYh3R5Meta?.alias || [],\n    redirect: indexPPzpSYh3R5Meta?.redirect || undefined,\n    component: () => import(\"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/favorites/index.vue\").then(m => m.default || m)\n  },\n  {\n    name: index1wrEgc3XwoMeta?.name ?? \"index\",\n    path: index1wrEgc3XwoMeta?.path ?? \"/\",\n    meta: index1wrEgc3XwoMeta || {},\n    alias: index1wrEgc3XwoMeta?.alias || [],\n    redirect: index1wrEgc3XwoMeta?.redirect || undefined,\n    component: () => import(\"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/index.vue\").then(m => m.default || m)\n  },\n  {\n    name: _91id_93gBT7wUR5TGMeta?.name ?? \"movie-id\",\n    path: _91id_93gBT7wUR5TGMeta?.path ?? \"/movie/:id()\",\n    meta: _91id_93gBT7wUR5TGMeta || {},\n    alias: _91id_93gBT7wUR5TGMeta?.alias || [],\n    redirect: _91id_93gBT7wUR5TGMeta?.redirect || undefined,\n    component: () => import(\"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/movie/[id].vue\").then(m => m.default || m)\n  },\n  {\n    name: _91name_93aXRZ1mDeOHMeta?.name ?? \"movie-category-name\",\n    path: _91name_93aXRZ1mDeOHMeta?.path ?? \"/movie/category/:name()\",\n    meta: _91name_93aXRZ1mDeOHMeta || {},\n    alias: _91name_93aXRZ1mDeOHMeta?.alias || [],\n    redirect: _91name_93aXRZ1mDeOHMeta?.redirect || undefined,\n    component: () => import(\"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/movie/category/[name].vue\").then(m => m.default || m)\n  },\n  {\n    name: indexF2Ad0G4tZJMeta?.name ?? \"movie\",\n    path: indexF2Ad0G4tZJMeta?.path ?? \"/movie\",\n    meta: indexF2Ad0G4tZJMeta || {},\n    alias: indexF2Ad0G4tZJMeta?.alias || [],\n    redirect: indexF2Ad0G4tZJMeta?.redirect || undefined,\n    component: () => import(\"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/movie/index.vue\").then(m => m.default || m)\n  },\n  {\n    name: index2yXBi8H9zXMeta?.name ?? \"search\",\n    path: index2yXBi8H9zXMeta?.path ?? \"/search\",\n    meta: index2yXBi8H9zXMeta || {},\n    alias: index2yXBi8H9zXMeta?.alias || [],\n    redirect: index2yXBi8H9zXMeta?.redirect || undefined,\n    component: () => import(\"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/search/index.vue\").then(m => m.default || m)\n  },\n  {\n    name: _91id_935c2gGRJw8uMeta?.name ?? \"tv-id\",\n    path: _91id_935c2gGRJw8uMeta?.path ?? \"/tv/:id()\",\n    meta: _91id_935c2gGRJw8uMeta || {},\n    alias: _91id_935c2gGRJw8uMeta?.alias || [],\n    redirect: _91id_935c2gGRJw8uMeta?.redirect || undefined,\n    component: () => import(\"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/tv/[id].vue\").then(m => m.default || m)\n  },\n  {\n    name: _91name_93fyKXi5ngM2Meta?.name ?? \"tv-category-name\",\n    path: _91name_93fyKXi5ngM2Meta?.path ?? \"/tv/category/:name()\",\n    meta: _91name_93fyKXi5ngM2Meta || {},\n    alias: _91name_93fyKXi5ngM2Meta?.alias || [],\n    redirect: _91name_93fyKXi5ngM2Meta?.redirect || undefined,\n    component: () => import(\"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/tv/category/[name].vue\").then(m => m.default || m)\n  },\n  {\n    name: index8SkCtuVmmqMeta?.name ?? \"tv\",\n    path: index8SkCtuVmmqMeta?.path ?? \"/tv\",\n    meta: index8SkCtuVmmqMeta || {},\n    alias: index8SkCtuVmmqMeta?.alias || [],\n    redirect: index8SkCtuVmmqMeta?.redirect || undefined,\n    component: () => import(\"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/tv/index.vue\").then(m => m.default || m)\n  }\n]",
+      "start": 1708426960492,
+      "end": 1708426960492,
+      "sourcemaps": null
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426960492,
+      "end": 1708426960492,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426960492,
+      "end": 1708426960493,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:client-fallback-auto-id",
+      "start": 1708426960494,
+      "end": 1708426960494,
+      "order": "pre"
+    },
+    {
+      "name": "vite:css",
+      "start": 1708426960495,
+      "end": 1708426960495,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1708426960495,
+      "end": 1708426960495,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1708426960495,
+      "end": 1708426960495,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1708426960495,
+      "end": 1708426960495,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1708426960496,
+      "end": 1708426960496,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1708426960496,
+      "end": 1708426960496,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426960496,
+      "end": 1708426960496,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426960496,
+      "end": 1708426960496,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:chunk-error",
+      "start": 1708426960496,
+      "end": 1708426960496,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:components:imports",
+      "start": 1708426960496,
+      "end": 1708426960496,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426960497,
+      "end": 1708426960497,
+      "order": "normal"
+    },
+    {
+      "name": "ssr-styles",
+      "start": 1708426960497,
+      "end": 1708426960497,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1708426960497,
+      "end": 1708426960497,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1708426960497,
+      "end": 1708426960497,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1708426960497,
+      "end": 1708426960497,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1708426960498,
+      "end": 1708426960498,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1708426960498,
+      "end": 1708426960498,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1708426960498,
+      "end": 1708426960498,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1708426960499,
+      "end": 1708426960500,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1708426960500,
+      "end": 1708426960500,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426960500,
+      "end": 1708426960501,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426960511,
+      "end": 1708426960515,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426960515,
+      "end": 1708426960515,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426960515,
+      "end": 1708426960515,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:runtime-paths-dep",
+      "start": 1708426960515,
+      "end": 1708426960516,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:route-injection-plugin",
+      "start": 1708426960516,
+      "end": 1708426960516,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:components-loader",
+      "start": 1708426960516,
+      "end": 1708426960516,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-composables:transform",
+      "start": 1708426960516,
+      "end": 1708426960516,
+      "order": "post"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "result": "import { __vitePreload } from \"\u0000vite/preload-helper.js\";import { default as indexPPzpSYh3R5Meta } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/favorites/index.vue?macro=true\";\nimport { default as index1wrEgc3XwoMeta } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/index.vue?macro=true\";\nimport { default as _91id_93gBT7wUR5TGMeta } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/movie/[id].vue?macro=true\";\nimport { default as _91name_93aXRZ1mDeOHMeta } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/movie/category/[name].vue?macro=true\";\nimport { default as indexF2Ad0G4tZJMeta } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/movie/index.vue?macro=true\";\nimport { default as index2yXBi8H9zXMeta } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/search/index.vue?macro=true\";\nimport { default as _91id_935c2gGRJw8uMeta } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/tv/[id].vue?macro=true\";\nimport { default as _91name_93fyKXi5ngM2Meta } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/tv/category/[name].vue?macro=true\";\nimport { default as index8SkCtuVmmqMeta } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/tv/index.vue?macro=true\";\nexport default [\n  {\n    name: indexPPzpSYh3R5Meta?.name ?? \"favorites\",\n    path: indexPPzpSYh3R5Meta?.path ?? \"/favorites\",\n    meta: indexPPzpSYh3R5Meta || {},\n    alias: indexPPzpSYh3R5Meta?.alias || [],\n    redirect: indexPPzpSYh3R5Meta?.redirect || undefined,\n    component: () => __vitePreload(() => import(\"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/favorites/index.vue\"),__VITE_IS_MODERN__?\"__VITE_PRELOAD__\":void 0,import.meta.url).then(m => m.default || m)\n  },\n  {\n    name: index1wrEgc3XwoMeta?.name ?? \"index\",\n    path: index1wrEgc3XwoMeta?.path ?? \"/\",\n    meta: index1wrEgc3XwoMeta || {},\n    alias: index1wrEgc3XwoMeta?.alias || [],\n    redirect: index1wrEgc3XwoMeta?.redirect || undefined,\n    component: () => __vitePreload(() => import(\"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/index.vue\"),__VITE_IS_MODERN__?\"__VITE_PRELOAD__\":void 0,import.meta.url).then(m => m.default || m)\n  },\n  {\n    name: _91id_93gBT7wUR5TGMeta?.name ?? \"movie-id\",\n    path: _91id_93gBT7wUR5TGMeta?.path ?? \"/movie/:id()\",\n    meta: _91id_93gBT7wUR5TGMeta || {},\n    alias: _91id_93gBT7wUR5TGMeta?.alias || [],\n    redirect: _91id_93gBT7wUR5TGMeta?.redirect || undefined,\n    component: () => __vitePreload(() => import(\"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/movie/[id].vue\"),__VITE_IS_MODERN__?\"__VITE_PRELOAD__\":void 0,import.meta.url).then(m => m.default || m)\n  },\n  {\n    name: _91name_93aXRZ1mDeOHMeta?.name ?? \"movie-category-name\",\n    path: _91name_93aXRZ1mDeOHMeta?.path ?? \"/movie/category/:name()\",\n    meta: _91name_93aXRZ1mDeOHMeta || {},\n    alias: _91name_93aXRZ1mDeOHMeta?.alias || [],\n    redirect: _91name_93aXRZ1mDeOHMeta?.redirect || undefined,\n    component: () => __vitePreload(() => import(\"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/movie/category/[name].vue\"),__VITE_IS_MODERN__?\"__VITE_PRELOAD__\":void 0,import.meta.url).then(m => m.default || m)\n  },\n  {\n    name: indexF2Ad0G4tZJMeta?.name ?? \"movie\",\n    path: indexF2Ad0G4tZJMeta?.path ?? \"/movie\",\n    meta: indexF2Ad0G4tZJMeta || {},\n    alias: indexF2Ad0G4tZJMeta?.alias || [],\n    redirect: indexF2Ad0G4tZJMeta?.redirect || undefined,\n    component: () => __vitePreload(() => import(\"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/movie/index.vue\"),__VITE_IS_MODERN__?\"__VITE_PRELOAD__\":void 0,import.meta.url).then(m => m.default || m)\n  },\n  {\n    name: index2yXBi8H9zXMeta?.name ?? \"search\",\n    path: index2yXBi8H9zXMeta?.path ?? \"/search\",\n    meta: index2yXBi8H9zXMeta || {},\n    alias: index2yXBi8H9zXMeta?.alias || [],\n    redirect: index2yXBi8H9zXMeta?.redirect || undefined,\n    component: () => __vitePreload(() => import(\"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/search/index.vue\"),__VITE_IS_MODERN__?\"__VITE_PRELOAD__\":void 0,import.meta.url).then(m => m.default || m)\n  },\n  {\n    name: _91id_935c2gGRJw8uMeta?.name ?? \"tv-id\",\n    path: _91id_935c2gGRJw8uMeta?.path ?? \"/tv/:id()\",\n    meta: _91id_935c2gGRJw8uMeta || {},\n    alias: _91id_935c2gGRJw8uMeta?.alias || [],\n    redirect: _91id_935c2gGRJw8uMeta?.redirect || undefined,\n    component: () => __vitePreload(() => import(\"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/tv/[id].vue\"),__VITE_IS_MODERN__?\"__VITE_PRELOAD__\":void 0,import.meta.url).then(m => m.default || m)\n  },\n  {\n    name: _91name_93fyKXi5ngM2Meta?.name ?? \"tv-category-name\",\n    path: _91name_93fyKXi5ngM2Meta?.path ?? \"/tv/category/:name()\",\n    meta: _91name_93fyKXi5ngM2Meta || {},\n    alias: _91name_93fyKXi5ngM2Meta?.alias || [],\n    redirect: _91name_93fyKXi5ngM2Meta?.redirect || undefined,\n    component: () => __vitePreload(() => import(\"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/tv/category/[name].vue\"),__VITE_IS_MODERN__?\"__VITE_PRELOAD__\":void 0,import.meta.url).then(m => m.default || m)\n  },\n  {\n    name: index8SkCtuVmmqMeta?.name ?? \"tv\",\n    path: index8SkCtuVmmqMeta?.path ?? \"/tv\",\n    meta: index8SkCtuVmmqMeta || {},\n    alias: index8SkCtuVmmqMeta?.alias || [],\n    redirect: index8SkCtuVmmqMeta?.redirect || undefined,\n    component: () => __vitePreload(() => import(\"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/pages/tv/index.vue\"),__VITE_IS_MODERN__?\"__VITE_PRELOAD__\":void 0,import.meta.url).then(m => m.default || m)\n  }\n]",
+      "start": 1708426960516,
+      "end": 1708426960522,
+      "order": "normal",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1708426960522,
+      "end": 1708426960522,
+      "order": "normal"
+    }
+  ]
+}

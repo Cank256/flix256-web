@@ -1,0 +1,1 @@
+export { default } from "file:///Users/caleb/Dev/ALX/Portifolio%20Project/source/flix256-web/frontend/node_modules/@nuxt/vite-builder/dist/runtime/client.manifest.mjs"

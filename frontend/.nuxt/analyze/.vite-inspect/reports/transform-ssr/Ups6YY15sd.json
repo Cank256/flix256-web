@@ -1,0 +1,259 @@
+{
+  "resolvedId": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/MediaNav.vue",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "<template>\n  <div :class=\"$style.nav\">\n    <button\n      v-for=\"(item, index) in menu\"\n      :key=\"`tab-${index}`\"\n      :class=\"[$style.button, { [$style.buttonActive] : active === index }]\"\n      type=\"button\"\n      @click=\"clicked(index, item)\">\n      {{ item }}\n    </button>\n  </div>\n</template>\n\n<script>\nexport default {\n  props: {\n    menu: {\n      type: Array,\n      required: true,\n    },\n  },\n\n  data () {\n    return {\n      active: 0,\n    };\n  },\n\n  methods: {\n    clicked (index, item) {\n      this.active = index;\n      this.$emit('clicked', item.replace(/\\s+/g, '-').toLowerCase());\n    },\n  },\n};\n</script>\n\n<style lang=\"scss\" module>\n@import '~/assets/css/utilities/_variables.scss';\n\n.nav {\n  display: flex;\n  height: 4.8rem;\n  background-color: #1b1b1b;\n\n  @media (min-width: $breakpoint-large) {\n    justify-content: center;\n    margin-top: 2.5rem;\n    background: none;\n  }\n}\n\n.button {\n  display: block;\n  width: 100%;\n  padding: 0;\n  margin: 0 0 -0.2rem;\n  font-size: 1.4rem;\n  font-weight: 500;\n  color: #585858;\n  text-transform: uppercase;\n  letter-spacing: $letter-spacing;\n  background: none;\n  border-right: 1px solid $base-bg;\n  outline: 0;\n  transition: color 0.2s ease;\n\n  @media (min-width: $breakpoint-large) {\n    width: auto;\n    margin: 0 3rem;\n    font-size: 2rem;\n    border-bottom: 2px solid transparent;\n  }\n\n  &:last-child {\n    border-right: 0;\n  }\n\n  &:hover,\n  &:focus {\n    color: #fff;\n  }\n}\n\n.buttonActive {\n  color: #fff;\n  background-color: $base-bg;\n\n  @media (min-width: $breakpoint-large) {\n    background: none;\n    border-bottom-color: #fff;\n  }\n}\n</style>\n",
+      "start": 1708426968261,
+      "end": 1708426968516,
+      "sourcemaps": null
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426968516,
+      "end": 1708426968516,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426968516,
+      "end": 1708426968516,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426968517,
+      "end": 1708426968517,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426968517,
+      "end": 1708426968517,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:client-fallback-auto-id",
+      "start": 1708426968517,
+      "end": 1708426968517,
+      "order": "pre"
+    },
+    {
+      "name": "vite:css",
+      "start": 1708426968517,
+      "end": 1708426968517,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1708426968517,
+      "end": 1708426968517,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1708426968517,
+      "end": 1708426968517,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1708426968517,
+      "end": 1708426968517,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "\nconst _sfc_main = {\n  props: {\n    menu: {\n      type: Array,\n      required: true,\n    },\n  },\n\n  data () {\n    return {\n      active: 0,\n    };\n  },\n\n  methods: {\n    clicked (index, item) {\n      this.active = index;\n      this.$emit('clicked', item.replace(/\\s+/g, '-').toLowerCase());\n    },\n  },\n};\n\nimport { mergeProps as _mergeProps } from \"vue\"\nimport { ssrRenderClass as _ssrRenderClass, ssrRenderAttrs as _ssrRenderAttrs, ssrInterpolate as _ssrInterpolate, ssrRenderList as _ssrRenderList } from \"vue/server-renderer\"\n\nfunction _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {\n  _push(`<div${_ssrRenderAttrs(_mergeProps({\n    class: _ctx.$style.nav\n  }, _attrs))}><!--[-->`)\n  _ssrRenderList($props.menu, (item, index) => {\n    _push(`<button class=\"${\n      _ssrRenderClass([_ctx.$style.button, { [_ctx.$style.buttonActive] : $data.active === index }])\n    }\" type=\"button\">${\n      _ssrInterpolate(item)\n    }</button>`)\n  })\n  _push(`<!--]--></div>`)\n}\n\nimport style0 from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/MediaNav.vue?vue&type=style&index=0&lang.module.scss\"\nconst cssModules = {\n\"$style\":style0,\n}\n\nimport { useSSRContext as __vite_useSSRContext } from 'vue'\nconst _sfc_setup = _sfc_main.setup\n_sfc_main.setup = (props, ctx) => {\n  const ssrContext = __vite_useSSRContext()\n  ;(ssrContext.modules || (ssrContext.modules = new Set())).add(\"components/MediaNav.vue\")\n  return _sfc_setup ? _sfc_setup(props, ctx) : undefined\n}\nimport _export_sfc from '\u0000plugin-vue:export-helper'\nexport default /*#__PURE__*/_export_sfc(_sfc_main, [['ssrRender',_sfc_ssrRender],['__cssModules',cssModules]])",
+      "start": 1708426968517,
+      "end": 1708426968540,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "file": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/MediaNav.vue",
+        "names": [],
+        "sources": [
+          "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/MediaNav.vue"
+        ],
+        "sourcesContent": [
+          "<template>\n  <div :class=\"$style.nav\">\n    <button\n      v-for=\"(item, index) in menu\"\n      :key=\"`tab-${index}`\"\n      :class=\"[$style.button, { [$style.buttonActive] : active === index }]\"\n      type=\"button\"\n      @click=\"clicked(index, item)\">\n      {{ item }}\n    </button>\n  </div>\n</template>\n\n<script>\nexport default {\n  props: {\n    menu: {\n      type: Array,\n      required: true,\n    },\n  },\n\n  data () {\n    return {\n      active: 0,\n    };\n  },\n\n  methods: {\n    clicked (index, item) {\n      this.active = index;\n      this.$emit('clicked', item.replace(/\\s+/g, '-').toLowerCase());\n    },\n  },\n};\n</script>\n\n<style lang=\"scss\" module>\n@import '~/assets/css/utilities/_variables.scss';\n\n.nav {\n  display: flex;\n  height: 4.8rem;\n  background-color: #1b1b1b;\n\n  @media (min-width: $breakpoint-large) {\n    justify-content: center;\n    margin-top: 2.5rem;\n    background: none;\n  }\n}\n\n.button {\n  display: block;\n  width: 100%;\n  padding: 0;\n  margin: 0 0 -0.2rem;\n  font-size: 1.4rem;\n  font-weight: 500;\n  color: #585858;\n  text-transform: uppercase;\n  letter-spacing: $letter-spacing;\n  background: none;\n  border-right: 1px solid $base-bg;\n  outline: 0;\n  transition: color 0.2s ease;\n\n  @media (min-width: $breakpoint-large) {\n    width: auto;\n    margin: 0 3rem;\n    font-size: 2rem;\n    border-bottom: 2px solid transparent;\n  }\n\n  &:last-child {\n    border-right: 0;\n  }\n\n  &:hover,\n  &:focus {\n    color: #fff;\n  }\n}\n\n.buttonActive {\n  color: #fff;\n  background-color: $base-bg;\n\n  @media (min-width: $breakpoint-large) {\n    background: none;\n    border-bottom-color: #fff;\n  }\n}\n</style>\n"
+        ],
+        "mappings": ";AAcA,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;EACb,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;IACL,CAAC,CAAC,CAAC,CAAC,EAAE;MACJ,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC;MACX,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC;IAChB,CAAC;EACH,CAAC;;EAED,CAAC,CAAC,CAAC,EAAE,CAAC,EAAE;IACN,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;MACL,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC;IACX,CAAC;EACH,CAAC;;EAED,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE;IACP,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,EAAE;MACpB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC;MACnB,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;IAChE,CAAC;EACH,CAAC;AACH,CAAC;;;;;;EAlCD,aAAA,gBAAA;IACQ,KAAK,EAAE,WAAM,CAAC,GAAG;KADzB;EAAA,eAG8B,WAAI,EAHlC,CAGc,IAAI,EAAE,KAAK;IAHzB;MAAA,iBAKe,WAAM,CAAC,MAAM,KAAK,WAAM,CAAC,YAAY,IAAI,YAAM,KAAK,KAAK;;MALxE,gBAQS,IAAI;;;EARb"
+      }
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1708426968540,
+      "end": 1708426968540,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426968540,
+      "end": 1708426968540,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426968540,
+      "end": 1708426968540,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426968540,
+      "end": 1708426968540,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426968540,
+      "end": 1708426968540,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:components:imports",
+      "start": 1708426968540,
+      "end": 1708426968540,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426968540,
+      "end": 1708426968540,
+      "order": "normal"
+    },
+    {
+      "name": "ssr-styles",
+      "start": 1708426968540,
+      "end": 1708426968540,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1708426968540,
+      "end": 1708426968541,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1708426968541,
+      "end": 1708426968541,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1708426968541,
+      "end": 1708426968541,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1708426968541,
+      "end": 1708426968541,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1708426968541,
+      "end": 1708426968541,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1708426968541,
+      "end": 1708426968541,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1708426968541,
+      "end": 1708426968541,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1708426968541,
+      "end": 1708426968541,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426968541,
+      "end": 1708426968541,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426968541,
+      "end": 1708426968541,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426968541,
+      "end": 1708426968545,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426968541,
+      "end": 1708426968545,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426968545,
+      "end": 1708426968545,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426968545,
+      "end": 1708426968545,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426968545,
+      "end": 1708426968545,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426968545,
+      "end": 1708426968545,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-template",
+      "start": 1708426968545,
+      "end": 1708426968545,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:components-loader",
+      "start": 1708426968545,
+      "end": 1708426968545,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-composables:transform",
+      "start": 1708426968545,
+      "end": 1708426968545,
+      "order": "post"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1708426968545,
+      "end": 1708426968546,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1708426968546,
+      "end": 1708426968546,
+      "order": "normal"
+    }
+  ]
+}

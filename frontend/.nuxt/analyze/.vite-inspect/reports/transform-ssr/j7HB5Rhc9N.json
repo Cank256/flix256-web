@@ -1,0 +1,290 @@
+{
+  "resolvedId": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/MediaNav.vue?vue&type=style&index=0&lang.module.scss",
+  "transforms": [
+    {
+      "name": "vite:vue",
+      "result": "\n@import '~/assets/css/utilities/_variables.scss';\n\n.nav {\n  display: flex;\n  height: 4.8rem;\n  background-color: #1b1b1b;\n\n  @media (min-width: $breakpoint-large) {\n    justify-content: center;\n    margin-top: 2.5rem;\n    background: none;\n  }\n}\n\n.button {\n  display: block;\n  width: 100%;\n  padding: 0;\n  margin: 0 0 -0.2rem;\n  font-size: 1.4rem;\n  font-weight: 500;\n  color: #585858;\n  text-transform: uppercase;\n  letter-spacing: $letter-spacing;\n  background: none;\n  border-right: 1px solid $base-bg;\n  outline: 0;\n  transition: color 0.2s ease;\n\n  @media (min-width: $breakpoint-large) {\n    width: auto;\n    margin: 0 3rem;\n    font-size: 2rem;\n    border-bottom: 2px solid transparent;\n  }\n\n  &:last-child {\n    border-right: 0;\n  }\n\n  &:hover,\n  &:focus {\n    color: #fff;\n  }\n}\n\n.buttonActive {\n  color: #fff;\n  background-color: $base-bg;\n\n  @media (min-width: $breakpoint-large) {\n    background: none;\n    border-bottom-color: #fff;\n  }\n}\n",
+      "start": 1708426968683,
+      "end": 1708426968683,
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/MediaNav.vue"
+        ],
+        "names": [],
+        "mappings": "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",
+        "file": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/MediaNav.vue",
+        "sourceRoot": "",
+        "sourcesContent": [
+          "<template>\n  <div :class=\"$style.nav\">\n    <button\n      v-for=\"(item, index) in menu\"\n      :key=\"`tab-${index}`\"\n      :class=\"[$style.button, { [$style.buttonActive] : active === index }]\"\n      type=\"button\"\n      @click=\"clicked(index, item)\">\n      {{ item }}\n    </button>\n  </div>\n</template>\n\n<script>\nexport default {\n  props: {\n    menu: {\n      type: Array,\n      required: true,\n    },\n  },\n\n  data () {\n    return {\n      active: 0,\n    };\n  },\n\n  methods: {\n    clicked (index, item) {\n      this.active = index;\n      this.$emit('clicked', item.replace(/\\s+/g, '-').toLowerCase());\n    },\n  },\n};\n</script>\n\n<style lang=\"scss\" module>\n@import '~/assets/css/utilities/_variables.scss';\n\n.nav {\n  display: flex;\n  height: 4.8rem;\n  background-color: #1b1b1b;\n\n  @media (min-width: $breakpoint-large) {\n    justify-content: center;\n    margin-top: 2.5rem;\n    background: none;\n  }\n}\n\n.button {\n  display: block;\n  width: 100%;\n  padding: 0;\n  margin: 0 0 -0.2rem;\n  font-size: 1.4rem;\n  font-weight: 500;\n  color: #585858;\n  text-transform: uppercase;\n  letter-spacing: $letter-spacing;\n  background: none;\n  border-right: 1px solid $base-bg;\n  outline: 0;\n  transition: color 0.2s ease;\n\n  @media (min-width: $breakpoint-large) {\n    width: auto;\n    margin: 0 3rem;\n    font-size: 2rem;\n    border-bottom: 2px solid transparent;\n  }\n\n  &:last-child {\n    border-right: 0;\n  }\n\n  &:hover,\n  &:focus {\n    color: #fff;\n  }\n}\n\n.buttonActive {\n  color: #fff;\n  background-color: $base-bg;\n\n  @media (min-width: $breakpoint-large) {\n    background: none;\n    border-bottom-color: #fff;\n  }\n}\n</style>\n"
+        ]
+      }
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426968683,
+      "end": 1708426968683,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426968683,
+      "end": 1708426968683,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426968683,
+      "end": 1708426968683,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426968683,
+      "end": 1708426968683,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:client-fallback-auto-id",
+      "start": 1708426968683,
+      "end": 1708426968683,
+      "order": "pre"
+    },
+    {
+      "name": "vite:css",
+      "result": "._nav_15ate_1{background-color:#1b1b1b;display:flex;height:4.8rem}@media (min-width:1200px){._nav_15ate_1{background:none;justify-content:center;margin-top:2.5rem}}._button_15ate_14{background:none;border-right:1px solid #141414;color:#585858;display:block;font-size:1.4rem;font-weight:500;letter-spacing:.4px;margin:0 0 -.2rem;outline:0;padding:0;text-transform:uppercase;transition:color .2s ease;width:100%}@media (min-width:1200px){._button_15ate_14{border-bottom:2px solid transparent;font-size:2rem;margin:0 3rem;width:auto}}._button_15ate_14:last-child{border-right:0}._button_15ate_14:focus,._button_15ate_14:hover{color:#fff}._buttonActive_15ate_44{background-color:#141414;color:#fff}@media (min-width:1200px){._buttonActive_15ate_44{background:none;border-bottom-color:#fff}}",
+      "start": 1708426968683,
+      "end": 1708426969001,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "file": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/MediaNav.vue",
+        "mappings": "AAGA,cAGE,yBAFA,aACA,cAGA,0BALF,cAQI,gBAFA,uBACA,mBAKJ,kBAUE,gBACA,+BAJA,cANA,cAIA,iBACA,gBAGA,mBCbe,CDQf,kBAQA,UATA,UAKA,yBAKA,0BAXA,WAaA,0BAfF,kBAmBI,oCADA,eADA,cADA,YAMF,6BACE,eAGF,gDAEE,WAIJ,wBAEE,wBC5CQ,CD2CR,WAGA,0BAJF,wBAKI,gBACA",
+        "names": [],
+        "sources": [
+          "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/MediaNav.vue",
+          "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/assets/css/utilities/_variables.scss"
+        ],
+        "sourcesContent": [
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1708426969003,
+      "end": 1708426969003,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1708426969004,
+      "end": 1708426969004,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1708426969004,
+      "end": 1708426969004,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "._nav_15ate_1{background-color:#1b1b1b;display:flex;height:4.8rem}@media (min-width:1200px){._nav_15ate_1{background:none;justify-content:center;margin-top:2.5rem}}._button_15ate_14{background:none;border-right:1px solid #141414;color:#585858;display:block;font-size:1.4rem;font-weight:500;letter-spacing:.4px;margin:0 0 -.2rem;outline:0;padding:0;text-transform:uppercase;transition:color .2s ease;width:100%}@media (min-width:1200px){._button_15ate_14{border-bottom:2px solid transparent;font-size:2rem;margin:0 3rem;width:auto}}._button_15ate_14:last-child{border-right:0}._button_15ate_14:focus,._button_15ate_14:hover{color:#fff}._buttonActive_15ate_44{background-color:#141414;color:#fff}@media (min-width:1200px){._buttonActive_15ate_44{background:none;border-bottom-color:#fff}}",
+      "start": 1708426969004,
+      "end": 1708426969006,
+      "order": "normal",
+      "sourcemaps": {
+        "file": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/MediaNav.vue",
+        "mappings": "AAAA,cAAc,wBAAwB,CAAC,YAAY,CAAC,aAAa,CAAC,0BAA0B,cAAc,eAAe,CAAC,sBAAsB,CAAC,iBAAiB,CAAC,CAAC,kBAAkB,eAAe,CAAC,8BAA8B,CAAC,aAAa,CAAC,aAAa,CAAC,gBAAgB,CAAC,eAAe,CAAC,mBAAmB,CAAC,iBAAiB,CAAC,SAAS,CAAC,SAAS,CAAC,wBAAwB,CAAC,yBAAyB,CAAC,UAAU,CAAC,0BAA0B,kBAAkB,mCAAmC,CAAC,cAAc,CAAC,aAAa,CAAC,UAAU,CAAC,CAAC,6BAA6B,cAAc,CAAC,gDAAgD,UAAU,CAAC,wBAAwB,wBAAwB,CAAC,UAAU,CAAC,0BAA0B,wBAAwB,eAAe,CAAC,wBAAwB,CAAC",
+        "names": [],
+        "sources": [
+          "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/MediaNav.vue"
+        ],
+        "sourcesContent": [
+          null
+        ],
+        "version": 3
+      }
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1708426969006,
+      "end": 1708426969007,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426969007,
+      "end": 1708426969007,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426969007,
+      "end": 1708426969007,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426969007,
+      "end": 1708426969007,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426969007,
+      "end": 1708426969007,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:components:imports",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "normal"
+    },
+    {
+      "name": "ssr-styles",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "result": "export const nav = \"_nav_15ate_1\";\nexport const button = \"_button_15ate_14\";\nexport const buttonActive = \"_buttonActive_15ate_44\";\nexport default {\n\tnav: nav,\n\tbutton: button,\n\tbuttonActive: buttonActive\n};\n",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426969008,
+      "end": 1708426969008,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426969008,
+      "end": 1708426969009,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426969008,
+      "end": 1708426969009,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426969009,
+      "end": 1708426969009,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426969009,
+      "end": 1708426969009,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426969009,
+      "end": 1708426969009,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426969009,
+      "end": 1708426969009,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-template",
+      "start": 1708426969009,
+      "end": 1708426969009,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:components-loader",
+      "start": 1708426969009,
+      "end": 1708426969009,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-composables:transform",
+      "start": 1708426969009,
+      "end": 1708426969009,
+      "order": "post"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1708426969009,
+      "end": 1708426969009,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1708426969009,
+      "end": 1708426969009,
+      "order": "normal"
+    }
+  ]
+}

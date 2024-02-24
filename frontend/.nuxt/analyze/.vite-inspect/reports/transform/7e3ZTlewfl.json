@@ -1,0 +1,215 @@
+{
+  "resolvedId": "/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/tv/EpisodesItem.vue",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "<template>\n  <div :class=\"$style.item\">\n    <div :class=\"$style.image\">\n      <NuxtImg\n\t\t\t\t\tv-if=\"poster\"\n\t\t\t\t\t:src=\"poster\"\n\t\t\t\t\tloading=\"lazy\"\n\t\t\t\t\t:alt=\"episode.name\"\n\t\t\t\t/>\n\n      <span v-else>\n        <!-- eslint-disable-next-line -->\n        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"40\" height=\"40\" viewBox=\"0 0 24 24\" fill-rule=\"evenodd\" clip-rule=\"evenodd\" fill=\"#999\"><path d=\"M24 22h-24v-20h24v20zm-1-19h-22v18h22v-18zm-1 16h-19l4-7.492 3 3.048 5.013-7.556 6.987 12zm-11.848-2.865l-2.91-2.956-2.574 4.821h15.593l-5.303-9.108-4.806 7.243zm-4.652-11.135c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5-2.5-1.12-2.5-2.5 1.12-2.5 2.5-2.5zm0 1c.828 0 1.5.672 1.5 1.5s-.672 1.5-1.5 1.5-1.5-.672-1.5-1.5.672-1.5 1.5-1.5z\"/></svg>\n      </span>\n    </div>\n\n    <h2 :class=\"$style.name\">\n      <strong>E{{ episode.episode_number }}</strong> {{ episode.name }}\n    </h2>\n\n    <div :class=\"$style.overview\">\n      {{  truncate(episode.overview, 300) }}\n    </div>\n\n    <div\n      v-if=\"episode.air_date\"\n      :class=\"$style.aired\">\n      {{ episode.air_date }}\n    </div>\n  </div>\n</template>\n\n<script>\nimport { apiImgUrl } from '~/store/backend';\n\nexport default {\n  props: {\n    episode: {\n      type: Object,\n      required: true,\n    },\n  },\n\n  computed: {\n    poster () {\n      if (this.episode.still_path) {\n        return `${apiImgUrl}/w400${this.episode.still_path}`;\n      } else {\n        return null;\n      }\n    },\n  },\n\n  methods: {\n    truncate (text, length) {\n      if (text.length > length) {\n        return text.substring(0, length) + '...';\n      } else {\n        return text;\n      }\n    },\n  },\n};\n</script>\n\n<style lang=\"scss\" module>\n@import '~/assets/css/utilities/_variables.scss';\n\n.item {\n  display: flex;\n  flex-direction: column;\n  width: 100%;\n  padding: 0.4rem;\n  margin-bottom: 2rem;\n\n  @media (min-width: $breakpoint-xsmall) {\n    width: 50%;\n  }\n\n  @media (min-width: $breakpoint-medium) {\n    width: 33.3333333%;\n  }\n\n  @media (min-width: 1450px) {\n    width: 25%;\n  }\n\n  @media (min-width: 2000px) {\n    width: 20%;\n  }\n\n  @media (min-width: 3000px) {\n    width: 16.6666667%;\n  }\n}\n\n.image {\n  position: relative;\n  height: 0;\n  padding-top: 56.25%;\n  margin-bottom: 1.5rem;\n  overflow: hidden;\n  background-color: $secondary-color;\n\n  img,\n  span {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n  }\n\n  span {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n  }\n}\n\n.name {\n  margin-bottom: 1rem;\n  font-size: 1.6rem;\n  letter-spacing: $letter-spacing;\n\n  strong {\n    color: $primary-color;\n  }\n}\n\n.overview {\n  flex: 1 0 auto;\n  margin-bottom: 1rem;\n  font-size: 1.3rem;\n  color: $text-color;\n}\n\n.aired {\n  font-size: 1.2rem;\n  color: $text-color-grey;\n  letter-spacing: $letter-spacing;\n\n  @media (min-width: $breakpoint-large) {\n    font-size: 1.4rem;\n  }\n}\n</style>\n",
+      "start": 1708426962794,
+      "end": 1708426962863,
+      "sourcemaps": null
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1708426962863,
+      "end": 1708426962863,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1708426962863,
+      "end": 1708426962863,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:client-fallback-auto-id",
+      "start": 1708426962863,
+      "end": 1708426962863,
+      "order": "pre"
+    },
+    {
+      "name": "vite:css",
+      "start": 1708426962863,
+      "end": 1708426962863,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1708426962863,
+      "end": 1708426962863,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1708426962863,
+      "end": 1708426962863,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1708426962863,
+      "end": 1708426962863,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "result": "\nimport { apiImgUrl } from '~/store/backend';\n\nconst _sfc_main = {\n  props: {\n    episode: {\n      type: Object,\n      required: true,\n    },\n  },\n\n  computed: {\n    poster () {\n      if (this.episode.still_path) {\n        return `${apiImgUrl}/w400${this.episode.still_path}`;\n      } else {\n        return null;\n      }\n    },\n  },\n\n  methods: {\n    truncate (text, length) {\n      if (text.length > length) {\n        return text.substring(0, length) + '...';\n      } else {\n        return text;\n      }\n    },\n  },\n};\n\nimport { resolveComponent as _resolveComponent, openBlock as _openBlock, createBlock as _createBlock, createCommentVNode as _createCommentVNode, createElementVNode as _createElementVNode, createElementBlock as _createElementBlock, normalizeClass as _normalizeClass, toDisplayString as _toDisplayString, createTextVNode as _createTextVNode } from \"vue\"\n\nconst _hoisted_1 = { key: 1 }\nconst _hoisted_2 = /*#__PURE__*/_createElementVNode(\"svg\", {\n  xmlns: \"http://www.w3.org/2000/svg\",\n  width: \"40\",\n  height: \"40\",\n  viewBox: \"0 0 24 24\",\n  \"fill-rule\": \"evenodd\",\n  \"clip-rule\": \"evenodd\",\n  fill: \"#999\"\n}, [\n  /*#__PURE__*/_createElementVNode(\"path\", { d: \"M24 22h-24v-20h24v20zm-1-19h-22v18h22v-18zm-1 16h-19l4-7.492 3 3.048 5.013-7.556 6.987 12zm-11.848-2.865l-2.91-2.956-2.574 4.821h15.593l-5.303-9.108-4.806 7.243zm-4.652-11.135c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5-2.5-1.12-2.5-2.5 1.12-2.5 2.5-2.5zm0 1c.828 0 1.5.672 1.5 1.5s-.672 1.5-1.5 1.5-1.5-.672-1.5-1.5.672-1.5 1.5-1.5z\" })\n], -1)\nconst _hoisted_3 = [\n  _hoisted_2\n]\n\nfunction _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {\n  const _component_NuxtImg = _resolveComponent(\"NuxtImg\")\n\n  return (_openBlock(), _createElementBlock(\"div\", {\n    class: _normalizeClass(_ctx.$style.item)\n  }, [\n    _createElementVNode(\"div\", {\n      class: _normalizeClass(_ctx.$style.image)\n    }, [\n      ($options.poster)\n        ? (_openBlock(), _createBlock(_component_NuxtImg, {\n            key: 0,\n            src: $options.poster,\n            loading: \"lazy\",\n            alt: $props.episode.name\n          }, null, 8, [\"src\", \"alt\"]))\n        : (_openBlock(), _createElementBlock(\"span\", _hoisted_1, _hoisted_3))\n    ], 2),\n    _createElementVNode(\"h2\", {\n      class: _normalizeClass(_ctx.$style.name)\n    }, [\n      _createElementVNode(\"strong\", null, \"E\" + _toDisplayString($props.episode.episode_number), 1),\n      _createTextVNode(\" \" + _toDisplayString($props.episode.name), 1)\n    ], 2),\n    _createElementVNode(\"div\", {\n      class: _normalizeClass(_ctx.$style.overview)\n    }, _toDisplayString($options.truncate($props.episode.overview, 300)), 3),\n    ($props.episode.air_date)\n      ? (_openBlock(), _createElementBlock(\"div\", {\n          key: 0,\n          class: _normalizeClass(_ctx.$style.aired)\n        }, _toDisplayString($props.episode.air_date), 3))\n      : _createCommentVNode(\"\", true)\n  ], 2))\n}\n\nimport style0 from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/tv/EpisodesItem.vue?vue&type=style&index=0&lang.module.scss\"\nconst cssModules = {\n\"$style\":style0,\n}\n\nimport _export_sfc from '\u0000plugin-vue:export-helper'\nexport default /*#__PURE__*/_export_sfc(_sfc_main, [['render',_sfc_render],['__cssModules',cssModules]])",
+      "start": 1708426962863,
+      "end": 1708426962866,
+      "order": "normal",
+      "sourcemaps": {
+        "mappings": ""
+      }
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1708426962866,
+      "end": 1708426962866,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426962866,
+      "end": 1708426962866,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1708426962866,
+      "end": 1708426962866,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:chunk-error",
+      "start": 1708426962866,
+      "end": 1708426962866,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:components:imports",
+      "start": 1708426962866,
+      "end": 1708426962867,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1708426962867,
+      "end": 1708426962867,
+      "order": "normal"
+    },
+    {
+      "name": "ssr-styles",
+      "start": 1708426962867,
+      "end": 1708426962867,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1708426962867,
+      "end": 1708426962867,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1708426962867,
+      "end": 1708426962867,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1708426962867,
+      "end": 1708426962867,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1708426962867,
+      "end": 1708426962867,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1708426962867,
+      "end": 1708426962867,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1708426962867,
+      "end": 1708426962867,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1708426962867,
+      "end": 1708426962867,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1708426962867,
+      "end": 1708426962867,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1708426962867,
+      "end": 1708426962867,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1708426962867,
+      "end": 1708426962869,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1708426962869,
+      "end": 1708426962869,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1708426962869,
+      "end": 1708426962869,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:runtime-paths-dep",
+      "start": 1708426962869,
+      "end": 1708426962869,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:route-injection-plugin",
+      "start": 1708426962869,
+      "end": 1708426962869,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:components-loader",
+      "result": "import { default as __nuxt_component_0 } from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/node_modules/@nuxt/image/dist/runtime/components/nuxt-img\";\n\nimport { apiImgUrl } from '~/store/backend';\n\nconst _sfc_main = {\n  props: {\n    episode: {\n      type: Object,\n      required: true,\n    },\n  },\n\n  computed: {\n    poster () {\n      if (this.episode.still_path) {\n        return `${apiImgUrl}/w400${this.episode.still_path}`;\n      } else {\n        return null;\n      }\n    },\n  },\n\n  methods: {\n    truncate (text, length) {\n      if (text.length > length) {\n        return text.substring(0, length) + '...';\n      } else {\n        return text;\n      }\n    },\n  },\n};\n\nimport { resolveComponent as _resolveComponent, openBlock as _openBlock, createBlock as _createBlock, createCommentVNode as _createCommentVNode, createElementVNode as _createElementVNode, createElementBlock as _createElementBlock, normalizeClass as _normalizeClass, toDisplayString as _toDisplayString, createTextVNode as _createTextVNode } from \"vue\"\n\nconst _hoisted_1 = { key: 1 }\nconst _hoisted_2 = /*#__PURE__*/_createElementVNode(\"svg\", {\n  xmlns: \"http://www.w3.org/2000/svg\",\n  width: \"40\",\n  height: \"40\",\n  viewBox: \"0 0 24 24\",\n  \"fill-rule\": \"evenodd\",\n  \"clip-rule\": \"evenodd\",\n  fill: \"#999\"\n}, [\n  /*#__PURE__*/_createElementVNode(\"path\", { d: \"M24 22h-24v-20h24v20zm-1-19h-22v18h22v-18zm-1 16h-19l4-7.492 3 3.048 5.013-7.556 6.987 12zm-11.848-2.865l-2.91-2.956-2.574 4.821h15.593l-5.303-9.108-4.806 7.243zm-4.652-11.135c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5-2.5-1.12-2.5-2.5 1.12-2.5 2.5-2.5zm0 1c.828 0 1.5.672 1.5 1.5s-.672 1.5-1.5 1.5-1.5-.672-1.5-1.5.672-1.5 1.5-1.5z\" })\n], -1)\nconst _hoisted_3 = [\n  _hoisted_2\n]\n\nfunction _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {\n  const _component_NuxtImg = __nuxt_component_0\n\n  return (_openBlock(), _createElementBlock(\"div\", {\n    class: _normalizeClass(_ctx.$style.item)\n  }, [\n    _createElementVNode(\"div\", {\n      class: _normalizeClass(_ctx.$style.image)\n    }, [\n      ($options.poster)\n        ? (_openBlock(), _createBlock(_component_NuxtImg, {\n            key: 0,\n            src: $options.poster,\n            loading: \"lazy\",\n            alt: $props.episode.name\n          }, null, 8, [\"src\", \"alt\"]))\n        : (_openBlock(), _createElementBlock(\"span\", _hoisted_1, _hoisted_3))\n    ], 2),\n    _createElementVNode(\"h2\", {\n      class: _normalizeClass(_ctx.$style.name)\n    }, [\n      _createElementVNode(\"strong\", null, \"E\" + _toDisplayString($props.episode.episode_number), 1),\n      _createTextVNode(\" \" + _toDisplayString($props.episode.name), 1)\n    ], 2),\n    _createElementVNode(\"div\", {\n      class: _normalizeClass(_ctx.$style.overview)\n    }, _toDisplayString($options.truncate($props.episode.overview, 300)), 3),\n    ($props.episode.air_date)\n      ? (_openBlock(), _createElementBlock(\"div\", {\n          key: 0,\n          class: _normalizeClass(_ctx.$style.aired)\n        }, _toDisplayString($props.episode.air_date), 3))\n      : _createCommentVNode(\"\", true)\n  ], 2))\n}\n\nimport style0 from \"/Users/caleb/Dev/ALX/Portifolio Project/source/flix256-web/frontend/components/tv/EpisodesItem.vue?vue&type=style&index=0&lang.module.scss\"\nconst cssModules = {\n\"$style\":style0,\n}\n\nimport _export_sfc from '\u0000plugin-vue:export-helper'\nexport default /*#__PURE__*/_export_sfc(_sfc_main, [['render',_sfc_render],['__cssModules',cssModules]])",
+      "start": 1708426962869,
+      "end": 1708426962869,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-composables:transform",
+      "start": 1708426962869,
+      "end": 1708426962869,
+      "order": "post"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1708426962869,
+      "end": 1708426962870,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1708426962870,
+      "end": 1708426962870,
+      "order": "normal"
+    }
+  ]
+}
