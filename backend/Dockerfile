@@ -7,9 +7,6 @@ WORKDIR /backend
 # Copy the application files into the working directory
 COPY . /backend
 
-# Copy the run.py
-COPY . /run.py
-
 # Install the application dependencies
 RUN pip install -r requirements.txt
 
