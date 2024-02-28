@@ -6,7 +6,14 @@ WORKDIR /app
 
 # Copy requirements and install dependencies
 COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+
+# Install build dependencies, install packages from requirements.txt, and remove build dependencies
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends gcc libc6-dev \
+    && pip install -r requirements.txt \
+    && apt-get purge -y --auto-remove gcc libc6-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 
 # Copy other project files
 COPY . .
