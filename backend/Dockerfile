@@ -22,4 +22,4 @@ COPY . .
 EXPOSE 8080
 
 # Command to run on server
-CMD ["gunicorn", "-b", "0.0.0.0:8080", "run:app"]
+ENTRYPOINT ["gunicorn", "-b", "0.0.0.0:8080", "run:app"]
