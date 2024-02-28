@@ -1,7 +1,7 @@
 # Base Image
-FROM python:3.9-slim
+FROM python:3.11-slim
 
-# Work directory
+# Set Work Directory
 WORKDIR /app
 
 # Copy requirements and install dependencies
@@ -14,12 +14,15 @@ RUN apt-get update \
     && apt-get purge -y --auto-remove gcc libc6-dev \
     && rm -rf /var/lib/apt/lists/*
 
+# Add a non-root user and switch to it
+RUN adduser --disabled-password --gecos "" myuser
+USER myuser
 
 # Copy other project files
 COPY . .
 
-# Expose a port to Containers 
+# Expose a port to Containers
 EXPOSE 8080
 
-# Command to run on server
+# Command to run the server
 ENTRYPOINT ["gunicorn", "-b", "0.0.0.0:8080", "run:app"]
