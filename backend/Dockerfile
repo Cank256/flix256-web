@@ -1,20 +1,18 @@
-# Base Image: Select a suitable Python image
-FROM python:3.11-slim
+# Base Image
+FROM python:3.9-slim
 
-# Working Directory
+# Work directory
 WORKDIR /app
 
-# Copy Dependency Requirements
+# Copy requirements and install dependencies
 COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
 
-# Install Dependencies
-RUN pip install -r requirements.txt 
-
-# Copy Your Project Code
+# Copy other project files
 COPY . .
 
-# Expose the port your Flask app typically runs on
-EXPOSE 5000 
+# Expose a port to Containers 
+EXPOSE 8080
 
-# Command to start your application
-CMD ["python", "run.py"] 
+# Command to run on server
+CMD ["gunicorn", "-b", "0.0.0.0:8080", "run:app"]
