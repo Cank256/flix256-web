@@ -1,4 +1,4 @@
-import { error } from "console"
+import { error } from 'console'
 
 const app = require('express')()
 const bodyParser = require('body-parser')
@@ -25,8 +25,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
     if (err.status === 404) {
         let response = {
-            message: err.message || 'Route Not Found.'
-        
+            message: err.message || 'Route Not Found.',
         }
         res.status(err.status).json(response)
     }
