@@ -4,7 +4,7 @@
   "description": "The Backend of the Flix256 web application using NodeJS",
   "main": "dist/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write 'src/**/*.ts' --config .prettierrc",
     "build": "rimraf dist && tsc -p tsconfig.json",
     "dev": "yarn build && nodemon dist/app.js"
   },
@@ -26,13 +26,14 @@
   "dependencies": {
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
+    "cross-fetch": "^4.0.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.1",
-    "fetch": "^1.1.0",
     "helmet": "^7.1.0",
     "mongo": "^0.1.0",
     "morgan": "^1.10.0",
     "nodemon": "^3.1.0",
+    "prettier": "^3.2.5",
     "redis": "^4.6.13",
     "rimraf": "^5.0.5",
     "typescript": "^5.4.3"
