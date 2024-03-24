@@ -75,7 +75,7 @@ class Favorite:
         Args:
             user_id (ObjectId): The ID of the user who marks the movie as
             favorite.
-            movie_id (ObjectId): The ID of the movie being marked as favorite.
+            id: The ID of the movie being marked as favorite.
         """
         self.user_id = user_id
         self.media_type = media_type
