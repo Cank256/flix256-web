@@ -1,5 +1,5 @@
 // models/User.js
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const UserSchema = new mongoose.Schema({
     username: {
@@ -14,6 +14,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-})
+});
 
-module.exports = mongoose.model('User', UserSchema)
+// Use ES Module export syntax
+export default mongoose.model('User', UserSchema);

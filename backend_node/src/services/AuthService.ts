@@ -1,4 +1,4 @@
-const User = require('../models/User')
+import User from '../models/User'
 
 class AuthServiceClass {
     static async signup(userData: any) {

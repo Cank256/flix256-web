@@ -1,12 +1,8 @@
-const route = require('express').Router()
+const authRoute = require('express').Router()
 const AuthController = require('../controllers/AuthController')
-const Valid = require('../middlewares/validation')
+const validAuth = require('../middlewares/validation')
 
-route.get('/', (req: any, res: any) => {
-    res.send('Auth World!')
-})
+authRoute.post('/signup', validAuth.signup, AuthController.signup)
+authRoute.post('/login', validAuth.login, AuthController.login)
 
-route.post('/signup', Valid.signup, AuthController.signup)
-route.post('/login', Valid.login, AuthController.login)
-
-module.exports = route
+module.exports = authRoute
