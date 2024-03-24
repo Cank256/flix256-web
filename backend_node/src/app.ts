@@ -25,7 +25,6 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
     if (err.status === 404) {
         let response = {
-            status: err.status || 404,
             message: err.message || 'Route Not Found.'
         
         }
