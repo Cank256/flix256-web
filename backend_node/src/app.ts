@@ -1,8 +1,8 @@
 const app = require('express')();
-const http = require('http').Server(app);
-const helmet = require('helmet');
-const cors = require('cors');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+const helmet = require('helmet');
+const http = require('http').Server(app);
 const morgan = require('morgan');
 
 const router = require('./config/router');
