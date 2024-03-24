@@ -6,11 +6,13 @@ const http = require('http').Server(app)
 const morgan = require('morgan')
 
 const router = require('./config/router')
+const redis = require('./config/redis')
 
 app.use(helmet())
 app.use(cors())
 app.use(bodyParser.json())
 app.use(morgan('dev'))
+
 app.use(router)
 
 http.listen(3000, () => {
