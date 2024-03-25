@@ -1,8 +1,5 @@
-require('dotenv').config()
-const fetchData = require('cross-fetch')
-
-const apiUrl = process.env.TMDB_URL
-const apiKey = process.env.TMDB_API_KEY
+const { apiUrl, apiKey } = require('../config/config');
+import fetchRequest from '../utils/fetchUtil';
 
 class MoviesServiceClass {
     // Get all trending movies
@@ -12,7 +9,7 @@ class MoviesServiceClass {
         page: number = 1,
     ) {
         try {
-            const response = await fetchData(
+            const response = await fetchRequest(
                 `${apiUrl}/trending/movie/${period}?api_key=${apiKey}&lang=${lang}&page=${page}`,
             )
             const data = await response.json()
@@ -28,7 +25,7 @@ class MoviesServiceClass {
         page: number = 1,
     ) {
         try {
-            const response = await fetchData(
+            const response = await fetchRequest(
                 `${apiUrl}/movie/now_playing?api_key=${apiKey}&lang=${lang}&page=${page}`,
             )
             const data = await response.json()
@@ -44,7 +41,7 @@ class MoviesServiceClass {
         page: number = 1,
     ) {
         try {
-            const response = await fetchData(
+            const response = await fetchRequest(
                 `${apiUrl}/movie/upcoming?api_key=${apiKey}&lang=${lang}&page=${page}`,
             )
             const data = await response.json()
@@ -57,7 +54,7 @@ class MoviesServiceClass {
     // Get all popular movies
     static async getAllPopularMovies(lang: string = 'en-US', page: number = 1) {
         try {
-            const response = await fetchData(
+            const response = await fetchRequest(
                 `${apiUrl}/movie/popular?api_key=${apiKey}&lang=${lang}&page=${page}`,
             )
             const data = await response.json()
@@ -73,7 +70,7 @@ class MoviesServiceClass {
         page: number = 1,
     ) {
         try {
-            const response = await fetchData(
+            const response = await fetchRequest(
                 `${apiUrl}/movie/top_rated?api_key=${apiKey}&lang=${lang}&page=${page}`,
             )
             const data = await response.json()
@@ -86,7 +83,7 @@ class MoviesServiceClass {
     // Get a single movie by ID
     static async getMovie(id: number, lang: string = 'en-US') {
         try {
-            const response = await fetchData(
+            const response = await fetchRequest(
                 `${apiUrl}/movie/${id}?api_key=${apiKey}&append_to_response=videos,credits,images,external_ids,release_dates&lang=${lang}`,
             )
             const data = await response.json()

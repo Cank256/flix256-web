@@ -1,5 +1,3 @@
-import { error } from 'console'
-
 const app = require('express')()
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -12,6 +10,7 @@ const connectDB = require('./config/db')
 app.use(helmet())
 app.use(cors())
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(router)
 connectDB()
