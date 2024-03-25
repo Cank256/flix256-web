@@ -1,5 +1,5 @@
 const Joi = require('joi')
-Joi.objectId = require('joi-objectid')(Joi);
+Joi.objectId = require('joi-objectid')(Joi)
 
 // Validation schema for the signup process
 const signupSchema = Joi.object({
@@ -17,14 +17,19 @@ const loginSchema = Joi.object({
 // Validation schema for the user process
 const userSchema = Joi.object({
     id: Joi.objectId().required(),
-});
+})
 
 // Validation schema for the user process
 const userUpdateSchema = Joi.object({
     username: Joi.string().alphanum().min(3).max(30),
     email: Joi.string().email(),
     en: Joi.string(),
-}).xor('username', 'email', 'en');
+}).xor('username', 'email', 'en')
+
+// Validation schema for the movie process
+const movieSchema = Joi.object({
+    id: Joi.string().required(),
+})
 
 class Validate {
     static signup(req: any, res: any, next: any) {
@@ -64,6 +69,15 @@ class Validate {
         const { bodyError } = userUpdateSchema.validate(req.body)
         if (bodyError) {
             res.status(400).json({ message: bodyError.details[0].message })
+            return // Stop further execution in this callback
+        }
+        next()
+    }
+
+    static movie(req: any, res: any, next: any) {
+        const { error } = movieSchema.validate(req.params)
+        if (error) {
+            res.status(400).json({ message: error.details[0].message })
             return // Stop further execution in this callback
         }
         next()

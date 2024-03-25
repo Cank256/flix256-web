@@ -18,27 +18,27 @@ class UserServiceClass {
             throw new Error('User not found')
         }
 
-        return user;
+        return user
     }
 
     // Update user in the database
     static async updateUser(id, userData) {
-        const user = User.findByIdAndUpdate(id, userData, { new: true });
+        const user = User.findByIdAndUpdate(id, userData, { new: true })
         if (!user) {
             throw new Error('User not found')
         }
 
-        return user;
+        return user
     }
 
     // Delete user from the database
     static async deleteUser(id) {
-        const user = User.findByIdAndDelete(id);
+        const user = User.findByIdAndDelete(id)
         if (!user) {
             throw new Error('User not found')
         }
 
-        return user;
+        return user
     }
 }
 
