@@ -6,7 +6,8 @@
   "scripts": {
     "format": "prettier --write 'src/**/*.ts' --config .prettierrc",
     "build": "rimraf dist && tsc -p tsconfig.json",
-    "dev": "yarn build && nodemon dist/app.js"
+    "dev": "yarn build && nodemon dist/app.js",
+    "deploy": "yarn install && yarn build"
   },
   "repository": {
     "type": "git",
