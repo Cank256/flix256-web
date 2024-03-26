@@ -1,5 +1,5 @@
-const { apiUrl, apiKey } = require('../config/config');
-import fetchRequest from '../utils/fetchUtil';
+const { apiUrl, apiKey } = require('../config/config')
+import fetchRequest from '../utils/fetchUtil'
 
 class MoviesServiceClass {
     // Get all trending movies

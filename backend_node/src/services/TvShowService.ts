@@ -1,5 +1,5 @@
-const { apiUrl, apiKey } = require('../config/config');
-import fetchRequest from '../utils/fetchUtil';
+const { apiUrl, apiKey } = require('../config/config')
+import fetchRequest from '../utils/fetchUtil'
 
 class TvShowServiceClass {
     // Get all trending tv shows
@@ -20,7 +20,10 @@ class TvShowServiceClass {
     }
 
     // Get all airing today tv shows
-    static async getAllAiringTodayTvShows(lang: string = 'en-US', page: number = 1) {
+    static async getAllAiringTodayTvShows(
+        lang: string = 'en-US',
+        page: number = 1,
+    ) {
         try {
             const response = await fetchRequest(
                 `${apiUrl}/tv/airing_today?api_key=${apiKey}&lang=${lang}&page=${page}`,
@@ -46,7 +49,10 @@ class TvShowServiceClass {
     }
 
     // Get all popular tv shows
-    static async getAllPopularTvShows(lang: string = 'en-US', page: number = 1) {
+    static async getAllPopularTvShows(
+        lang: string = 'en-US',
+        page: number = 1,
+    ) {
         try {
             const response = await fetchRequest(
                 `${apiUrl}/tv/popular?api_key=${apiKey}&lang=${lang}&page=${page}`,
@@ -59,7 +65,10 @@ class TvShowServiceClass {
     }
 
     // Get all top rated tv shows
-    static async getAllTopRatedTvShows(lang: string = 'en-US', page: number = 1) {
+    static async getAllTopRatedTvShows(
+        lang: string = 'en-US',
+        page: number = 1,
+    ) {
         try {
             const response = await fetchRequest(
                 `${apiUrl}/tv/top_rated?api_key=${apiKey}&lang=${lang}&page=${page}`,
@@ -85,9 +94,13 @@ class TvShowServiceClass {
     }
 
     // Get tv show episodes
-    static async getTvShowEpisodes(tvShowId: number, season: number = 1, lang: string = 'en-US') {
+    static async getTvShowEpisodes(
+        tvShowId: number,
+        season: number = 1,
+        lang: string = 'en-US',
+    ) {
         try {
-            const url = `${apiUrl}/tv/${tvShowId}/season/${season}?api_key=${apiKey}&language=${lang}&append_to_response=videos,credits,images,external_ids,release_dates`;
+            const url = `${apiUrl}/tv/${tvShowId}/season/${season}?api_key=${apiKey}&language=${lang}&append_to_response=videos,credits,images,external_ids,release_dates`
             const response = await fetchRequest(url)
             const data = await response.json()
             return data
@@ -114,4 +127,4 @@ class TvShowServiceClass {
     }
 }
 
-module.exports = TvShowServiceClass;
+module.exports = TvShowServiceClass

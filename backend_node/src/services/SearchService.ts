@@ -1,5 +1,5 @@
-const { apiUrl, apiKey } = require('../config/config');
-import fetchRequest from '../utils/fetchUtil';
+const { apiUrl, apiKey } = require('../config/config')
+import fetchRequest from '../utils/fetchUtil'
 
 class SearchServiceClass {
     // Search for movies, tv shows, and people
