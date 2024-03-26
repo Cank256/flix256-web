@@ -3,7 +3,7 @@
 import axios from "axios";
 
 // Set the base URL for backend
-axios.defaults.baseURL = process.env.backendUrl || 'http://localhost:8000/'
+axios.defaults.baseURL = process.env.backendUrl || 'https://flix256-web-node.onrender.com/'
 
 // Set up Axios interceptors for CORS
 axios.interceptors.request.use((config) => {
