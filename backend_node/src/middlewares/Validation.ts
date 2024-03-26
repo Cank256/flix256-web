@@ -48,6 +48,22 @@ const searchSchema = Joi.object({
     page: Joi.number().required(),
 })
 
+// Validation schema for the movie recomendation process
+const movieRecommendationSchema = Joi.object({
+    user_id: Joi.objectId(),
+    movie_id: Joi.string(),
+    lang: Joi.string(),
+    page: Joi.number(),
+})
+
+// Validation schema for the tv show recomendation process
+const tvRecommendationSchema = Joi.object({
+    user_id: Joi.objectId(),
+    tv_show_id: Joi.string(),
+    lang: Joi.string(),
+    page: Joi.number(),
+})
+
 class Validate {
     static signup(req: any, res: any, next: any) {
         const { error } = signupSchema.validate(req.body)
@@ -120,6 +136,24 @@ class Validate {
 
     static search(req: any, res: any, next: any) {
         const { error } = searchSchema.validate(req.query)
+        if (error) {
+            res.status(400).json({ message: error.details[0].message })
+            return // Stop further execution in this callback
+        }
+        next()
+    }
+
+    static movieRecommendation(req: any, res: any, next: any) {
+        const { error } = movieRecommendationSchema.validate(req.body)
+        if (error) {
+            res.status(400).json({ message: error.details[0].message })
+            return // Stop further execution in this callback
+        }
+        next()
+    }
+
+    static tvRecommendation(req: any, res: any, next: any) {
+        const { error } = tvRecommendationSchema.validate(req.body)
         if (error) {
             res.status(400).json({ message: error.details[0].message })
             return // Stop further execution in this callback

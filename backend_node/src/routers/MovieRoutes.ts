@@ -7,6 +7,7 @@ movieRoute.get('/now_playing', MovieController.getAllNowPlayingMovies)
 movieRoute.get('/upcoming', MovieController.getAllUpcomingMovies)
 movieRoute.get('/popular', MovieController.getAllPopularMovies)
 movieRoute.get('/top_rated', MovieController.getAllTopRatedMovies)
-movieRoute.get('/:id', validMovie.movie, MovieController.getMovie)
+movieRoute.get('/recommended', MovieController.getRecommendations)
+movieRoute.get('/:id(\\d+)', validMovie.movie, MovieController.getMovie)
 
 module.exports = movieRoute

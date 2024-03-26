@@ -24,4 +24,4 @@ const FavoriteSchema = new mongoose.Schema({
     },
 })
 
-module.exports = mongoose.model('User', FavoriteSchema)
+export default mongoose.model('Favorite', FavoriteSchema)
