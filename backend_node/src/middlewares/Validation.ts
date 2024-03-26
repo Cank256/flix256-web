@@ -42,6 +42,12 @@ const episodeSchema = Joi.object({
     season: Joi.number().required(),
 })
 
+// Validation schema for the search process
+const searchSchema = Joi.object({
+    query: Joi.string().required(),
+    page: Joi.number().required(),
+})
+
 class Validate {
     static signup(req: any, res: any, next: any) {
         const { error } = signupSchema.validate(req.body)
@@ -105,6 +111,15 @@ class Validate {
 
     static episode(req: any, res: any, next: any) {
         const { error } = episodeSchema.validate(req.query)
+        if (error) {
+            res.status(400).json({ message: error.details[0].message })
+            return // Stop further execution in this callback
+        }
+        next()
+    }
+
+    static search(req: any, res: any, next: any) {
+        const { error } = searchSchema.validate(req.query)
         if (error) {
             res.status(400).json({ message: error.details[0].message })
             return // Stop further execution in this callback
