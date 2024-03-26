@@ -64,6 +64,26 @@ const tvRecommendationSchema = Joi.object({
     page: Joi.number(),
 })
 
+// Validation schema for the favorite get process
+const favoriteGetSchema = Joi.object({
+    user_id: Joi.objectId().required(),
+})
+
+// Validation schema for the favorite add process
+const favoriteSchema = Joi.object({
+    user_id: Joi.objectId().required(),
+    media_type: Joi.string().required(),
+    id: Joi.string().required(),
+    title: Joi.string().required(),
+    poster_path: Joi.string().required(),
+})
+
+// Validation schema for the favorite removal process
+const favoriteRemoveSchema = Joi.object({
+    user_id: Joi.objectId().required(),
+    favorite_id: Joi.objectId().required(),
+})
+
 class Validate {
     static signup(req: any, res: any, next: any) {
         const { error } = signupSchema.validate(req.body)
@@ -154,6 +174,33 @@ class Validate {
 
     static tvRecommendation(req: any, res: any, next: any) {
         const { error } = tvRecommendationSchema.validate(req.body)
+        if (error) {
+            res.status(400).json({ message: error.details[0].message })
+            return // Stop further execution in this callback
+        }
+        next()
+    }
+
+    static favoriteGet(req: any, res: any, next: any) {
+        const { error } = favoriteGetSchema.validate(req.params)
+        if (error) {
+            res.status(400).json({ message: error.details[0].message })
+            return // Stop further execution in this callback
+        }
+        next()
+    }
+
+    static favorite(req: any, res: any, next: any) {
+        const { error } = favoriteSchema.validate(req.body)
+        if (error) {
+            res.status(400).json({ message: error.details[0].message })
+            return // Stop further execution in this callback
+        }
+        next()
+    }
+
+    static favoriteRemove(req: any, res: any, next: any) {
+        const { error } = favoriteRemoveSchema.validate(req.body)
         if (error) {
             res.status(400).json({ message: error.details[0].message })
             return // Stop further execution in this callback

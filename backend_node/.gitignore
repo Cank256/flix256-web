@@ -25,6 +25,3 @@ logs
 
 # Package Lock files
 yarn.lock
-
-# For netflify deploayment
-.netlify

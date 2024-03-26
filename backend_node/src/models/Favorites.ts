@@ -6,7 +6,7 @@ const FavoriteSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     },
-    media: {
+    media_type: {
         type: String,
         required: true,
     },
