@@ -1,6 +1,6 @@
 const movieRoute = require('express').Router()
 const MovieController = require('../controllers/MovieController')
-const validMovie = require('../middlewares/validation')
+const validMovie = require('../middlewares/Validation')
 
 movieRoute.get('/trending', MovieController.getAllTrendingMovies)
 movieRoute.get('/now_playing', MovieController.getAllNowPlayingMovies)

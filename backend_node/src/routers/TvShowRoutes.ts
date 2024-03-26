@@ -1,6 +1,6 @@
 const tvShowRoute = require('express').Router()
 const TvShowController = require('../controllers/TvShowController')
-const validTv = require('../middlewares/validation')
+const validTv = require('../middlewares/Validation')
 
 tvShowRoute.get('/trending', TvShowController.getAllTrendingTvShows)
 tvShowRoute.get('/airing_today', TvShowController.getAllAiringTodayTvShows)
