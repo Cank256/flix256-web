@@ -73,7 +73,7 @@ const favoriteGetSchema = Joi.object({
 const favoriteSchema = Joi.object({
     user_id: Joi.objectId().required(),
     media_type: Joi.string().required(),
-    id: Joi.string().required(),
+    id: Joi.number().required(),
     title: Joi.string().required(),
     poster_path: Joi.string().required(),
 })
