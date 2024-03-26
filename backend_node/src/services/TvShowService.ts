@@ -95,6 +95,23 @@ class TvShowServiceClass {
             throw error
         }
     }
+
+    // Get recommended tv shows for a user
+    static async getRecommendations(
+        id: number,
+        lang: string = 'en-US',
+        page: number = 1,
+    ) {
+        try {
+            const response = await fetchRequest(
+                `${apiUrl}/tv/${id}/recommendations?api_key=${apiKey}&lang=${lang}&page=${page}`,
+            )
+            const data = await response.json()
+            return data
+        } catch (error) {
+            throw error
+        }
+    }
 }
 
 module.exports = TvShowServiceClass;

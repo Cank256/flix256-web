@@ -1,4 +1,5 @@
 const TvShowService = require('../services/TvShowService');
+import Favorite from '../models/Favorites'
 
 class TvShowControllerClass {
     // Get all trending tv shows
@@ -73,6 +74,50 @@ class TvShowControllerClass {
             let { tv_show_id, season, lang } = req.query;
             const data = await TvShowService.getTvShowEpisodes(tv_show_id, season, lang);
             res.status(200).json(data);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    // Get recommended tv shows
+    static async getRecommendations(req: any, res: any) {
+        const { user_id, tv_show_id, lang, page } = req.query; // Notice the switch to query parameters
+        let recommendations = [];
+        let seenTvShowIds = new Set(); // Used to filter out duplicate recommendations
+    
+        try {
+            if (user_id) {
+                const getFavorites = await Favorite.find({ user_id, fav_type: 'tv' });
+    
+                if (getFavorites.length === 0) {
+                    return res.status(404).json({ message: 'First add favorite tv shows to get recommendations' });
+                }
+    
+                for (const favorite of getFavorites) {
+                    const recommendedTVvShows = await TvShowService.getRecommendations(favorite.id, lang, page);
+                    if (recommendedTVvShows && recommendedTVvShows.results.length > 0) {
+                        recommendedTVvShows.results.forEach(tv_show => {
+                            if (!seenTvShowIds.has(tv_show.id)) {
+                                recommendations.push(tv_show);
+                                seenTvShowIds.add(tv_show.id);
+                            }
+                        });
+                    }
+                }
+            } else if (tv_show_id) {
+                const recommendedTVvShows = await TvShowService.getRecommendations(tv_show_id, lang, page);
+                if (recommendedTVvShows && recommendedTVvShows.results) {
+                    recommendations = recommendedTVvShows.results.filter(tv_show => !seenTvShowIds.has(tv_show.id));
+                }
+            } else {
+                return res.status(400).json({ message: 'Invalid request. Provide either user_id or tv_show_id' });
+            }
+    
+            if (recommendations.length > 0) {
+                res.status(200).json(recommendations);
+            } else {
+                res.status(404).json({ message: 'No recommendations found' });
+            }
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
