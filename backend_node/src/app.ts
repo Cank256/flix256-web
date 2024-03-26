@@ -8,7 +8,10 @@ const router = require('./config/router')
 const connectDB = require('./config/db')
 
 app.use(helmet())
-app.use(cors())
+app.use(cors({
+    origin: 'https://flix256.netlify.app', 
+    credentials: true 
+}));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
