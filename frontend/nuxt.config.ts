@@ -2,7 +2,8 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
-    backendUrl: 'https://cank256.pythonanywhere.com/',
+    // backendUrl: 'https://cank256.pythonanywhere.com/',
+    backendUrl: 'http://localhost:8000/',
     tmdbImageUrl: 'https://image.tmdb.org/t/p',
     youtubeApiKey: ''
   },

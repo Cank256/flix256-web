@@ -3,7 +3,7 @@
 import axios from "axios";
 
 // Set the base URL for backend
-axios.defaults.baseURL = process.env.backendUrl || 'https://cank256.pythonanywhere.com/'
+axios.defaults.baseURL = process.env.backendUrl || 'http://localhost:8000/'
 
 // Set up Axios interceptors for CORS
 axios.interceptors.request.use((config) => {
